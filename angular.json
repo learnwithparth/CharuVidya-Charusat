@@ -95,6 +95,7 @@
   },
   "defaultProject": "codehat-charusat",
   "cli": {
+    "analytics": false,
     "packageManager": "npm"
   }
 }
