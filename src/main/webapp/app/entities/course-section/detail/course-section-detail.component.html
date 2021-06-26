@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseSection">
+      <h2 data-cy="courseSectionDetailsHeading"><span>Course Section</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ courseSection.id }}</span>
+        </dd>
+        <dt><span>Section Title</span></dt>
+        <dd>
+          <span>{{ courseSection.sectionTitle }}</span>
+        </dd>
+        <dt><span>Section Description</span></dt>
+        <dd>
+          <span>{{ courseSection.sectionDescription }}</span>
+        </dd>
+        <dt><span>Section Order</span></dt>
+        <dd>
+          <span>{{ courseSection.sectionOrder }}</span>
+        </dd>
+        <dt><span>Is Draft</span></dt>
+        <dd>
+          <span>{{ courseSection.isDraft }}</span>
+        </dd>
+        <dt><span>Is Approved</span></dt>
+        <dd>
+          <span>{{ courseSection.isApproved }}</span>
+        </dd>
+        <dt><span>Course</span></dt>
+        <dd>
+          <div *ngIf="courseSection.course">
+            <a [routerLink]="['/course', courseSection.course?.id, 'view']">{{ courseSection.course?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course-section', courseSection.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

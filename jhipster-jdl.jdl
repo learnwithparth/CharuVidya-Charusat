@@ -1,0 +1,88 @@
+// Command to run: jhipster jdl ./my-jdl-file.jdl --force
+
+entity CourseLevel {
+	id Long required,
+	level String maxlength(20)
+	description String maxlength(100)
+}
+
+entity CourseCategory {
+	id Long required,
+	courseCategoryTitle String maxlength(255) required,
+    logo String maxlength(255) required
+	isParent Integer required,
+	parentId Integer required,
+}
+
+entity Course {
+	id Long required,
+    courseTitle String maxlength(600) required,
+    courseDescription String maxlength(255) required,
+    courseObjectives String maxlength(255),
+    courseSubTitle String maxlength(120) required,
+    previewVideourl String maxlength(255) required,
+    courseLength Integer,
+    logo String maxlength(255) required,
+    courseCreatedOn LocalDate required,
+    courseUpdatedOn LocalDate required,
+    courseRootDir String maxlength(255),
+    amount Double,
+    isDraft Boolean required required,
+    isApproved Boolean required,
+    courseApprovalDate LocalDate,    
+}
+
+entity CourseEnrollment {
+	id Long required,
+	enrollementDate LocalDate required,
+	lastAccessedDate LocalDate required,
+}
+
+entity CourseSection {
+	id Long required,
+    sectionTitle String maxlength(255) required,
+	sectionDescription String maxlength(255),
+	sectionOrder Integer required,
+    isDraft Boolean required,
+    isApproved Boolean required,
+}
+
+entity CourseSession {
+	id Long required,
+    sessionTitle String maxlength(255) required,
+    sessionDescription String maxlength(255),
+    sessionVideo String maxlength(300) required,
+    sessionDuration Instant required,
+    sessionOrder Integer required,
+    sessionResource String maxlength(300),
+    sessionLocation String maxlength(300) required,
+    isPreview Boolean required,
+    isDraft Boolean required,
+	isApproved Boolean required,
+    isPublished Boolean required,
+}
+
+entity CourseProgress {
+	id Long required,
+	completed Boolean required,
+	watchSeconds Instant required
+}
+
+relationship ManyToOne {
+	Course{courseLevel} to CourseLevel{level}
+	Course{courseCategory} to CourseCategory
+	Course{user} to User
+	CourseSection{course} to Course
+    CourseSession{courseSection} to CourseSection
+	CourseProgress{user} to User
+	CourseProgress{courseSession} to CourseSession
+    CourseEnrollment{user} to User
+    CourseEnrollment{course} to Course
+    Course{reviewer} to User
+}
+
+
+// Options
+service * with serviceImpl
+paginate * with pagination
+

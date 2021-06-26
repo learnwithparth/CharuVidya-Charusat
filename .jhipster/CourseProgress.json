@@ -1,0 +1,44 @@
+{
+  "name": "CourseProgress",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "completed",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "watchSeconds",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "courseProgress",
+      "relationshipName": "user"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "courseSession",
+      "otherEntityRelationshipName": "courseProgress",
+      "relationshipName": "courseSession"
+    }
+  ],
+  "entityTableName": "course_progress",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210626204252"
+}

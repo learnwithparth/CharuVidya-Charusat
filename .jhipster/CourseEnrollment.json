@@ -1,0 +1,44 @@
+{
+  "name": "CourseEnrollment",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "enrollementDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastAccessedDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "courseEnrollment",
+      "relationshipName": "user"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "courseEnrollment",
+      "relationshipName": "course"
+    }
+  ],
+  "entityTableName": "course_enrollment",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210626204249"
+}

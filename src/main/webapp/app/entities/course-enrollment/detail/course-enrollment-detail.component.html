@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseEnrollment">
+      <h2 data-cy="courseEnrollmentDetailsHeading"><span>Course Enrollment</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ courseEnrollment.id }}</span>
+        </dd>
+        <dt><span>Enrollement Date</span></dt>
+        <dd>
+          <span>{{ courseEnrollment.enrollementDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Last Accessed Date</span></dt>
+        <dd>
+          <span>{{ courseEnrollment.lastAccessedDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ courseEnrollment.user?.id }}</span>
+        </dd>
+        <dt><span>Course</span></dt>
+        <dd>
+          <div *ngIf="courseEnrollment.course">
+            <a [routerLink]="['/course', courseEnrollment.course?.id, 'view']">{{ courseEnrollment.course?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course-enrollment', courseEnrollment.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

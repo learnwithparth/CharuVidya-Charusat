@@ -1,0 +1,104 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="course">
+      <h2 data-cy="courseDetailsHeading"><span>Course</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ course.id }}</span>
+        </dd>
+        <dt><span>Course Title</span></dt>
+        <dd>
+          <span>{{ course.courseTitle }}</span>
+        </dd>
+        <dt><span>Course Description</span></dt>
+        <dd>
+          <span>{{ course.courseDescription }}</span>
+        </dd>
+        <dt><span>Course Objectives</span></dt>
+        <dd>
+          <span>{{ course.courseObjectives }}</span>
+        </dd>
+        <dt><span>Course Sub Title</span></dt>
+        <dd>
+          <span>{{ course.courseSubTitle }}</span>
+        </dd>
+        <dt><span>Preview Videourl</span></dt>
+        <dd>
+          <span>{{ course.previewVideourl }}</span>
+        </dd>
+        <dt><span>Course Length</span></dt>
+        <dd>
+          <span>{{ course.courseLength }}</span>
+        </dd>
+        <dt><span>Logo</span></dt>
+        <dd>
+          <span>{{ course.logo }}</span>
+        </dd>
+        <dt><span>Course Created On</span></dt>
+        <dd>
+          <span>{{ course.courseCreatedOn | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Course Updated On</span></dt>
+        <dd>
+          <span>{{ course.courseUpdatedOn | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Course Root Dir</span></dt>
+        <dd>
+          <span>{{ course.courseRootDir }}</span>
+        </dd>
+        <dt><span>Amount</span></dt>
+        <dd>
+          <span>{{ course.amount }}</span>
+        </dd>
+        <dt><span>Is Draft</span></dt>
+        <dd>
+          <span>{{ course.isDraft }}</span>
+        </dd>
+        <dt><span>Is Approved</span></dt>
+        <dd>
+          <span>{{ course.isApproved }}</span>
+        </dd>
+        <dt><span>Course Approval Date</span></dt>
+        <dd>
+          <span>{{ course.courseApprovalDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Course Level</span></dt>
+        <dd>
+          <div *ngIf="course.courseLevel">
+            <a [routerLink]="['/course-level', course.courseLevel?.id, 'view']">{{ course.courseLevel?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Course Category</span></dt>
+        <dd>
+          <div *ngIf="course.courseCategory">
+            <a [routerLink]="['/course-category', course.courseCategory?.id, 'view']">{{ course.courseCategory?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ course.user?.id }}</span>
+        </dd>
+        <dt><span>Reviewer</span></dt>
+        <dd>
+          <span>{{ course.reviewer?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
