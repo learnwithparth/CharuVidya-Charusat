@@ -6,12 +6,14 @@ import { CourseLevelComponent } from '../list/course-level.component';
 import { CourseLevelDetailComponent } from '../detail/course-level-detail.component';
 import { CourseLevelUpdateComponent } from '../update/course-level-update.component';
 import { CourseLevelRoutingResolveService } from './course-level-routing-resolve.service';
+import {Authority} from "app/config/authority.constants";
 
 const courseLevelRoute: Routes = [
   {
     path: '',
     component: CourseLevelComponent,
     data: {
+      authorities: [Authority.ADMIN],
       defaultSort: 'id,asc',
     },
     canActivate: [UserRouteAccessService],
@@ -19,6 +21,9 @@ const courseLevelRoute: Routes = [
   {
     path: ':id/view',
     component: CourseLevelDetailComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseLevel: CourseLevelRoutingResolveService,
     },
@@ -27,6 +32,9 @@ const courseLevelRoute: Routes = [
   {
     path: 'new',
     component: CourseLevelUpdateComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseLevel: CourseLevelRoutingResolveService,
     },
@@ -35,6 +43,9 @@ const courseLevelRoute: Routes = [
   {
     path: ':id/edit',
     component: CourseLevelUpdateComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseLevel: CourseLevelRoutingResolveService,
     },

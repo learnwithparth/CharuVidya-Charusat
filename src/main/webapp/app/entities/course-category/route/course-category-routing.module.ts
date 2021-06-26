@@ -6,12 +6,14 @@ import { CourseCategoryComponent } from '../list/course-category.component';
 import { CourseCategoryDetailComponent } from '../detail/course-category-detail.component';
 import { CourseCategoryUpdateComponent } from '../update/course-category-update.component';
 import { CourseCategoryRoutingResolveService } from './course-category-routing-resolve.service';
+import {Authority} from "app/config/authority.constants";
 
 const courseCategoryRoute: Routes = [
   {
     path: '',
     component: CourseCategoryComponent,
     data: {
+      authorities: [Authority.ADMIN],
       defaultSort: 'id,asc',
     },
     canActivate: [UserRouteAccessService],
@@ -19,6 +21,9 @@ const courseCategoryRoute: Routes = [
   {
     path: ':id/view',
     component: CourseCategoryDetailComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseCategory: CourseCategoryRoutingResolveService,
     },
@@ -27,6 +32,9 @@ const courseCategoryRoute: Routes = [
   {
     path: 'new',
     component: CourseCategoryUpdateComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseCategory: CourseCategoryRoutingResolveService,
     },
@@ -35,6 +43,9 @@ const courseCategoryRoute: Routes = [
   {
     path: ':id/edit',
     component: CourseCategoryUpdateComponent,
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     resolve: {
       courseCategory: CourseCategoryRoutingResolveService,
     },

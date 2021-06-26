@@ -1,4 +1,4 @@
-import { ICourse } from 'app/entities/course/course.model';
+import { ICourse } from 'app/entities/course/course.model.ts';
 
 export interface ICourseLevel {
   id?: number;
