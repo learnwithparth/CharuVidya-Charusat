@@ -3,6 +3,8 @@ package com.codehat.charusat.service.impl;
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseService;
+
+import java.time.LocalDate;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,15 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course save(Course course) {
         log.debug("Request to save Course : {}", course);
+
+        /**
+         * Setting the default values that needs to set during the course creation.
+         * */
+        course.setCourseCreatedOn(LocalDate.now());
+        course.setIsApproved(false);
+        course.setCourseUpdatedOn(LocalDate.now());
+        /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
         return courseRepository.save(course);
     }
 
@@ -61,12 +72,21 @@ public class CourseServiceImpl implements CourseService {
                     if (course.getLogo() != null) {
                         existingCourse.setLogo(course.getLogo());
                     }
+
+                    /**
+                     * Not needed to update this attribute.
+                     * */
                     if (course.getCourseCreatedOn() != null) {
                         existingCourse.setCourseCreatedOn(course.getCourseCreatedOn());
                     }
-                    if (course.getCourseUpdatedOn() != null) {
+
+                    /**
+                     * Updated the courseUpdatedOn back to current time.
+                     * */
+                    existingCourse.setCourseUpdatedOn(LocalDate.now());
+                    /*if (course.getCourseUpdatedOn() != null) {
                         existingCourse.setCourseUpdatedOn(course.getCourseUpdatedOn());
-                    }
+                    }*/
                     if (course.getCourseRootDir() != null) {
                         existingCourse.setCourseRootDir(course.getCourseRootDir());
                     }
@@ -76,12 +96,21 @@ public class CourseServiceImpl implements CourseService {
                     if (course.getIsDraft() != null) {
                         existingCourse.setIsDraft(course.getIsDraft());
                     }
-                    if (course.getIsApproved() != null) {
+                    /**
+                     * Changed the isApproved back to false;
+                     * */
+                    existingCourse.setIsApproved(false);
+                    /*if (course.getIsApproved() != null) {
                         existingCourse.setIsApproved(course.getIsApproved());
-                    }
-                    if (course.getCourseApprovalDate() != null) {
+                    }*/
+
+                    /**
+                     * Changed the approval date back to null;
+                     * */
+                    existingCourse.setCourseApprovalDate(null);
+                    /*if (course.getCourseApprovalDate() != null) {
                         existingCourse.setCourseApprovalDate(course.getCourseApprovalDate());
-                    }
+                    }*/
 
                     return existingCourse;
                 }
