@@ -26,7 +26,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     /**
      * CUSTOM
      * */
-
     Page<Course> findCourseByUserEqualsOrEnrolledUsersListsContaining(User author, User user, Pageable pageable);
 
     @Query(value = "SELECT * from course where course_category_id = ?1", nativeQuery = true)

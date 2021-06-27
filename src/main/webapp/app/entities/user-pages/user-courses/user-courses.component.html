@@ -8,7 +8,10 @@
         </mat-card-header>
         <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
         <mat-card-actions>
-          <button mat-button>VIEW</button>
+          <a routerLink="/course/{{course.id}}/view">
+            <button mat-button>VIEW</button>
+          </a>
+          <button mat-button (click)="onEnroll(course)">ENROLL</button>
         </mat-card-actions>
       </mat-card>
     </div>

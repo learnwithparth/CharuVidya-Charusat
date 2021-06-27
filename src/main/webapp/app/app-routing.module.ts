@@ -9,6 +9,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { UserCourseCategoryComponent } from 'app/entities/user-pages/user-course-category/user-course-category.component';
 import { UserCourseSubCategoriesComponent } from 'app/entities/user-pages/user-course-sub-categories/user-course-sub-categories.component';
 import { UserCoursesComponent } from 'app/entities/user-pages/user-courses/user-courses.component';
+import {A} from "@angular/cdk/keycodes";
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -35,7 +36,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           path: 'categories',
           data: {
-            authorities: [Authority.ADMIN],
+            authorities: [Authority.STUDENT],
           },
           canActivate: [UserRouteAccessService],
           component: UserCourseCategoryComponent,
@@ -43,7 +44,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           path: 'sub-category/:parentId',
           data: {
-            authorities: [Authority.ADMIN],
+            authorities: [Authority.STUDENT],
           },
           canActivate: [UserRouteAccessService],
           component: UserCourseSubCategoriesComponent,
@@ -51,7 +52,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           path: 'courses/:categoryId',
           data: {
-            authorities: [Authority.ADMIN],
+            authorities: [Authority.STUDENT],
           },
           canActivate: [UserRouteAccessService],
           component: UserCoursesComponent,

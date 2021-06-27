@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ICourse } from 'app/entities/course/course.model';
+import {Course, ICourse} from 'app/entities/course/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
@@ -24,6 +24,17 @@ export class UserCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllCourses();
+  }
+
+  onEnroll(course: ICourse):void {
+    this.userCourseService.onEnroll(course).subscribe(
+      (res) => {
+        window.alert("Enrolled Successful");
+      },
+      () => {
+        window.alert("Error while enrolling in course");
+      }
+    );
   }
 
   private loadAllCourses(): void {
