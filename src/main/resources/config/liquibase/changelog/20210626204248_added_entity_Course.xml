@@ -74,6 +74,19 @@
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
+    <changeSet id="20210626204248-1-relations" author="jhipster">
+
+        <createTable tableName="rel_course__enrolled_users_list">
+            <column name="enrolled_users_list_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="course_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="course_id, enrolled_users_list_id" tableName="rel_course__enrolled_users_list"/>
+    </changeSet>
     <!--
         Load sample data generated with Faker.js
         - This data can be easily edited using a CSV editor (or even MS Excel) and

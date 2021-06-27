@@ -40,8 +40,8 @@ public class CourseEnrollmentServiceImpl implements CourseEnrollmentService {
             .findById(courseEnrollment.getId())
             .map(
                 existingCourseEnrollment -> {
-                    if (courseEnrollment.getEnrollementDate() != null) {
-                        existingCourseEnrollment.setEnrollementDate(courseEnrollment.getEnrollementDate());
+                    if (courseEnrollment.getEnrollmentDate() != null) {
+                        existingCourseEnrollment.setEnrollmentDate(courseEnrollment.getEnrollmentDate());
                     }
                     if (courseEnrollment.getLastAccessedDate() != null) {
                         existingCourseEnrollment.setLastAccessedDate(courseEnrollment.getLastAccessedDate());

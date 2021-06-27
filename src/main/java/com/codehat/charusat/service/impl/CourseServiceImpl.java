@@ -1,17 +1,25 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
+import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.codehat.charusat.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -131,7 +139,31 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public Page<Course> findAll(Pageable pageable) {
         log.debug("Request to get all Courses");
-        return courseRepository.findAll(pageable);
+
+        /**
+         * CUSTOM
+         * Get different courses according to the role of the user.
+         * */
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(user.isPresent()){
+            String authority = user.get().getAuthorities().toString();
+            if(authority.contains(AuthoritiesConstants.ADMIN)){
+                return courseRepository.findAll(pageable);
+            } else if(authority.contains(AuthoritiesConstants.FACULTY)){
+                return courseRepository
+                    .findCourseByUserEqualsOrEnrolledUsersListsContaining(
+                        user.get(),
+                        user.get(),
+                        pageable
+                    );
+            } else if(authority.contains(AuthoritiesConstants.STUDENT)){
+                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
+            } else{
+                return null;
+            }
+        } else{
+            return null;
+        }
     }
 
     @Override
@@ -147,9 +179,34 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(id);
     }
 
+
+    /**
+     * CUSTOM
+     * */
     @Override
     public List<Course> getByCategoryId(Long id) {
         List<Course> list = courseRepository.findByCategoryId(id);
         return list;
+    }
+
+    @Override
+    public ResponseEntity enrollInCourse(Course course) {
+        try {
+            courseRepository
+                .findById(course.getId())
+                .map(
+                    existingCourse -> {
+                        Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();
+                        if(userService.getUserWithAuthorities().isPresent()) {
+                            alreadyEnrolledUsers.add(userService.getUserWithAuthorities().get());
+                        }
+                        return existingCourse;
+                    }
+                )
+                .map(courseRepository::save);
+            return ResponseEntity.accepted().build();
+        } catch (Exception e){
+            return ResponseEntity.status(500).build();
+        }
     }
 }

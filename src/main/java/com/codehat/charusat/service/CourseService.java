@@ -3,8 +3,12 @@ package com.codehat.charusat.service;
 import com.codehat.charusat.domain.Course;
 import java.util.List;
 import java.util.Optional;
+
+import com.codehat.charusat.domain.User;
+import io.swagger.models.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Service Interface for managing {@link Course}.
@@ -49,5 +53,12 @@ public interface CourseService {
      */
     void delete(Long id);
 
+
+    /**
+     * CUSTOM
+     * */
     List<Course> getByCategoryId(Long id);
+
+    ResponseEntity enrollInCourse(Course course);
+
 }

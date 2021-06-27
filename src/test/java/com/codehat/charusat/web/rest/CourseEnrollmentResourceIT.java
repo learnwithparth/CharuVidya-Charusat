@@ -62,7 +62,7 @@ class CourseEnrollmentResourceIT {
      */
     public static CourseEnrollment createEntity(EntityManager em) {
         CourseEnrollment courseEnrollment = new CourseEnrollment()
-            .enrollementDate(DEFAULT_ENROLLEMENT_DATE)
+            .enrollmentDate(DEFAULT_ENROLLEMENT_DATE)
             .lastAccessedDate(DEFAULT_LAST_ACCESSED_DATE);
         return courseEnrollment;
     }
@@ -75,7 +75,7 @@ class CourseEnrollmentResourceIT {
      */
     public static CourseEnrollment createUpdatedEntity(EntityManager em) {
         CourseEnrollment courseEnrollment = new CourseEnrollment()
-            .enrollementDate(UPDATED_ENROLLEMENT_DATE)
+            .enrollmentDate(UPDATED_ENROLLEMENT_DATE)
             .lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
         return courseEnrollment;
     }
@@ -100,7 +100,7 @@ class CourseEnrollmentResourceIT {
         List<CourseEnrollment> courseEnrollmentList = courseEnrollmentRepository.findAll();
         assertThat(courseEnrollmentList).hasSize(databaseSizeBeforeCreate + 1);
         CourseEnrollment testCourseEnrollment = courseEnrollmentList.get(courseEnrollmentList.size() - 1);
-        assertThat(testCourseEnrollment.getEnrollementDate()).isEqualTo(DEFAULT_ENROLLEMENT_DATE);
+        assertThat(testCourseEnrollment.getEnrollmentDate()).isEqualTo(DEFAULT_ENROLLEMENT_DATE);
         assertThat(testCourseEnrollment.getLastAccessedDate()).isEqualTo(DEFAULT_LAST_ACCESSED_DATE);
     }
 
@@ -129,7 +129,7 @@ class CourseEnrollmentResourceIT {
     void checkEnrollementDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = courseEnrollmentRepository.findAll().size();
         // set the field null
-        courseEnrollment.setEnrollementDate(null);
+        courseEnrollment.setEnrollmentDate(null);
 
         // Create the CourseEnrollment, which fails.
 
@@ -213,7 +213,7 @@ class CourseEnrollmentResourceIT {
         CourseEnrollment updatedCourseEnrollment = courseEnrollmentRepository.findById(courseEnrollment.getId()).get();
         // Disconnect from session so that the updates on updatedCourseEnrollment are not directly saved in db
         em.detach(updatedCourseEnrollment);
-        updatedCourseEnrollment.enrollementDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
+        updatedCourseEnrollment.enrollmentDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
 
         restCourseEnrollmentMockMvc
             .perform(
@@ -227,7 +227,7 @@ class CourseEnrollmentResourceIT {
         List<CourseEnrollment> courseEnrollmentList = courseEnrollmentRepository.findAll();
         assertThat(courseEnrollmentList).hasSize(databaseSizeBeforeUpdate);
         CourseEnrollment testCourseEnrollment = courseEnrollmentList.get(courseEnrollmentList.size() - 1);
-        assertThat(testCourseEnrollment.getEnrollementDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
+        assertThat(testCourseEnrollment.getEnrollmentDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
         assertThat(testCourseEnrollment.getLastAccessedDate()).isEqualTo(UPDATED_LAST_ACCESSED_DATE);
     }
 
@@ -301,7 +301,7 @@ class CourseEnrollmentResourceIT {
         CourseEnrollment partialUpdatedCourseEnrollment = new CourseEnrollment();
         partialUpdatedCourseEnrollment.setId(courseEnrollment.getId());
 
-        partialUpdatedCourseEnrollment.enrollementDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
+        partialUpdatedCourseEnrollment.enrollmentDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
 
         restCourseEnrollmentMockMvc
             .perform(
@@ -315,7 +315,7 @@ class CourseEnrollmentResourceIT {
         List<CourseEnrollment> courseEnrollmentList = courseEnrollmentRepository.findAll();
         assertThat(courseEnrollmentList).hasSize(databaseSizeBeforeUpdate);
         CourseEnrollment testCourseEnrollment = courseEnrollmentList.get(courseEnrollmentList.size() - 1);
-        assertThat(testCourseEnrollment.getEnrollementDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
+        assertThat(testCourseEnrollment.getEnrollmentDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
         assertThat(testCourseEnrollment.getLastAccessedDate()).isEqualTo(UPDATED_LAST_ACCESSED_DATE);
     }
 
@@ -331,7 +331,7 @@ class CourseEnrollmentResourceIT {
         CourseEnrollment partialUpdatedCourseEnrollment = new CourseEnrollment();
         partialUpdatedCourseEnrollment.setId(courseEnrollment.getId());
 
-        partialUpdatedCourseEnrollment.enrollementDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
+        partialUpdatedCourseEnrollment.enrollmentDate(UPDATED_ENROLLEMENT_DATE).lastAccessedDate(UPDATED_LAST_ACCESSED_DATE);
 
         restCourseEnrollmentMockMvc
             .perform(
@@ -345,7 +345,7 @@ class CourseEnrollmentResourceIT {
         List<CourseEnrollment> courseEnrollmentList = courseEnrollmentRepository.findAll();
         assertThat(courseEnrollmentList).hasSize(databaseSizeBeforeUpdate);
         CourseEnrollment testCourseEnrollment = courseEnrollmentList.get(courseEnrollmentList.size() - 1);
-        assertThat(testCourseEnrollment.getEnrollementDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
+        assertThat(testCourseEnrollment.getEnrollmentDate()).isEqualTo(UPDATED_ENROLLEMENT_DATE);
         assertThat(testCourseEnrollment.getLastAccessedDate()).isEqualTo(UPDATED_LAST_ACCESSED_DATE);
     }
 

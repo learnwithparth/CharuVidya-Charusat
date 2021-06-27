@@ -64,6 +64,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
             if(this.accountService.hasAnyAuthority('ROLE_ADMIN')){
               this.router.navigate(['']);
             }
+            if(this.accountService.hasAnyAuthority("ROLE_FACULTY")){
+              this.router.navigate(['']);
+            }
             /** * * * * * * * * * * * * * * * * * * * * * * * * * */
           }
         },

@@ -3,6 +3,8 @@ package com.codehat.charusat.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -92,6 +94,15 @@ public class Course implements Serializable {
 
     @ManyToOne
     private User reviewer;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "rel_course__enrolled_users_list",
+        joinColumns = @JoinColumn(name = "course_id"),
+        inverseJoinColumns = @JoinColumn(name = "enrolled_users_list_id")
+    )
+    private Set<User> enrolledUsersLists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -341,6 +352,14 @@ public class Course implements Serializable {
         this.reviewer = user;
     }
 
+    public Set<User> getEnrolledUsersLists() {
+        return enrolledUsersLists;
+    }
+
+    public void setEnrolledUsersLists(Set<User> enrolledUsersLists) {
+        this.enrolledUsersLists = enrolledUsersLists;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -361,24 +380,29 @@ public class Course implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "Course{" +
-            "id=" + getId() +
-            ", courseTitle='" + getCourseTitle() + "'" +
-            ", courseDescription='" + getCourseDescription() + "'" +
-            ", courseObjectives='" + getCourseObjectives() + "'" +
-            ", courseSubTitle='" + getCourseSubTitle() + "'" +
-            ", previewVideourl='" + getPreviewVideourl() + "'" +
-            ", courseLength=" + getCourseLength() +
-            ", logo='" + getLogo() + "'" +
-            ", courseCreatedOn='" + getCourseCreatedOn() + "'" +
-            ", courseUpdatedOn='" + getCourseUpdatedOn() + "'" +
-            ", courseRootDir='" + getCourseRootDir() + "'" +
-            ", amount=" + getAmount() +
-            ", isDraft='" + getIsDraft() + "'" +
-            ", isApproved='" + getIsApproved() + "'" +
-            ", courseApprovalDate='" + getCourseApprovalDate() + "'" +
-            "}";
+            "id=" + id +
+            ", courseTitle='" + courseTitle + '\'' +
+            ", courseDescription='" + courseDescription + '\'' +
+            ", courseObjectives='" + courseObjectives + '\'' +
+            ", courseSubTitle='" + courseSubTitle + '\'' +
+            ", previewVideourl='" + previewVideourl + '\'' +
+            ", courseLength=" + courseLength +
+            ", logo='" + logo + '\'' +
+            ", courseCreatedOn=" + courseCreatedOn +
+            ", courseUpdatedOn=" + courseUpdatedOn +
+            ", courseRootDir='" + courseRootDir + '\'' +
+            ", amount=" + amount +
+            ", isDraft=" + isDraft +
+            ", isApproved=" + isApproved +
+            ", courseApprovalDate=" + courseApprovalDate +
+            ", courseLevel=" + courseLevel +
+            ", courseCategory=" + courseCategory +
+            ", user=" + user +
+            ", reviewer=" + reviewer +
+            '}';
     }
 }

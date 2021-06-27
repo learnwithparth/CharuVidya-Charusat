@@ -24,7 +24,7 @@ public class CourseEnrollment implements Serializable {
 
     @NotNull
     @Column(name = "enrollement_date", nullable = false)
-    private LocalDate enrollementDate;
+    private LocalDate enrollmentDate;
 
     @NotNull
     @Column(name = "last_accessed_date", nullable = false)
@@ -34,7 +34,7 @@ public class CourseEnrollment implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Course course;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -51,17 +51,17 @@ public class CourseEnrollment implements Serializable {
         return this;
     }
 
-    public LocalDate getEnrollementDate() {
-        return this.enrollementDate;
+    public LocalDate getEnrollmentDate() {
+        return this.enrollmentDate;
     }
 
-    public CourseEnrollment enrollementDate(LocalDate enrollementDate) {
-        this.enrollementDate = enrollementDate;
+    public CourseEnrollment enrollmentDate(LocalDate enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
         return this;
     }
 
-    public void setEnrollementDate(LocalDate enrollementDate) {
-        this.enrollementDate = enrollementDate;
+    public void setEnrollmentDate(LocalDate enrollementDate) {
+        this.enrollmentDate = enrollementDate;
     }
 
     public LocalDate getLastAccessedDate() {
@@ -127,7 +127,7 @@ public class CourseEnrollment implements Serializable {
     public String toString() {
         return "CourseEnrollment{" +
             "id=" + getId() +
-            ", enrollementDate='" + getEnrollementDate() + "'" +
+            ", enrollementDate='" + getEnrollmentDate() + "'" +
             ", lastAccessedDate='" + getLastAccessedDate() + "'" +
             "}";
     }

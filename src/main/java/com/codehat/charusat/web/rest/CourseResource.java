@@ -1,6 +1,7 @@
 package com.codehat.charusat.web.rest;
 
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
@@ -164,6 +165,18 @@ public class CourseResource {
         log.debug("REST request to get Course by categoryId : {}", categoryId);
         List<Course> list = courseService.getByCategoryId(categoryId);
         return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     * CUSTOM
+     * {@code POST  /courses/enroll} : Enroll in a particular course.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
+     */
+    @PostMapping("/courses/enroll")
+    public ResponseEntity enrollInCourse(@RequestBody Course course){
+        log.debug("REST request to enroll in Course : {}", course);
+        return courseService.enrollInCourse(course);
     }
 
     /**

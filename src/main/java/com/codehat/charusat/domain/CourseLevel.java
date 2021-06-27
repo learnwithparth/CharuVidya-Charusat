@@ -33,7 +33,7 @@ public class CourseLevel implements Serializable {
 
     @OneToMany(mappedBy = "courseLevel")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Set<Course> levels = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
