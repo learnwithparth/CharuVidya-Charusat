@@ -6,6 +6,8 @@ import com.codehat.charusat.service.CourseService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import com.codehat.charusat.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,8 +26,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    private final UserService userService;
+
+    public CourseServiceImpl(
+        CourseRepository courseRepository,
+        UserService userService
+    ) {
         this.courseRepository = courseRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -38,6 +46,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseCreatedOn(LocalDate.now());
         course.setIsApproved(false);
         course.setCourseUpdatedOn(LocalDate.now());
+        course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         return courseRepository.save(course);

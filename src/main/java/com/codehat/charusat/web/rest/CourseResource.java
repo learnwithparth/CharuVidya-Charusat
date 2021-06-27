@@ -152,10 +152,17 @@ public class CourseResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    /**
+     * CUSTOM
+     * {@code GET  /courses/category/{categoryId}} : get all the courses related to a particular category.
+     *
+     * @param categoryId the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
+     */
     @GetMapping("/courses/category/{categoryId}")
-    public ResponseEntity<List<Course>> getCourseByCategory(@PathVariable Long id) {
-        log.debug("REST request to get Course by categoryId : {}", id);
-        List<Course> list = courseService.getByCategoryId(id);
+    public ResponseEntity<List<Course>> getCourseByCategory(@PathVariable Long categoryId) {
+        log.debug("REST request to get Course by categoryId : {}", categoryId);
+        List<Course> list = courseService.getByCategoryId(categoryId);
         return ResponseEntity.ok().body(list);
     }
 

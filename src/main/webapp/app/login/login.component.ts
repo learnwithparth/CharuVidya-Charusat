@@ -54,7 +54,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.authenticationError = false;
           if (!this.router.getCurrentNavigation()) {
             // There were no routing during login (eg from navigationToStoredUrl)
-            this.router.navigate(['']);
+
+            /**
+             * Loading the landing page according to role.
+             * */
+            if(this.accountService.hasAnyAuthority('ROLE_STUDENT')) {
+              this.router.navigate(['course']);
+            }
+            if(this.accountService.hasAnyAuthority('ROLE_ADMIN')){
+              this.router.navigate(['']);
+            }
+            /** * * * * * * * * * * * * * * * * * * * * * * * * * */
           }
         },
         () => (this.authenticationError = true)
