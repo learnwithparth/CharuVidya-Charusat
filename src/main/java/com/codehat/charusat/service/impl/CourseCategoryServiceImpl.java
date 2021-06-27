@@ -1,8 +1,11 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.repository.CourseCategoryRepository;
 import com.codehat.charusat.service.CourseCategoryService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,5 +80,21 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     public void delete(Long id) {
         log.debug("Request to delete CourseCategory : {}", id);
         courseCategoryRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CourseCategory> listParentCategory() {
+        log.debug("Request to list parent categories ");
+        List<CourseCategory> list;
+        list = courseCategoryRepository.findByIsParent(1);
+        return list;
+    }
+
+    @Override
+    public List<CourseCategory> listByParentId(Long id) {
+        log.debug("request to list sub-categories of category : {}", id);
+        List<CourseCategory> list;
+        list = courseCategoryRepository.findByParentId(id);
+        return list;
     }
 }

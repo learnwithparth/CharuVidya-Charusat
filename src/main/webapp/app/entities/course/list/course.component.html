@@ -80,7 +80,7 @@
           </td>
           <td>
             <div *ngIf="course.courseCategory">
-              <a [routerLink]="['/course-category', course.courseCategory?.id, 'view']">{{ course.courseCategory?.id }}</a>
+              <a [routerLink]="['/course-category', course.courseCategory?.id, 'view']">{{ course.courseCategory?.courseCategoryTitle }}</a>
             </div>
           </td>
           <td>

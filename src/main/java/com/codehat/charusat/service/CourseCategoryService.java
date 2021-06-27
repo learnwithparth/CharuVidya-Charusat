@@ -1,6 +1,7 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.CourseCategory;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +48,18 @@ public interface CourseCategoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     *
+     * @param
+     * @return list of categories where is_parent is 1
+     */
+    List<CourseCategory> listParentCategory();
+
+    /**
+     *
+     * @param id
+     * @return list of sub-categories of a parent category
+     */
+    List<CourseCategory> listByParentId(Long id);
 }

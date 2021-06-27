@@ -152,6 +152,13 @@ public class CourseResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/courses/category/{categoryId}")
+    public ResponseEntity<List<Course>> getCourseByCategory(@PathVariable Long id) {
+        log.debug("REST request to get Course by categoryId : {}", id);
+        List<Course> list = courseService.getByCategoryId(id);
+        return ResponseEntity.ok().body(list);
+    }
+
     /**
      * {@code GET  /courses/:id} : get the "id" course.
      *

@@ -1,6 +1,7 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.Course;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +48,6 @@ public interface CourseService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<Course> getByCategoryId(Long id);
 }

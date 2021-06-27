@@ -3,8 +3,8 @@ package com.codehat.charusat.service.impl;
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseService;
-
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,5 +136,11 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
         log.debug("Request to delete Course : {}", id);
         courseRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Course> getByCategoryId(Long id) {
+        List<Course> list = courseRepository.findByCategoryId(id);
+        return list;
     }
 }

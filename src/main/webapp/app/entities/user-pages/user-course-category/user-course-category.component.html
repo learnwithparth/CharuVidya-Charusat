@@ -1,0 +1,18 @@
+<div class="content">
+  <h1>Available Categories</h1>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courseCategories">
+      <mat-card class="outline mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title>{{ course.courseCategoryTitle }}</mat-card-title>
+        </mat-card-header>
+        <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
+        <mat-card-actions>
+          <a routerLink="/sub-category/{{ course.parentId }}">
+            <button mat-button>VIEW</button>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -16,4 +16,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("select course from Course course where course.reviewer.login = ?#{principal.username}")
     List<Course> findByReviewerIsCurrentUser();
+
+    @Query(value = "SELECT * from course where course_category_id = ?1", nativeQuery = true)
+    List<Course> findByCategoryId(Long id);
 }
