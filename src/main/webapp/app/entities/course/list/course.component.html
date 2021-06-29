@@ -1,0 +1,132 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseHeading">
+    <span>Courses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-course"
+        [routerLink]="['/course/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Course </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
+    <span>No courses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseTitle"><span>Course Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseDescription"><span>Course Description</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseObjectives"><span>Course Objectives</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseSubTitle"><span>Course Sub Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="previewVideourl"><span>Preview Videourl</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseLength"><span>Course Length</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="logo"><span>Logo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseCreatedOn"><span>Course Created On</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseUpdatedOn"><span>Course Updated On</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseRootDir"><span>Course Root Dir</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="isDraft"><span>Is Draft</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="isApproved"><span>Is Approved</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseApprovalDate"><span>Course Approval Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseLevel.id"><span>Course Level</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseCategory.id"><span>Course Category</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="user.id"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="reviewer.id"><span>Reviewer</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of courses; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>
+          </td>
+          <td>{{ course.courseTitle }}</td>
+          <td>{{ course.courseDescription }}</td>
+          <td>{{ course.courseObjectives }}</td>
+          <td>{{ course.courseSubTitle }}</td>
+          <td>{{ course.previewVideourl }}</td>
+          <td>{{ course.courseLength }}</td>
+          <td>{{ course.logo }}</td>
+          <td>{{ course.courseCreatedOn | formatMediumDate }}</td>
+          <td>{{ course.courseUpdatedOn | formatMediumDate }}</td>
+          <td>{{ course.courseRootDir }}</td>
+          <td>{{ course.amount }}</td>
+          <td>{{ course.isDraft }}</td>
+          <td>{{ course.isApproved }}</td>
+          <td>{{ course.courseApprovalDate | formatMediumDate }}</td>
+          <td>
+            <div *ngIf="course.courseLevel">
+              <a [routerLink]="['/course-level', course.courseLevel?.id, 'view']">{{ course.courseLevel?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="course.courseCategory">
+              <a [routerLink]="['/course-category', course.courseCategory?.id, 'view']">{{ course.courseCategory?.courseCategoryTitle }}</a>
+            </div>
+          </td>
+          <td>
+            {{ course.user?.id }}
+          </td>
+          <td>
+            {{ course.reviewer?.id }}
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/course', course.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(course)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courses && courses.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseSectionHeading">
+    <span>Course Sections</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-course-section"
+        [routerLink]="['/course-section/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Course Section </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courseSections?.length === 0">
+    <span>No courseSections found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="courseSections && courseSections.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="sectionTitle"><span>Section Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="sectionDescription"><span>Section Description</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="sectionOrder"><span>Section Order</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="isDraft"><span>Is Draft</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="isApproved"><span>Is Approved</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="course.id"><span>Course</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courseSection of courseSections; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/course-section', courseSection.id, 'view']">{{ courseSection.id }}</a>
+          </td>
+          <td>{{ courseSection.sectionTitle }}</td>
+          <td>{{ courseSection.sectionDescription }}</td>
+          <td>{{ courseSection.sectionOrder }}</td>
+          <td>{{ courseSection.isDraft }}</td>
+          <td>{{ courseSection.isApproved }}</td>
+          <td>
+            <div *ngIf="courseSection.course">
+              <a [routerLink]="['/course', courseSection.course?.id, 'view']">{{ courseSection.course?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/course-section', courseSection.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/course-section', courseSection.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(courseSection)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courseSections && courseSections.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -48,6 +48,14 @@ public class CacheConfiguration {
             createCache(cm, com.codehat.charusat.domain.User.class.getName());
             createCache(cm, com.codehat.charusat.domain.Authority.class.getName());
             createCache(cm, com.codehat.charusat.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.codehat.charusat.domain.CourseLevel.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseLevel.class.getName() + ".levels");
+            createCache(cm, com.codehat.charusat.domain.CourseCategory.class.getName());
+            createCache(cm, com.codehat.charusat.domain.Course.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseEnrollment.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseSection.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseSession.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseProgress.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

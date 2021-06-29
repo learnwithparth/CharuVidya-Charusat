@@ -1,0 +1,19 @@
+<div class="content">
+  <h1>Available Courses</h1>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
+      <mat-card class="outline mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title>{{ course.courseTitle }}</mat-card-title>
+        </mat-card-header>
+        <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
+        <mat-card-actions>
+          <a routerLink="/course/{{course.id}}/view">
+            <button mat-button>VIEW</button>
+          </a>
+          <button mat-button (click)="onEnroll(course)">ENROLL</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

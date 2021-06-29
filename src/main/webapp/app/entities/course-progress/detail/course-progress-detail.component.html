@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseProgress">
+      <h2 data-cy="courseProgressDetailsHeading"><span>Course Progress</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ courseProgress.id }}</span>
+        </dd>
+        <dt><span>Completed</span></dt>
+        <dd>
+          <span>{{ courseProgress.completed }}</span>
+        </dd>
+        <dt><span>Watch Seconds</span></dt>
+        <dd>
+          <span>{{ courseProgress.watchSeconds | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ courseProgress.user?.id }}</span>
+        </dd>
+        <dt><span>Course Session</span></dt>
+        <dd>
+          <div *ngIf="courseProgress.courseSession">
+            <a [routerLink]="['/course-session', courseProgress.courseSession?.id, 'view']">{{ courseProgress.courseSession?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course-progress', courseProgress.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

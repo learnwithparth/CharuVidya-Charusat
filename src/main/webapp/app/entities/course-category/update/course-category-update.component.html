@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-course-category-heading" data-cy="CourseCategoryCreateUpdateHeading">Create or edit a Course Category</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('id')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('id')?.errors?.number"> This field should be a number. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseCategoryTitle">Course Category Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="courseCategoryTitle"
+            id="field_courseCategoryTitle"
+            data-cy="courseCategoryTitle"
+            formControlName="courseCategoryTitle"
+          />
+          <div
+            *ngIf="
+              editForm.get('courseCategoryTitle')!.invalid &&
+              (editForm.get('courseCategoryTitle')!.dirty || editForm.get('courseCategoryTitle')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('courseCategoryTitle')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('courseCategoryTitle')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_logo">Logo</label>
+          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />
+          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_isParent">Is Parent</label>
+          <input type="number" class="form-control" name="isParent" id="field_isParent" data-cy="isParent" formControlName="isParent" />
+          <div *ngIf="editForm.get('isParent')!.invalid && (editForm.get('isParent')!.dirty || editForm.get('isParent')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('isParent')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('isParent')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_parentId">Parent Id</label>
+          <input type="number" class="form-control" name="parentId" id="field_parentId" data-cy="parentId" formControlName="parentId" />
+          <div *ngIf="editForm.get('parentId')!.invalid && (editForm.get('parentId')!.dirty || editForm.get('parentId')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('parentId')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('parentId')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseSession">
+      <h2 data-cy="courseSessionDetailsHeading"><span>Course Session</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ courseSession.id }}</span>
+        </dd>
+        <dt><span>Session Title</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionTitle }}</span>
+        </dd>
+        <dt><span>Session Description</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionDescription }}</span>
+        </dd>
+        <dt><span>Session Video</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionVideo }}</span>
+        </dd>
+        <dt><span>Session Duration</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionDuration | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Session Order</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionOrder }}</span>
+        </dd>
+        <dt><span>Session Resource</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionResource }}</span>
+        </dd>
+        <dt><span>Session Location</span></dt>
+        <dd>
+          <span>{{ courseSession.sessionLocation }}</span>
+        </dd>
+        <dt><span>Is Preview</span></dt>
+        <dd>
+          <span>{{ courseSession.isPreview }}</span>
+        </dd>
+        <dt><span>Is Draft</span></dt>
+        <dd>
+          <span>{{ courseSession.isDraft }}</span>
+        </dd>
+        <dt><span>Is Approved</span></dt>
+        <dd>
+          <span>{{ courseSession.isApproved }}</span>
+        </dd>
+        <dt><span>Is Published</span></dt>
+        <dd>
+          <span>{{ courseSession.isPublished }}</span>
+        </dd>
+        <dt><span>Course Section</span></dt>
+        <dd>
+          <div *ngIf="courseSession.courseSection">
+            <a [routerLink]="['/course-section', courseSession.courseSection?.id, 'view']">{{ courseSession.courseSection?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course-session', courseSession.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

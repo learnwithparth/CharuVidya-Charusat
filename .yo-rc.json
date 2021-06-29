@@ -41,6 +41,8 @@
     "packageFolder": "com/codehat/charusat",
     "jwtSecretKey": "MDAzMWQ4ZGZlYjRhOTZmMmQ5YjMxYzM4Njk2MjNkOGFkMWRhOWVkODZkMjhiZTUwOGQ3NjIxYzBiODA3YzA5ZjBiNWIzNGMxYWMyOGQ2MzBkMzVkMjJjODhmYmU1N2JkODYyNDQ3YjVlMjExZmI2Njg5Njg0MjRiZWExMzczYTk=",
     "clientPackageManager": "npm",
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "entities": ["CourseLevel", "CourseCategory", "Course", "CourseEnrollment", "CourseSection", "CourseSession", "CourseProgress"],
+    "lastLiquibaseTimestamp": 1624740172000
   }
 }

@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseCategory">
+      <h2 data-cy="courseCategoryDetailsHeading"><span>Course Category</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ courseCategory.id }}</span>
+        </dd>
+        <dt><span>Course Category Title</span></dt>
+        <dd>
+          <span>{{ courseCategory.courseCategoryTitle }}</span>
+        </dd>
+        <dt><span>Logo</span></dt>
+        <dd>
+          <span>{{ courseCategory.logo }}</span>
+        </dd>
+        <dt><span>Is Parent</span></dt>
+        <dd>
+          <span>{{ courseCategory.isParent }}</span>
+        </dd>
+        <dt><span>Parent Id</span></dt>
+        <dd>
+          <span>{{ courseCategory.parentId }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/course-category', courseCategory.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

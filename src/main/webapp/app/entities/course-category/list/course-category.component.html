@@ -1,0 +1,102 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseCategoryHeading">
+    <span>Course Categories</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-course-category"
+        [routerLink]="['/course-category/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Course Category </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courseCategories?.length === 0">
+    <span>No courseCategories found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="courseCategories && courseCategories.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseCategoryTitle"><span>Course Category Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="logo"><span>Logo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="isParent"><span>Is Parent</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="parentId"><span>Parent Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courseCategory of courseCategories; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/course-category', courseCategory.id, 'view']">{{ courseCategory.id }}</a>
+          </td>
+          <td>{{ courseCategory.courseCategoryTitle }}</td>
+          <td>{{ courseCategory.logo }}</td>
+          <td>{{ courseCategory.isParent }}</td>
+          <td>{{ courseCategory.parentId }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/course-category', courseCategory.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/course-category', courseCategory.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(courseCategory)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courseCategories && courseCategories.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

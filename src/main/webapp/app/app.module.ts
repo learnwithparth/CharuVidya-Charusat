@@ -25,6 +25,13 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
+import { UserCourseCategoryComponent } from './entities/user-pages/user-course-category/user-course-category.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { UserCourseSubCategoriesComponent } from './entities/user-pages/user-course-sub-categories/user-course-sub-categories.component';
+import { UserCoursesComponent } from './entities/user-pages/user-courses/user-courses.component';
 
 @NgModule({
   imports: [
@@ -38,6 +45,10 @@ import { ErrorComponent } from './layouts/error/error.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
+    MatCardModule,
+    MatToolbarModule,
+    MatButtonModule,
+    FlexLayoutModule,
   ],
   providers: [
     Title,
@@ -45,7 +56,16 @@ import { ErrorComponent } from './layouts/error/error.component';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    UserCourseCategoryComponent,
+    UserCourseSubCategoriesComponent,
+    UserCoursesComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {
