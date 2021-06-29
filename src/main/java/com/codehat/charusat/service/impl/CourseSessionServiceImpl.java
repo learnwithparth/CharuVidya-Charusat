@@ -99,4 +99,10 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         log.debug("Request to delete CourseSession : {}", id);
         courseSessionRepository.deleteById(id);
     }
+
+    @Override
+    public Page<CourseSession> findCourseSessionByCourseSection(Long courseSectionId, Pageable pageable) {
+        log.debug("Request to get CourseSession by CourseSection: {}", courseSectionId);
+        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+    }
 }

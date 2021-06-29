@@ -47,4 +47,10 @@ public interface CourseSessionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+
+    /**
+     * Custom
+     * */
+    Page<CourseSession> findCourseSessionByCourseSection(Long courseSectionId, Pageable pageable);
 }

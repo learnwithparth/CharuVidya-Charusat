@@ -1,5 +1,6 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
@@ -80,5 +81,14 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     public void delete(Long id) {
         log.debug("Request to delete CourseSection : {}", id);
         courseSectionRepository.deleteById(id);
+    }
+
+    /**
+     * CUSTOM
+     * */
+    @Override
+    public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) {
+        log.debug("Request to get CourseSection by CourseId : {}", courseId);
+        return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
     }
 }

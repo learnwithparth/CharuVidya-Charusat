@@ -180,4 +180,18 @@ public class CourseSessionResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    /**
+     * CUSTOM
+     * */
+    @GetMapping("course/{courseId}/course-section/{courseSectionId}/course-sessions")
+    public ResponseEntity<List<CourseSession>> getAllCourseSessionByCourse(
+        @PathVariable Long courseSectionId,
+        Pageable pageable
+    ){
+        log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
+        Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseSectionId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

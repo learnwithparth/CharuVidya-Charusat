@@ -1,5 +1,6 @@
 package com.codehat.charusat.web.rest;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
@@ -179,5 +180,22 @@ public class CourseSectionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * CUSTOM
+     *
+     * @param courseId the course of the courseSection to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the courseSection, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/course/{courseId}/course-sections")
+    public ResponseEntity<List<CourseSection>> getAllCourseSectionByCourse(
+        @PathVariable Long courseId,
+        Pageable pageable
+        ){
+        log.debug("REST request to get Course-Section based on CourseId: {}", courseId);
+        Page<CourseSection> page = courseSectionService.findCourseSectionByCourse(courseId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }
