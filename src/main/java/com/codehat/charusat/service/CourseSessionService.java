@@ -52,5 +52,5 @@ public interface CourseSessionService {
     /**
      * Custom
      * */
-    Page<CourseSession> findCourseSessionByCourseSection(Long courseSectionId, Pageable pageable);
+    Page<CourseSession> findCourseSessionByCourseSection(Long courseId, Long courseSectionId, Pageable pageable);
 }
