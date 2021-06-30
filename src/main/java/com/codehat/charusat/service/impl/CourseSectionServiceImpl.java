@@ -2,9 +2,12 @@ package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
 import java.util.Optional;
+
+import com.codehat.charusat.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,8 +26,14 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     private final CourseSectionRepository courseSectionRepository;
 
-    public CourseSectionServiceImpl(CourseSectionRepository courseSectionRepository) {
+    private final UserService userService;
+
+    public CourseSectionServiceImpl(
+        CourseSectionRepository courseSectionRepository,
+        UserService userService
+    ) {
         this.courseSectionRepository = courseSectionRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -89,6 +98,19 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     @Override
     public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) {
         log.debug("Request to get CourseSection by CourseId : {}", courseId);
-        return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(user.isPresent()){
+            if(user.get().getAuthorities().toString().contains("ROLE_ADMIN")){
+                return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
+            } else if(user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
+                return courseSectionRepository.findCourseSectionByCourse_User_IdAndCourse_Id(user.get().getId(), courseId, pageable);
+            } else if(user.get().getAuthorities().toString().contains("ROLE_STUDENT")){
+                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(courseId, user.get(), pageable);
+            } else{
+                return null;
+            }
+        } else{
+            return null;
+        }
     }
 }
