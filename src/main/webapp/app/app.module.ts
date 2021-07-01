@@ -33,7 +33,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UserCourseSubCategoriesComponent } from './entities/user-pages/user-course-sub-categories/user-course-sub-categories.component';
 import { UserCoursesComponent } from './entities/user-pages/user-courses/user-courses.component';
 import { InstructorCoursesComponent } from './entities/instructor-pages/instructor-courses/instructor-courses.component';
-import { InstructorUpdateCoursesComponent } from './entities/instructor-pages/instructor-update-courses/instructor-update-courses.component';
 
 @NgModule({
   imports: [
@@ -68,7 +67,6 @@ import { InstructorUpdateCoursesComponent } from './entities/instructor-pages/in
     UserCourseSubCategoriesComponent,
     UserCoursesComponent,
     InstructorCoursesComponent,
-    InstructorUpdateCoursesComponent,
   ],
   bootstrap: [MainComponent],
 })
