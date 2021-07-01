@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.service.dto.CourseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -208,5 +209,23 @@ public class CourseServiceImpl implements CourseService {
         } catch (Exception e){
             return ResponseEntity.status(500).build();
         }
+    }
+
+    @Override
+    public Course save(CourseDTO courseDTO) {
+        log.debug("Request to save Course : {}", courseDTO);
+
+        /**
+         * Setting the default values that needs to set during the course creation.
+         * */
+        Course course = new Course(courseDTO);
+        course.setCourseCreatedOn(LocalDate.now());
+        course.setIsApproved(false);
+        course.setAmount(0.0);
+        course.setCourseUpdatedOn(LocalDate.now());
+        course.setUser(userService.getUserWithAuthorities().get());
+        /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+        return courseRepository.save(course);
     }
 }

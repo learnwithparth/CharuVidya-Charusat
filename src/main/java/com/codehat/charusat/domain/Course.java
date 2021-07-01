@@ -1,5 +1,6 @@
 package com.codehat.charusat.domain;
 
+import com.codehat.charusat.service.dto.CourseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -103,6 +104,24 @@ public class Course implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "enrolled_users_list_id")
     )
     private Set<User> enrolledUsersLists = new HashSet<>();
+
+    public Course(){
+
+    }
+
+    public Course(CourseDTO courseDTO){
+        this.courseTitle = courseDTO.getCourseTitle();
+        this.courseDescription = courseDTO.getCourseDescription();
+        this.courseObjectives = courseDTO.getCourseObjectives();
+        this.courseSubTitle = courseDTO.getCourseSubTitle();
+        this.previewVideourl = courseDTO.getPreviewVideourl();
+        this.logo = courseDTO.getLogo();
+        this.courseRootDir = null;
+        this.isDraft = courseDTO.isDraft();
+        this.courseLevel = courseDTO.getCourseLevel();
+        this.courseCategory = courseDTO.getCourseCategory();
+    }
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

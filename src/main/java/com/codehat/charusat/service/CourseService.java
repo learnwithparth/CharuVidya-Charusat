@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.codehat.charusat.domain.User;
+import com.codehat.charusat.service.dto.CourseDTO;
 import io.swagger.models.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,5 +61,14 @@ public interface CourseService {
     List<Course> getByCategoryId(Long id);
 
     ResponseEntity enrollInCourse(Course course);
+
+    /**
+     * Overloaded method.
+     * Save a course.
+     *
+     * @param courseDTO the entity to save.
+     * @return the persisted entity.
+     */
+    Course save(CourseDTO courseDTO);
 
 }
