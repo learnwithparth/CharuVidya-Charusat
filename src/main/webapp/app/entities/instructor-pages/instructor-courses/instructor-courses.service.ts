@@ -19,11 +19,8 @@ export class InstructorCoursesService {
 
   constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
-  create(course: ICourse): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(course);
-    return this.http
-      .post<ICourse>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  create(data: any): Observable<EntityResponseType> {
+    return this.http.post<ICourse>('api/instructor-course', data, { observe: 'response' });
   }
   update(course: ICourse): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(course);
@@ -73,9 +70,8 @@ export class InstructorCoursesService {
     return courseCollection;
   }
 
-  public getCourses():Observable<EntityArrayResponseType>{
-    return this.http.get<ICourse[]>(this.resourceUrl, { observe: 'response' })
-
+  public getCourses(): Observable<EntityArrayResponseType> {
+    return this.http.get<ICourse[]>(this.resourceUrl, { observe: 'response' });
   }
 
   protected convertDateFromClient(course: ICourse): ICourse {
@@ -105,8 +101,4 @@ export class InstructorCoursesService {
     }
     return res;
   }
-
-
-
 }
-
