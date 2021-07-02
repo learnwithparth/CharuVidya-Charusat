@@ -47,7 +47,8 @@ export class InstructorUpdateCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     //this.handleNavigation();
-    this.loadAllCourses();
+    //this.loadAllCourses();
+    this.loadRelationshipsOptions();
   }
 
   previousState(): void {
@@ -92,16 +93,5 @@ export class InstructorUpdateCoursesComponent implements OnInit {
         )
       )
       .subscribe((courseCategories: ICourseCategory[]) => (this.courseCategoriesSharedCollection = courseCategories));
-  }
-
-  private loadAllCourses(): void {
-    this.courseService.getCourses().subscribe(
-      (res: HttpResponse<ICourse[]>) => {
-        this.courses = res.body;
-      },
-      () => {
-        window.alert('error');
-      }
-    );
   }
 }

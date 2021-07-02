@@ -12,7 +12,7 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-course"
-        [routerLink]="['/course/new']"
+        [routerLink]="['/course/add']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Course </span>
@@ -28,7 +28,14 @@
     <span>No courses found</span>
   </div>
   <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
-    <div jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)" fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div
+      jhiSort
+      [(predicate)]="predicate"
+      [(ascending)]="ascending"
+      [callback]="loadPage.bind(this)"
+      fxLayout="row wrap"
+      fxLayoutGap="16px grid"
+    >
       <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
         <mat-card class="outline mat-elevation-z8">
           <mat-card-header>
@@ -36,7 +43,7 @@
           </mat-card-header>
           <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
           <mat-card-actions>
-            <a routerLink="/course/{{course.id}}/view">
+            <a routerLink="/course/{{ course.id }}/view">
               <button mat-button>VIEW</button>
             </a>
             <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->
@@ -45,6 +52,4 @@
       </div>
     </div>
   </div>
-
 </div>
-
