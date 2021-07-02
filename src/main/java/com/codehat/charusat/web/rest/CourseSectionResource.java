@@ -4,6 +4,7 @@ import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
+import com.codehat.charusat.service.dto.CourseSectionDTO;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -180,6 +181,19 @@ public class CourseSectionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/course/{courseId}/course-sections")
+    public ResponseEntity<CourseSection> createCourseSection(
+        @PathVariable Long courseId,
+        @RequestBody CourseSectionDTO courseSectionDTO
+    ) throws URISyntaxException {
+        log.debug("REST request to save CourseSection : {}", courseSectionDTO);
+        CourseSection result = courseSectionService.save(courseId, courseSectionDTO);
+        return ResponseEntity
+            .created(new URI("/api/course-sections/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**

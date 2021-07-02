@@ -5,15 +5,20 @@ import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
+
+import java.util.List;
 import java.util.Optional;
 
 import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.service.dto.CourseSectionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.swing.text.html.Option;
 
 /**
  * Service Implementation for managing {@link CourseSection}.
@@ -28,12 +33,16 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     private final UserService userService;
 
+    private final CourseServiceImpl courseService;
+
     public CourseSectionServiceImpl(
         CourseSectionRepository courseSectionRepository,
-        UserService userService
+        UserService userService,
+        CourseServiceImpl courseService
     ) {
         this.courseSectionRepository = courseSectionRepository;
         this.userService = userService;
+        this.courseService = courseService;
     }
 
     @Override
@@ -109,6 +118,24 @@ public class CourseSectionServiceImpl implements CourseSectionService {
             } else{
                 return null;
             }
+        } else{
+            return null;
+        }
+    }
+
+    @Override
+    public CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO) {
+        Optional<Course> course = courseService.findOne(courseId);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(course.isPresent() && course.get().getUser().equals(user.get())){
+            CourseSection courseSection = new CourseSection(courseSectionDTO);
+            courseSection.course(course.get());
+            courseSection.sectionOrder(
+                courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1
+            );
+            courseSection.isApproved(false);
+            return courseSectionRepository.save(courseSection);
+
         } else{
             return null;
         }
