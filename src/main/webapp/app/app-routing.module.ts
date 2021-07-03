@@ -9,9 +9,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { UserCourseCategoryComponent } from 'app/entities/user-pages/user-course-category/user-course-category.component';
 import { UserCourseSubCategoriesComponent } from 'app/entities/user-pages/user-course-sub-categories/user-course-sub-categories.component';
 import { UserCoursesComponent } from 'app/entities/user-pages/user-courses/user-courses.component';
-import { A } from '@angular/cdk/keycodes';
 import { InstructorCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-courses.component';
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
+import { InstructorCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-coursesection.component';
+import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -74,6 +75,22 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           },
           canActivate: [UserRouteAccessService],
           component: InstructorUpdateCoursesComponent,
+        },
+        {
+          path: 'course/:courseId/sections',
+          data: {
+            authorities: [Authority.FACULTY],
+          },
+          canActivate: [UserRouteAccessService],
+          component: InstructorCoursesectionComponent,
+        },
+        {
+          path: 'course/:courseId/section/new',
+          data: {
+            authorities: [Authority.FACULTY],
+          },
+          canActivate: [UserRouteAccessService],
+          component: InstructorUpdateCoursesectionComponent,
         },
         ...LAYOUT_ROUTES,
       ],

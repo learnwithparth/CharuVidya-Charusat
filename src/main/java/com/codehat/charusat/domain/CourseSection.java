@@ -47,13 +47,12 @@ public class CourseSection implements Serializable {
     @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Course course;
 
-    public CourseSection() {
-    }
+    public CourseSection() {}
 
     public CourseSection(CourseSectionDTO courseSectionDTO) {
         this.sectionTitle = courseSectionDTO.getSectionTitle();
         this.sectionDescription = courseSectionDTO.getSectionDescription();
-        this.isDraft = courseSectionDTO.getDraft();
+        this.isDraft = courseSectionDTO.getIsDraft();
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

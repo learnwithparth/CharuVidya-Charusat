@@ -67,6 +67,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     this.courseService.create(data).subscribe(
       res => {
         window.alert('Created successfully');
+        this.router.navigate(['instructor-courses']);
       },
       () => {
         window.alert('Error while creating course');

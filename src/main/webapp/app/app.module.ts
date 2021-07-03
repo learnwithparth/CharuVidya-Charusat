@@ -34,6 +34,8 @@ import { UserCourseSubCategoriesComponent } from './entities/user-pages/user-cou
 import { UserCoursesComponent } from './entities/user-pages/user-courses/user-courses.component';
 import { InstructorCoursesComponent } from './entities/instructor-pages/instructor-courses/instructor-courses.component';
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
+import { InstructorCoursesectionComponent } from './entities/instructor-pages/instructor-coursesection/instructor-coursesection.component';
+import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
 
 @NgModule({
   imports: [
@@ -69,6 +71,8 @@ import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/
     UserCoursesComponent,
     InstructorCoursesComponent,
     InstructorUpdateCoursesComponent,
+    InstructorCoursesectionComponent,
+    InstructorUpdateCoursesectionComponent,
   ],
   bootstrap: [MainComponent],
 })

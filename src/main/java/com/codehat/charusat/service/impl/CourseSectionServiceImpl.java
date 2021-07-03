@@ -5,20 +5,15 @@ import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.text.html.Option;
 
 /**
  * Service Implementation for managing {@link CourseSection}.
@@ -108,17 +103,21 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) {
         log.debug("Request to get CourseSection by CourseId : {}", courseId);
         Optional<User> user = userService.getUserWithAuthorities();
-        if(user.isPresent()){
-            if(user.get().getAuthorities().toString().contains("ROLE_ADMIN")){
+        if (user.isPresent()) {
+            if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
                 return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
-            } else if(user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
+            } else if (user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
                 return courseSectionRepository.findCourseSectionByCourse_User_IdAndCourse_Id(user.get().getId(), courseId, pageable);
-            } else if(user.get().getAuthorities().toString().contains("ROLE_STUDENT")){
-                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(courseId, user.get(), pageable);
-            } else{
+            } else if (user.get().getAuthorities().toString().contains("ROLE_STUDENT")) {
+                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(
+                    courseId,
+                    user.get(),
+                    pageable
+                );
+            } else {
                 return null;
             }
-        } else{
+        } else {
             return null;
         }
     }
@@ -127,16 +126,14 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     public CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO) {
         Optional<Course> course = courseService.findOne(courseId);
         Optional<User> user = userService.getUserWithAuthorities();
-        if(course.isPresent() && course.get().getUser().equals(user.get())){
+        if (course.isPresent() && course.get().getUser().equals(user.get())) {
             CourseSection courseSection = new CourseSection(courseSectionDTO);
+            if (courseSection.getIsDraft() == null) courseSection.setIsDraft(false);
             courseSection.course(course.get());
-            courseSection.sectionOrder(
-                courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1
-            );
+            courseSection.sectionOrder(courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1);
             courseSection.isApproved(false);
             return courseSectionRepository.save(courseSection);
-
-        } else{
+        } else {
             return null;
         }
     }
