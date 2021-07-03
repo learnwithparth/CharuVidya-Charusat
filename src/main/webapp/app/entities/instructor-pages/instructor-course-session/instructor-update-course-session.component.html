@@ -65,7 +65,7 @@
             name="sessionVideo"
             id="field_sessionVideo"
             data-cy="sessionVideo"
-            formControlName="sessionVideo"
+            (change)="videoUrlInput($event)"
           />
           <div
             *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"
@@ -76,7 +76,15 @@
             </small>
           </div>
         </div>
-
+        <div *ngIf="urlValue && urlValue!=''" style="margin-left: 20%">
+          <youtube-player
+            videoId="{{urlValue}}"
+            suggestedQuality="highres"
+            [height]="300"
+            [width]="550"
+          >
+          </youtube-player>
+        </div>
         <div class="form-group">
           <label class="form-control-label" for="field_sessionResource">Session Resource</label>
           <input

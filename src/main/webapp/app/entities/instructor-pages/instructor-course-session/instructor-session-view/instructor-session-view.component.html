@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courseSession">
+      <h2 data-cy="courseSessionDetailsHeading"><span>Session {{ courseSession.sessionOrder }} - {{courseSession.sessionTitle}}</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+<!--        <dt><span>{{ courseSession.sessionTitle }}</span></dt>-->
+        <dt></dt>
+<!--        <dd>-->
+          <div style="margin-left: 10%">
+          <youtube-player
+            videoId="{{ courseSession.sessionVideo }}"
+            suggestedQuality="highres"
+            [height]="300"
+            [width]="550"
+          >
+          </youtube-player>
+            <br/>
+            </div>
+<!--        </dd>-->
+        <dt><span>Description</span></dt>
+        <div>
+          <br/>
+          <br/>
+          <span>{{ courseSession.sessionDescription }}</span>
+        </div>
+
+        <dt><span>Resource</span></dt>
+        <div>
+          <br/>
+          <br/>
+          <span>{{ courseSession.sessionResource }}</span>
+        </div>
+      </dl>
+    </div>
+    <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+      <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+    </button>
+
+  </div>
+</div>

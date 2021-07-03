@@ -187,6 +187,12 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     courseSession.setSessionDuration(Instant.now());
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);
+                    if(courseSessionDTO.getIsDraft()==null){
+                        courseSession.setIsDraft(false);
+                    }
+                    if(courseSessionDTO.getIsPreview()==null){
+                        courseSession.setIsPreview(false);
+                    }
                     courseSession.sessionOrder(courseSessionRepository.findAllByCourseSection_Id(courseSectionId).size() + 1);
                     String videoId = null;
                     if (courseSession.getSessionVideo().contains("https://www.youtube.com/watch?v=")) {

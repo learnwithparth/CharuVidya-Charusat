@@ -130,6 +130,9 @@ public class CourseSectionServiceImpl implements CourseSectionService {
         if(course.isPresent() && course.get().getUser().equals(user.get())){
             CourseSection courseSection = new CourseSection(courseSectionDTO);
             courseSection.course(course.get());
+            if(courseSectionDTO.getIsDraft()==null){
+                courseSection.setIsDraft(false);
+            }
             courseSection.sectionOrder(
                 courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1
             );

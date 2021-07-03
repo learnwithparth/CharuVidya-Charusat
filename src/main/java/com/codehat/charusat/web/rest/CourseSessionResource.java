@@ -200,7 +200,18 @@ public class CourseSessionResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
+    @GetMapping("course/{courseId}/course-section/{courseSectionId}/course-sessions/{sessionId}")
+    public ResponseEntity<List<CourseSession>> getCourseSessionByCourse(
+        @PathVariable Long courseId,
+        @PathVariable Long courseSectionId,
+        @PathVariable Long sessionId,
+        Pageable pageable
+    ){
+        log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
+        Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseId, courseSectionId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
     @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session")
     public ResponseEntity<CourseSession> createCourseSession(
         @RequestBody CourseSessionDTO courseSessionDTO,
