@@ -27,7 +27,7 @@
   <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
     <span>No courses found</span>
   </div>
-  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+  <div id="entities" *ngIf="courses && courses.length > 0">
     <div
       jhiSort
       [(predicate)]="predicate"
