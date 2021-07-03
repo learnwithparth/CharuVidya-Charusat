@@ -44,8 +44,10 @@
           </mdb-card-header>
           <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
           <mdb-card-body>
-            <a routerLink="/course/{{ course.id }}/view">
-              <button mat-button>VIEW</button>
+            <a routerLink="/course/{{ course.id }}/sections">
+              <button mat-button class="btn btn-info btn-sm">
+                <fa-icon icon="eye"></fa-icon> &nbsp; VIEW
+              </button>
             </a>
           </mdb-card-body>
             <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->
