@@ -53,7 +53,7 @@ public class CourseSection implements Serializable {
     public CourseSection(CourseSectionDTO courseSectionDTO) {
         this.sectionTitle = courseSectionDTO.getSectionTitle();
         this.sectionDescription = courseSectionDTO.getSectionDescription();
-        this.isDraft = courseSectionDTO.getDraft();
+        this.isDraft = courseSectionDTO.getIsDraft();
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

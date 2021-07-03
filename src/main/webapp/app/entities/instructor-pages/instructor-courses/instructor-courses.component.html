@@ -27,7 +27,7 @@
   <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
     <span>No courses found</span>
   </div>
-  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+  <div id="entities" *ngIf="courses && courses.length > 0">
     <div
       jhiSort
       [(predicate)]="predicate"
@@ -37,18 +37,19 @@
       fxLayoutGap="16px grid"
     >
       <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-        <mat-card class="outline mat-elevation-z8">
-          <mat-card-header>
-            <mat-card-title>{{ course.courseTitle }}</mat-card-title>
-          </mat-card-header>
+
+        <mdb-card>
+          <mdb-card-header>
+            <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
+          </mdb-card-header>
           <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
-          <mat-card-actions>
+          <mdb-card-body>
             <a routerLink="/course/{{ course.id }}/view">
               <button mat-button>VIEW</button>
             </a>
+          </mdb-card-body>
             <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->
-          </mat-card-actions>
-        </mat-card>
+        </mdb-card>
       </div>
     </div>
   </div>

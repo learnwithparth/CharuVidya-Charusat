@@ -6,7 +6,6 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.codehat.charusat.service.UserService;
@@ -17,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.text.html.Option;
 
 /**
  * Service Implementation for managing {@link CourseSection}.
@@ -125,6 +122,7 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     @Override
     public CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO) {
+        System.out.println("Hello");
         Optional<Course> course = courseService.findOne(courseId);
         Optional<User> user = userService.getUserWithAuthorities();
         if(course.isPresent() && course.get().getUser().equals(user.get())){

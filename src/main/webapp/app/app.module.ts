@@ -34,24 +34,26 @@ import { UserCourseSubCategoriesComponent } from './entities/user-pages/user-cou
 import { UserCoursesComponent } from './entities/user-pages/user-courses/user-courses.component';
 import { InstructorCoursesComponent } from './entities/instructor-pages/instructor-courses/instructor-courses.component';
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
+import {CardsModule} from "angular-bootstrap-md";
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    SharedModule,
-    HomeModule,
-    // jhipster-needle-angular-add-module JHipster will add new module here
-    EntityRoutingModule,
-    AppRoutingModule,
-    // Set this to true to enable service worker (PWA)
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
-    HttpClientModule,
-    NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
-    MatCardModule,
-    MatToolbarModule,
-    MatButtonModule,
-    FlexLayoutModule,
-  ],
+    imports: [
+        BrowserModule,
+        SharedModule,
+        HomeModule,
+        // jhipster-needle-angular-add-module JHipster will add new module here
+        EntityRoutingModule,
+        AppRoutingModule,
+        // Set this to true to enable service worker (PWA)
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: false}),
+        HttpClientModule,
+        NgxWebstorageModule.forRoot({prefix: 'jhi', separator: '-'}),
+        MatCardModule,
+        MatToolbarModule,
+        MatButtonModule,
+        FlexLayoutModule,
+        CardsModule,
+    ],
   providers: [
     Title,
     { provide: LOCALE_ID, useValue: 'en' },

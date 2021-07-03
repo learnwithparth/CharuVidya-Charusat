@@ -23,11 +23,11 @@ public class CourseSectionDTO {
         this.sectionDescription = sectionDescription;
     }
 
-    public Boolean getDraft() {
+    public Boolean getIsDraft() {
         return isDraft;
     }
 
-    public void setDraft(Boolean draft) {
+    public void setIsDraft(Boolean draft) {
         isDraft = draft;
     }
 }

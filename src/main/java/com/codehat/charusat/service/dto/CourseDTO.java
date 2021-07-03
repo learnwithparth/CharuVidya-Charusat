@@ -62,11 +62,11 @@ public class CourseDTO {
         this.logo = logo;
     }
 
-    public boolean isDraft() {
+    public boolean getIsDraft() {
         return isDraft;
     }
 
-    public void setDraft(boolean draft) {
+    public void setIsDraft(boolean draft) {
         isDraft = draft;
     }
 

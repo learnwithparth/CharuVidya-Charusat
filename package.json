@@ -80,6 +80,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.35",
     "@fortawesome/free-solid-svg-icons": "5.15.3",
     "@ng-bootstrap/ng-bootstrap": "9.0.2",
+    "angular-bootstrap-md": "^11.1.0",
     "bootstrap": "4.6.0",
     "bootswatch": "4.6.0",
     "dayjs": "1.10.4",

@@ -117,7 +117,8 @@ public class Course implements Serializable {
         this.previewVideourl = courseDTO.getPreviewVideourl();
         this.logo = courseDTO.getLogo();
         this.courseRootDir = null;
-        this.isDraft = courseDTO.isDraft();
+        this.isDraft = courseDTO.getIsDraft();
+        System.out.println(courseDTO.getIsDraft() + " " + this.isDraft);
         this.courseLevel = courseDTO.getCourseLevel();
         this.courseCategory = courseDTO.getCourseCategory();
     }
