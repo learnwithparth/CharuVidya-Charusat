@@ -3,13 +3,15 @@ package com.codehat.charusat.service.dto;
 import com.codehat.charusat.domain.CourseSection;
 
 public class CourseSessionDTO {
+
     String sessionTitle;
     String sessionDescription;
     String sessionVideo;
     String sessionResource;
     Boolean isPreview;
     Boolean isDraft;
-    CourseSection courseSection;
+
+    //CourseSection courseSection;
 
     public String getSessionTitle() {
         return sessionTitle;
@@ -43,27 +45,26 @@ public class CourseSessionDTO {
         this.sessionResource = sessionResource;
     }
 
-    public Boolean getPreview() {
+    public Boolean getIsPreview() {
         return isPreview;
     }
 
-    public void setPreview(Boolean preview) {
+    public void setIsPreview(Boolean preview) {
         isPreview = preview;
     }
 
-    public Boolean getDraft() {
+    public Boolean getIsDraft() {
         return isDraft;
     }
 
-    public void setDraft(Boolean draft) {
+    public void setIsDraft(Boolean draft) {
         isDraft = draft;
     }
+    //    public CourseSection getCourseSection() {
+    //        return courseSection;
+    //    }
 
-    public CourseSection getCourseSection() {
-        return courseSection;
-    }
-
-    public void setCourseSection(CourseSection courseSection) {
-        this.courseSection = courseSection;
-    }
+    //    public void setCourseSection(CourseSection courseSection) {
+    //        this.courseSection = courseSection;
+    //    }
 }

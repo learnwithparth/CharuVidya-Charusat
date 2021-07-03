@@ -44,7 +44,7 @@ export class InstructorUpdateCoursesectionComponent implements OnInit {
           this.previousState();
         },
         () => {
-          window.alert('Error while creating course');
+          window.alert('Error while adding session');
         }
       );
     }

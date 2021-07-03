@@ -13,6 +13,8 @@ import { InstructorCoursesComponent } from 'app/entities/instructor-pages/instru
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
 import { InstructorCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-coursesection.component';
 import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
+import { InstructorCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.component';
+import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-update-course-session.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -91,6 +93,22 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           },
           canActivate: [UserRouteAccessService],
           component: InstructorUpdateCoursesectionComponent,
+        },
+        {
+          path: 'course/:courseId/sections/section/:courseSectionId/sessions',
+          data: {
+            authorities: [Authority.FACULTY],
+          },
+          canActivate: [UserRouteAccessService],
+          component: InstructorCourseSessionComponent,
+        },
+        {
+          path: 'course/:courseId/section/:courseSectionId/add-session',
+          data: {
+            authorities: [Authority.FACULTY],
+          },
+          canActivate: [UserRouteAccessService],
+          component: InstructorUpdateCourseSessionComponent,
         },
         ...LAYOUT_ROUTES,
       ],

@@ -74,17 +74,16 @@ public class CourseSession implements Serializable {
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
     private CourseSection courseSection;
 
-    public CourseSession() {
-    }
+    public CourseSession() {}
 
     public CourseSession(CourseSessionDTO courseSessionDTO) {
         this.sessionTitle = courseSessionDTO.getSessionTitle();
         this.sessionDescription = courseSessionDTO.getSessionDescription();
         this.sessionVideo = courseSessionDTO.getSessionVideo();
         this.sessionResource = courseSessionDTO.getSessionResource();
-        this.isPreview = courseSessionDTO.getPreview();
-        this.isDraft = courseSessionDTO.getDraft();
-        this.courseSection = courseSessionDTO.getCourseSection();
+        this.isPreview = courseSessionDTO.getIsPreview();
+        this.isDraft = courseSessionDTO.getIsDraft();
+        //this.courseSection = courseSessionDTO.getCourseSection();
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -34,28 +34,30 @@ import { UserCourseSubCategoriesComponent } from './entities/user-pages/user-cou
 import { UserCoursesComponent } from './entities/user-pages/user-courses/user-courses.component';
 import { InstructorCoursesComponent } from './entities/instructor-pages/instructor-courses/instructor-courses.component';
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
-import {CardsModule} from "angular-bootstrap-md";
+import { CardsModule } from 'angular-bootstrap-md';
 import { InstructorCoursesectionComponent } from './entities/instructor-pages/instructor-coursesection/instructor-coursesection.component';
 import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
+import { InstructorCourseSessionComponent } from './entities/instructor-pages/instructor-course-session/instructor-course-session.component';
+import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-update-course-session.component';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        SharedModule,
-        HomeModule,
-        // jhipster-needle-angular-add-module JHipster will add new module here
-        EntityRoutingModule,
-        AppRoutingModule,
-        // Set this to true to enable service worker (PWA)
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: false}),
-        HttpClientModule,
-        NgxWebstorageModule.forRoot({prefix: 'jhi', separator: '-'}),
-        MatCardModule,
-        MatToolbarModule,
-        MatButtonModule,
-        FlexLayoutModule,
-        CardsModule,
-    ],
+  imports: [
+    BrowserModule,
+    SharedModule,
+    HomeModule,
+    // jhipster-needle-angular-add-module JHipster will add new module here
+    EntityRoutingModule,
+    AppRoutingModule,
+    // Set this to true to enable service worker (PWA)
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
+    HttpClientModule,
+    NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
+    MatCardModule,
+    MatToolbarModule,
+    MatButtonModule,
+    FlexLayoutModule,
+    CardsModule,
+  ],
   providers: [
     Title,
     { provide: LOCALE_ID, useValue: 'en' },
@@ -75,6 +77,8 @@ import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-
     InstructorUpdateCoursesComponent,
     InstructorCoursesectionComponent,
     InstructorUpdateCoursesectionComponent,
+    InstructorCourseSessionComponent,
+    InstructorUpdateCourseSessionComponent,
   ],
   bootstrap: [MainComponent],
 })
