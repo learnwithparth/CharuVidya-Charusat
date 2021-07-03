@@ -1,7 +1,11 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.CourseSession;
+
+import java.io.IOException;
 import java.util.Optional;
+
+import com.codehat.charusat.service.dto.CourseSessionDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -53,4 +57,10 @@ public interface CourseSessionService {
      * Custom
      * */
     Page<CourseSession> findCourseSessionByCourseSection(Long courseId, Long courseSectionId, Pageable pageable);
+
+    CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException;
+
+    Long getVideoLength(String videoLink) throws IOException;
+
+    CourseSession publish(Long courseId, Long courseSectionId, Long courseSessionId, Boolean value);
 }

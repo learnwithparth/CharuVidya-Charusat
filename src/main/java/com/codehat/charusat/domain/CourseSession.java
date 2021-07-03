@@ -1,5 +1,6 @@
 package com.codehat.charusat.domain;
 
+import com.codehat.charusat.service.dto.CourseSessionDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
@@ -72,6 +73,19 @@ public class CourseSession implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
     private CourseSection courseSection;
+
+    public CourseSession() {
+    }
+
+    public CourseSession(CourseSessionDTO courseSessionDTO) {
+        this.sessionTitle = courseSessionDTO.getSessionTitle();
+        this.sessionDescription = courseSessionDTO.getSessionDescription();
+        this.sessionVideo = courseSessionDTO.getSessionVideo();
+        this.sessionResource = courseSessionDTO.getSessionResource();
+        this.isPreview = courseSessionDTO.getPreview();
+        this.isDraft = courseSessionDTO.getDraft();
+        this.courseSection = courseSessionDTO.getCourseSection();
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

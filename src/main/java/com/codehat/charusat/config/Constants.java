@@ -11,5 +11,7 @@ public final class Constants {
     public static final String SYSTEM = "system";
     public static final String DEFAULT_LANGUAGE = "en";
 
+    public static final String YOUTUBE_API_KEY = "AIzaSyAT_xty2Pny6w75z5IDDo0J25fANx1ZjKw";
+
     private Constants() {}
 }
