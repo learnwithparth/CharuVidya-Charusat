@@ -47,8 +47,7 @@ public class CourseSection implements Serializable {
     @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Course course;
 
-    public CourseSection() {
-    }
+    public CourseSection() {}
 
     public CourseSection(CourseSectionDTO courseSectionDTO) {
         this.sectionTitle = courseSectionDTO.getSectionTitle();

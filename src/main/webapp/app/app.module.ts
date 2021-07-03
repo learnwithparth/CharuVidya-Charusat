@@ -35,6 +35,8 @@ import { UserCoursesComponent } from './entities/user-pages/user-courses/user-co
 import { InstructorCoursesComponent } from './entities/instructor-pages/instructor-courses/instructor-courses.component';
 import { InstructorUpdateCoursesComponent } from 'app/entities/instructor-pages/instructor-courses/instructor-update-courses.component';
 import {CardsModule} from "angular-bootstrap-md";
+import { InstructorCoursesectionComponent } from './entities/instructor-pages/instructor-coursesection/instructor-coursesection.component';
+import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
 
 @NgModule({
     imports: [
@@ -71,6 +73,8 @@ import {CardsModule} from "angular-bootstrap-md";
     UserCoursesComponent,
     InstructorCoursesComponent,
     InstructorUpdateCoursesComponent,
+    InstructorCoursesectionComponent,
+    InstructorUpdateCoursesectionComponent,
   ],
   bootstrap: [MainComponent],
 })

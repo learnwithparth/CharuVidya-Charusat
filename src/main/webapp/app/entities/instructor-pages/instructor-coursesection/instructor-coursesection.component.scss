@@ -1,0 +1,16 @@
+.content {
+  padding: 16px;
+}
+
+.outline {
+  border-style: solid;
+  border-width: thin;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+
+.mat-button {
+  text-align: center;
+}
