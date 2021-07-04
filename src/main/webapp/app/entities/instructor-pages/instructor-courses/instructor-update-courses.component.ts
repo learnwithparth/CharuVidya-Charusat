@@ -69,7 +69,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     delete data.courseParentCategory;
     this.courseService.create(data).subscribe(
       res => {
-        window.alert('Created successfully');
+        window.alert('Course created successfully');
         this.router.navigate(['instructor-courses']);
       },
       () => {
@@ -84,10 +84,10 @@ export class InstructorUpdateCoursesComponent implements OnInit {
       if (courseCategory.isParent) {
         this.courseParentCategoriesSharedCollection.push(courseCategory);
       } else {
-      /**
-       * TODO: try to add else if(!courseCategory.isParent) instead of else.
-       * Error: always truthy value.
-       * */
+        /**
+         * TODO: try to add else if(!courseCategory.isParent) instead of else.
+         * Error: always truthy value.
+         * */
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });

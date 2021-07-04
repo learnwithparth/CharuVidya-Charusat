@@ -39,7 +39,7 @@ export class InstructorUpdateCoursesectionComponent implements OnInit {
     if (this.courseId != null) {
       this.courseSectionService.create(this.courseId, data).subscribe(
         res => {
-          window.alert('Created successfully');
+          window.alert('Section added successfully');
           this.previousState();
         },
         () => {

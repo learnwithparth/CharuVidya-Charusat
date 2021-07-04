@@ -27,32 +27,121 @@
   <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
     <span>No courses found</span>
   </div>
-  <div id="entities" *ngIf="courses && courses.length > 0">
-    <div
-      jhiSort
-      [(predicate)]="predicate"
-      [(ascending)]="ascending"
-      [callback]="loadPage.bind(this)"
-      fxLayout="row wrap"
-      fxLayoutGap="16px grid"
-    >
-      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
+  <!--  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">-->
+  <!--    <div-->
+  <!--      jhiSort-->
+  <!--      [(predicate)]="predicate"-->
+  <!--      [(ascending)]="ascending"-->
+  <!--      [callback]="loadPage.bind(this)"-->
+  <!--      fxLayout="row wrap"-->
+  <!--      fxLayoutGap="16px grid"-->
+  <!--    >-->
+  <!--      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">-->
 
-        <mdb-card>
-          <mdb-card-header>
-            <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
-          </mdb-card-header>
-          <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
-          <mdb-card-body>
-            <a routerLink="/course/{{ course.id }}/sections">
-              <button mat-button class="btn btn-info btn-sm">
-                <fa-icon icon="eye"></fa-icon> &nbsp; VIEW
+  <!--        <mdb-card>-->
+  <!--          <mdb-card-header>-->
+  <!--            <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>-->
+  <!--          </mdb-card-header>-->
+  <!--          &lt;!&ndash;        <img mat-card-image src="./../assets/images/mountains.jpg">&ndash;&gt;-->
+  <!--          <mdb-card-body>-->
+  <!--            <a routerLink="/course/{{ course.id }}/sections">-->
+  <!--              <button mat-button class="btn btn-info btn-sm">-->
+  <!--                <fa-icon icon="eye"></fa-icon> &nbsp; VIEW-->
+  <!--              </button>-->
+  <!--            </a>-->
+  <!--          </mdb-card-body>-->
+  <!--            &lt;!&ndash;          <button mat-button (click)="onEnroll(course)">ENROLL</button>&ndash;&gt;-->
+  <!--        </mdb-card>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <!--        <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <th scope="col" jhiSortBy="courseTitle"><span>Course Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseDescription"><span>Course Description</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseObjectives"><span>Course Objectives</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseSubTitle"><span>Course Sub Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <!--        <th scope="col" jhiSortBy="previewVideourl"><span>Preview Videourl</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="courseLength"><span>Course Length</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="logo"><span>Logo</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="courseCreatedOn"><span>Course Created On</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="courseUpdatedOn"><span>Course Updated On</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="courseRootDir"><span>Course Root Dir</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="isDraft"><span>Is Draft</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="isApproved"><span>Is Approved</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="courseApprovalDate"><span>Course Approval Date</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <th scope="col" jhiSortBy="courseLevel.id"><span>Course Level</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="courseCategory.id"><span>Course Category</span> <fa-icon icon="sort"></fa-icon></th>
+          <!--        <th scope="col" jhiSortBy="user.id"><span>User</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col" jhiSortBy="reviewer.id"><span>Reviewer</span> <fa-icon icon="sort"></fa-icon></th>-->
+          <!--        <th scope="col"></th>-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of courses; trackBy: trackId" data-cy="entityTable">
+          <!--        <td>-->
+          <!--          <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>-->
+          <!--        </td>-->
+          <td>{{ course.courseTitle }}</td>
+          <td>{{ course.courseDescription }}</td>
+          <td>{{ course.courseObjectives }}</td>
+          <td>{{ course.courseSubTitle }}</td>
+          <!--        <td>{{ course.previewVideourl }}</td>-->
+          <!--        <td>{{ course.courseLength }}</td>-->
+          <!--        <td>{{ course.logo }}</td>-->
+          <!--        <td>{{ course.courseCreatedOn | formatMediumDate }}</td>-->
+          <!--        <td>{{ course.courseUpdatedOn | formatMediumDate }}</td>-->
+          <!--        <td>{{ course.courseRootDir }}</td>-->
+          <!--        <td>{{ course.amount }}</td>-->
+          <!--        <td>{{ course.isDraft }}</td>-->
+          <!--        <td>{{ course.isApproved }}</td>-->
+          <!--        <td>{{ course.courseApprovalDate | formatMediumDate }}</td>-->
+          <td>
+            <div *ngIf="course.courseLevel">
+              {{ course.courseLevel?.level }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="course.courseCategory">
+              {{ course.courseCategory?.courseCategoryTitle }}
+            </div>
+          </td>
+          <!--        <td>-->
+          <!--          {{ course.user?.id }}-->
+          <!--        </td>-->
+          <!--        <td>-->
+          <!--          {{ course.reviewer?.id }}-->
+          <!--        </td>-->
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/course', course.id, 'sections']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
               </button>
-            </a>
-          </mdb-card-body>
-            <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->
-        </mdb-card>
-      </div>
-    </div>
+
+              <button type="submit" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(course)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
