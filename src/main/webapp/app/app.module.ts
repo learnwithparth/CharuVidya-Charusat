@@ -16,7 +16,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { EntityRoutingModule } from './entities/entity-routing.module';
-import{YouTubePlayerModule} from "@angular/youtube-player";
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
@@ -42,6 +42,8 @@ import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-
 import { InstructorCourseSessionComponent } from './entities/instructor-pages/instructor-course-session/instructor-course-session.component';
 import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-update-course-session.component';
 import { InstructorSessionViewComponent } from './entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
+import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
+import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
 
 @NgModule({
   imports: [
@@ -60,7 +62,7 @@ import { InstructorSessionViewComponent } from './entities/instructor-pages/inst
     MatButtonModule,
     FlexLayoutModule,
     CardsModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
   ],
   providers: [
     Title,
@@ -77,6 +79,8 @@ import { InstructorSessionViewComponent } from './entities/instructor-pages/inst
     UserCourseCategoryComponent,
     UserCourseSubCategoriesComponent,
     UserCoursesComponent,
+    UserCourseSectionsComponent,
+    UserCourseSessionComponent,
     InstructorCoursesComponent,
     InstructorUpdateCoursesComponent,
     InstructorCoursesectionComponent,

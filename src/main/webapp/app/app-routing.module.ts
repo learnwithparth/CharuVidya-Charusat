@@ -15,7 +15,9 @@ import { InstructorCoursesectionComponent } from 'app/entities/instructor-pages/
 import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
 import { InstructorCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.component';
 import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-update-course-session.component';
-import {InstructorSessionViewComponent} from "app/entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component";
+import { InstructorSessionViewComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
+import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
+import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -88,6 +90,14 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           component: InstructorCoursesectionComponent,
         },
         {
+          path: 'course/:courseId/user/sections',
+          data: {
+            authorities: [Authority.STUDENT],
+          },
+          canActivate: [UserRouteAccessService],
+          component: UserCourseSectionsComponent,
+        },
+        {
           path: 'course/:courseId/section/new',
           data: {
             authorities: [Authority.FACULTY],
@@ -102,6 +112,14 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           },
           canActivate: [UserRouteAccessService],
           component: InstructorCourseSessionComponent,
+        },
+        {
+          path: 'course/:courseId/user/sections/section/:courseSectionId/sessions',
+          data: {
+            authorities: [Authority.STUDENT],
+          },
+          canActivate: [UserRouteAccessService],
+          component: UserCourseSessionComponent,
         },
         {
           path: 'course/:courseId/sections/section/:courseSectionId/sessions/:sessionId',
@@ -119,6 +137,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           canActivate: [UserRouteAccessService],
           component: InstructorUpdateCourseSessionComponent,
         },
+
         ...LAYOUT_ROUTES,
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
