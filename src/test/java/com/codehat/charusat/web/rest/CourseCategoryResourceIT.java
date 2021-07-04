@@ -35,8 +35,8 @@ class CourseCategoryResourceIT {
     private static final String DEFAULT_LOGO = "AAAAAAAAAA";
     private static final String UPDATED_LOGO = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_IS_PARENT = 1;
-    private static final Integer UPDATED_IS_PARENT = 2;
+    private static final Boolean DEFAULT_IS_PARENT = true;
+    private static final Boolean UPDATED_IS_PARENT = false;
 
     private static final Integer DEFAULT_PARENT_ID = 1;
     private static final Integer UPDATED_PARENT_ID = 2;
