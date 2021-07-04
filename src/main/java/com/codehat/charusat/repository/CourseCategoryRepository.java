@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface CourseCategoryRepository extends JpaRepository<CourseCategory, Long> {
     List<CourseCategory> findByIsParent(boolean value);
 
-    @Query(value = "SELECT * from course_category where parent_id = ?1 and is_parent=true", nativeQuery = true)
+    @Query(value = "SELECT * from course_category where parent_id = ?1 and is_parent=false", nativeQuery = true)
     List<CourseCategory> findByParentId(Long id);
 }

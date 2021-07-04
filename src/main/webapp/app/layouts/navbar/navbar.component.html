@@ -19,7 +19,28 @@
   <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+        <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+          </span>
+        </a>
+
+        <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+          </span>
+        </a>
+
+        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+          </span>
+        </a>
+
+        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
             <span>Home</span>
@@ -28,7 +49,7 @@
       </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
       <li
-        *ngSwitchCase="true"
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
         ngbDropdown
         class="nav-item dropdown pointer"
         display="dynamic"
