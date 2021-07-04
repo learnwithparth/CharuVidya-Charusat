@@ -44,9 +44,8 @@ public class Course implements Serializable {
     @Column(name = "course_sub_title", length = 120, nullable = false)
     private String courseSubTitle;
 
-    @NotNull
     @Size(max = 255)
-    @Column(name = "preview_videourl", length = 255, nullable = false)
+    @Column(name = "preview_videourl", length = 255, nullable = true)
     private String previewVideourl;
 
     @Column(name = "course_length")
@@ -105,24 +104,18 @@ public class Course implements Serializable {
     )
     private Set<User> enrolledUsersLists = new HashSet<>();
 
-    public Course(){
+    public Course() {}
 
-    }
-
-    public Course(CourseDTO courseDTO){
+    public Course(CourseDTO courseDTO) {
         this.courseTitle = courseDTO.getCourseTitle();
         this.courseDescription = courseDTO.getCourseDescription();
         this.courseObjectives = courseDTO.getCourseObjectives();
         this.courseSubTitle = courseDTO.getCourseSubTitle();
-        this.previewVideourl = courseDTO.getPreviewVideourl();
         this.logo = courseDTO.getLogo();
         this.courseRootDir = null;
-        this.isDraft = courseDTO.getIsDraft();
-        System.out.println(courseDTO.getIsDraft() + " " + this.isDraft);
         this.courseLevel = courseDTO.getCourseLevel();
         this.courseCategory = courseDTO.getCourseCategory();
     }
-
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

@@ -27,7 +27,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="preview_videourl" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="course_length" type="integer">
                 <constraints nullable="true" />

@@ -31,9 +31,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     courseDescription: [null, [Validators.required, Validators.maxLength(255)]],
     courseObjectives: [null, [Validators.maxLength(255)]],
     courseSubTitle: [null, [Validators.required, Validators.maxLength(120)]],
-    previewVideourl: [null, [Validators.required, Validators.maxLength(255)]],
     logo: [null, [Validators.required, Validators.maxLength(255)]],
-    isDraft: [null, [Validators.required]],
     courseLevel: [],
     courseParentCategory: [],
     courseCategory: [],
@@ -83,9 +81,9 @@ export class InstructorUpdateCoursesComponent implements OnInit {
   categorize(courseCategories: ICourseCategory[]): void {
     courseCategories.forEach(courseCategory => {
       this.courseCategories.push(courseCategory);
-      if (courseCategory.isParent === 1) {
+      if (courseCategory.isParent) {
         this.courseParentCategoriesSharedCollection.push(courseCategory);
-      } else if (courseCategory.isParent === 0) {
+      } else if (!courseCategory.isParent) {
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });
@@ -95,7 +93,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     const parentId = this.editForm.get('courseParentCategory')?.value.id;
     this.courseSubCategoriesSharedCollection.length = 0;
     this.courseCategories.forEach(courseCategory => {
-      if (courseCategory.parentId === parentId && courseCategory.isParent !== 1) {
+      if (courseCategory.parentId === parentId && !courseCategory.isParent) {
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });
