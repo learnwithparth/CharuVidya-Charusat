@@ -16,7 +16,6 @@ export class InstructorUpdateCoursesectionComponent implements OnInit {
     id: [null, [Validators.required]],
     sectionTitle: [null, [Validators.required, Validators.maxLength(255)]],
     sectionDescription: [null, [Validators.maxLength(255)]],
-    isDraft: [null, [Validators.required]],
   });
 
   constructor(

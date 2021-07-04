@@ -83,7 +83,11 @@ export class InstructorUpdateCoursesComponent implements OnInit {
       this.courseCategories.push(courseCategory);
       if (courseCategory.isParent) {
         this.courseParentCategoriesSharedCollection.push(courseCategory);
-      } else if (!courseCategory.isParent) {
+      } else {
+      /**
+       * TODO: try to add else if(!courseCategory.isParent) instead of else.
+       * Error: always truthy value.
+       * */
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });
