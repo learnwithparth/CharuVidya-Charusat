@@ -111,11 +111,12 @@ public class CourseSectionServiceImpl implements CourseSectionService {
             } else if (user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
                 return courseSectionRepository.findCourseSectionByCourse_User_IdAndCourse_Id(user.get().getId(), courseId, pageable);
             } else if (user.get().getAuthorities().toString().contains("ROLE_STUDENT")) {
-                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(
-                    courseId,
-                    user.get(),
-                    pageable
-                );
+                //                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(
+                //                    courseId,
+                //                    user.get(),
+                //                    pageable
+                //                );
+                return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
             } else {
                 return null;
             }
