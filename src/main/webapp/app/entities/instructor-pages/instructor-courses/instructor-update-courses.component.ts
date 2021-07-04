@@ -12,6 +12,7 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
 import { IUser } from 'app/entities/user/user.model';
 import { CourseLevelService } from 'app/entities/course-level/service/course-level.service';
 import { CourseCategoryService } from 'app/entities/course-category/service/course-category.service';
+import { type } from 'os';
 
 @Component({
   selector: 'jhi-instructor-update-courses',
@@ -20,7 +21,9 @@ import { CourseCategoryService } from 'app/entities/course-category/service/cour
 export class InstructorUpdateCoursesComponent implements OnInit {
   courses?: ICourse[] | null;
   courseLevelsSharedCollection: ICourseLevel[] = [];
-  courseCategoriesSharedCollection: ICourseCategory[] = [];
+  courseCategories: ICourseCategory[] = [];
+  courseParentCategoriesSharedCollection: ICourseCategory[] = [];
+  courseSubCategoriesSharedCollection: ICourseCategory[] = [];
 
   editForm = this.fb.group({
     id: [null, [Validators.required]],
@@ -32,6 +35,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     logo: [null, [Validators.required, Validators.maxLength(255)]],
     isDraft: [null, [Validators.required]],
     courseLevel: [],
+    courseParentCategory: [],
     courseCategory: [],
   });
 
@@ -64,6 +68,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
   }
 
   save(data: any): void {
+    delete data.courseParentCategory;
     this.courseService.create(data).subscribe(
       res => {
         window.alert('Created successfully');
@@ -74,6 +79,28 @@ export class InstructorUpdateCoursesComponent implements OnInit {
       }
     );
   }
+
+  categorize(courseCategories: ICourseCategory[]): void {
+    courseCategories.forEach(courseCategory => {
+      this.courseCategories.push(courseCategory);
+      if (courseCategory.isParent === 1) {
+        this.courseParentCategoriesSharedCollection.push(courseCategory);
+      } else if (courseCategory.isParent === 0) {
+        this.courseSubCategoriesSharedCollection.push(courseCategory);
+      }
+    });
+  }
+
+  onChange(): void {
+    const parentId = this.editForm.get('courseParentCategory')?.value.id;
+    this.courseSubCategoriesSharedCollection.length = 0;
+    this.courseCategories.forEach(courseCategory => {
+      if (courseCategory.parentId === parentId && courseCategory.isParent !== 1) {
+        this.courseSubCategoriesSharedCollection.push(courseCategory);
+      }
+    });
+  }
+
   protected loadRelationshipsOptions(): void {
     this.courseLevelService
       .query()
@@ -93,6 +120,6 @@ export class InstructorUpdateCoursesComponent implements OnInit {
           this.courseCategoryService.addCourseCategoryToCollectionIfMissing(courseCategories, this.editForm.get('courseCategory')!.value)
         )
       )
-      .subscribe((courseCategories: ICourseCategory[]) => (this.courseCategoriesSharedCollection = courseCategories));
+      .subscribe((courseCategories: ICourseCategory[]) => this.categorize(courseCategories));
   }
 }

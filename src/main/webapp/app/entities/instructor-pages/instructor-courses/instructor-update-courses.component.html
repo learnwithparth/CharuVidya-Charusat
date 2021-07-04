@@ -160,7 +160,31 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_courseCategory">Course Category</label>
+          <label class="form-control-label" for="field_courseParentCategory">Course Category</label>
+          <select
+            class="form-control"
+            id="field_courseParentCategory"
+            data-cy="courseParentCategory"
+            name="courseParentCategory"
+            formControlName="courseParentCategory"
+            (change)="onChange()"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                courseCategoryOption.id === editForm.get('courseParentCategory')!.value?.id
+                  ? editForm.get('courseParentCategory')!.value
+                  : courseCategoryOption
+              "
+              *ngFor="let courseCategoryOption of courseParentCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+            >
+              {{ courseCategoryOption.courseCategoryTitle }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseCategory">Course Sub Category</label>
           <select
             class="form-control"
             id="field_courseCategory"
@@ -171,11 +195,11 @@
             <option [ngValue]="null"></option>
             <option
               [ngValue]="
-                courseCategoryOption.id === editForm.get('courseCategory')!.value?.id
+                courseCategoryOption.parentId === editForm.get('courseCategory')!.value?.id
                   ? editForm.get('courseCategory')!.value
                   : courseCategoryOption
               "
-              *ngFor="let courseCategoryOption of courseCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+              *ngFor="let courseCategoryOption of courseSubCategoriesSharedCollection; trackBy: trackCourseCategoryById"
             >
               {{ courseCategoryOption.courseCategoryTitle }}
             </option>
