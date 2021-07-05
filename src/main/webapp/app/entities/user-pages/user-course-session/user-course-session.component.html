@@ -1,0 +1,52 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseSessionHeading">
+    <span>Course Sessions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courseSessions?.length === 0">
+    <span>No sessions added</span>
+  </div>
+  <hr />
+  <div class="container">
+    <div class="content">
+      <h4>
+        <b>{{ selectedSession.sessionTitle }}</b>
+      </h4>
+      <youtube-player videoId="{{ selectedSession.sessionVideo }}" suggestedQuality="highres" [height]="400" [width]="950">
+      </youtube-player>
+      <hr />
+      <h4><b>Description</b></h4>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>
+      <h4><b>Resource</b></h4>
+      <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ selectedSession.sessionResource }}" target="_blank">{{ selectedSession.sessionResource }}</a>
+      </p>
+    </div>
+    <div [ngClass]="courseSessions && courseSessions.length > 10 ? 'side' : ''">
+      <br /><br />
+      <div class="table-responsive" id="entities" *ngIf="courseSessions && courseSessions.length > 0">
+        <table class="table" aria-describedby="page-heading">
+          <tbody>
+            <tr *ngFor="let courseSession of courseSessions; trackBy: trackId" data-cy="entityTable">
+              <td (click)="changeVideo(courseSession)" [ngClass]="selectedSession.id == courseSession.id ? 'selectedRow' : ''">
+                <a>{{ courseSession.sessionTitle }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

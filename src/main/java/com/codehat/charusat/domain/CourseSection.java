@@ -1,5 +1,6 @@
 package com.codehat.charusat.domain;
 
+import com.codehat.charusat.service.dto.CourseSectionDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -45,6 +46,13 @@ public class CourseSection implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Course course;
+
+    public CourseSection() {}
+
+    public CourseSection(CourseSectionDTO courseSectionDTO) {
+        this.sectionTitle = courseSectionDTO.getSectionTitle();
+        this.sectionDescription = courseSectionDTO.getSectionDescription();
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

@@ -30,9 +30,9 @@ public class CourseCategory implements Serializable {
     @Column(name = "logo", length = 255, nullable = false)
     private String logo;
 
-    @NotNull
     @Column(name = "is_parent", nullable = false)
-    private Integer isParent;
+    @NotNull
+    private Boolean isParent;
 
     @NotNull
     @Column(name = "parent_id", nullable = false)
@@ -78,16 +78,16 @@ public class CourseCategory implements Serializable {
         this.logo = logo;
     }
 
-    public Integer getIsParent() {
+    public Boolean getIsParent() {
         return this.isParent;
     }
 
-    public CourseCategory isParent(Integer isParent) {
+    public CourseCategory isParent(Boolean isParent) {
         this.isParent = isParent;
         return this;
     }
 
-    public void setIsParent(Integer isParent) {
+    public void setIsParent(Boolean isParent) {
         this.isParent = isParent;
     }
 

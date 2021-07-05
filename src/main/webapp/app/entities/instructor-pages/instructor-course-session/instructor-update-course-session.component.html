@@ -1,0 +1,132 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form #userInput="ngForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
+      <h2 id="jhi-course-session-heading" data-cy="CourseSessionCreateUpdateHeading">Create or edit a Course Session</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('id')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('id')?.errors?.number"> This field should be a number. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_sessionTitle">Session Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sessionTitle"
+            id="field_sessionTitle"
+            data-cy="sessionTitle"
+            formControlName="sessionTitle"
+          />
+          <div
+            *ngIf="editForm.get('sessionTitle')!.invalid && (editForm.get('sessionTitle')!.dirty || editForm.get('sessionTitle')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionTitle')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionTitle')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_sessionDescription">Session Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sessionDescription"
+            id="field_sessionDescription"
+            data-cy="sessionDescription"
+            formControlName="sessionDescription"
+          />
+          <div
+            *ngIf="
+              editForm.get('sessionDescription')!.invalid &&
+              (editForm.get('sessionDescription')!.dirty || editForm.get('sessionDescription')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionDescription')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_sessionVideo">Provide Youtube video URL.</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sessionVideo"
+            id="field_sessionVideo"
+            data-cy="sessionVideo"
+            (change)="videoUrlInput($event)"
+          />
+          <div
+            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">
+              This field cannot be longer than 300 characters.
+            </small>
+          </div>
+        </div>
+        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">
+          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_sessionResource">Session Resource</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sessionResource"
+            id="field_sessionResource"
+            data-cy="sessionResource"
+            formControlName="sessionResource"
+          />
+          <div
+            *ngIf="
+              editForm.get('sessionResource')!.invalid &&
+              (editForm.get('sessionResource')!.dirty || editForm.get('sessionResource')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sessionResource')?.errors?.maxlength">
+              This field cannot be longer than 300 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_isPreview">Is Preview</label>
+          <input type="checkbox" class="form-check" name="isPreview" id="field_isPreview" data-cy="isPreview" formControlName="isPreview" />
+          <div *ngIf="editForm.get('isPreview')!.invalid && (editForm.get('isPreview')!.dirty || editForm.get('isPreview')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('isPreview')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_isDraft">Is Draft</label>
+          <input type="checkbox" class="form-check" name="isDraft" id="field_isDraft" data-cy="isDraft" formControlName="isDraft" />
+          <div *ngIf="editForm.get('isDraft')!.invalid && (editForm.get('isDraft')!.dirty || editForm.get('isDraft')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('isDraft')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -19,7 +19,8 @@ import { CourseSectionService } from 'app/entities/course-section/service/course
 })
 export class CourseSessionUpdateComponent implements OnInit {
   isSaving = false;
-
+  urlValue="";
+  videoPreview=false;
   courseSectionsSharedCollection: ICourseSection[] = [];
 
   editForm = this.fb.group({
@@ -75,7 +76,20 @@ export class CourseSessionUpdateComponent implements OnInit {
   trackCourseSectionById(index: number, item: ICourseSection): number {
     return item.id!;
   }
-
+  videoUrlInput(val:any):void{
+    const url=val.target.value;
+    if(url.includes('v=')){
+      const indexOfV=(url.indexOf("v=") as number)+2;
+      let indexOfEnd;
+      if(url.includes('&')){
+        indexOfEnd=url.indexOf('&');
+      }else{
+        indexOfEnd=url.length;
+      }
+      this.urlValue=url.substring(indexOfV,indexOfEnd).trim();
+      (this.editForm.get('sessionVideo') as FormControl).setValue(this.urlValue);
+    }
+  }
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICourseSession>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),

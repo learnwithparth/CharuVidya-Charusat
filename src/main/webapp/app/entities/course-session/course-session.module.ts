@@ -6,9 +6,10 @@ import { CourseSessionDetailComponent } from './detail/course-session-detail.com
 import { CourseSessionUpdateComponent } from './update/course-session-update.component';
 import { CourseSessionDeleteDialogComponent } from './delete/course-session-delete-dialog.component';
 import { CourseSessionRoutingModule } from './route/course-session-routing.module';
+import{YouTubePlayerModule} from "@angular/youtube-player";
 
 @NgModule({
-  imports: [SharedModule, CourseSessionRoutingModule],
+  imports: [SharedModule, CourseSessionRoutingModule,YouTubePlayerModule],
   declarations: [CourseSessionComponent, CourseSessionDetailComponent, CourseSessionUpdateComponent, CourseSessionDeleteDialogComponent],
   entryComponents: [CourseSessionDeleteDialogComponent],
 })

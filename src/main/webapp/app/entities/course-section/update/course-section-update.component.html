@@ -6,7 +6,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_id">Id</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_sectionOrder">Section Order</label>
           <input
             type="number"
@@ -85,7 +85,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_isApproved">Is Approved</label>
           <input
             type="checkbox"
@@ -100,7 +100,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_course">Course</label>
           <select class="form-control" id="field_course" data-cy="course" name="course" formControlName="course">
             <option [ngValue]="null"></option>
@@ -119,13 +119,7 @@
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
       </div>

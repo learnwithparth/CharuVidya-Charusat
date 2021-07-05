@@ -2,7 +2,7 @@ export interface ICourseCategory {
   id?: number;
   courseCategoryTitle?: string;
   logo?: string;
-  isParent?: number;
+  isParent?: boolean;
   parentId?: number;
 }
 
@@ -11,7 +11,7 @@ export class CourseCategory implements ICourseCategory {
     public id?: number,
     public courseCategoryTitle?: string,
     public logo?: string,
-    public isParent?: number,
+    public isParent?: boolean,
     public parentId?: number
   ) {}
 }

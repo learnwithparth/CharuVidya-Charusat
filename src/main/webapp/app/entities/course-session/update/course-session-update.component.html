@@ -6,7 +6,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_id">Id</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
@@ -65,7 +65,7 @@
             name="sessionVideo"
             id="field_sessionVideo"
             data-cy="sessionVideo"
-            formControlName="sessionVideo"
+            (change)="videoUrlInput($event)"
           />
           <div
             *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"
@@ -77,7 +77,10 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">
+          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>
+        </div>
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_sessionDuration">Session Duration</label>
           <div class="d-flex">
             <input
@@ -103,7 +106,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_sessionOrder">Session Order</label>
           <input
             type="number"
@@ -145,7 +148,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_sessionLocation">Session Location</label>
           <input
             type="text"
@@ -184,7 +187,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_isApproved">Is Approved</label>
           <input
             type="checkbox"
@@ -199,7 +202,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_isPublished">Is Published</label>
           <input
             type="checkbox"
@@ -214,7 +217,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseSection">Course Section</label>
           <select
             class="form-control"
@@ -237,19 +240,13 @@
           </select>
         </div>
       </div>
-
+      {{ urlValue }}
       <div>
         <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
       </div>

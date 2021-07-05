@@ -58,14 +58,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
             /**
              * Loading the landing page according to role.
              * */
-            if(this.accountService.hasAnyAuthority('ROLE_STUDENT')) {
+            if (this.accountService.hasAnyAuthority('ROLE_STUDENT')) {
               this.router.navigate(['categories']);
             }
-            if(this.accountService.hasAnyAuthority('ROLE_ADMIN')){
+            if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
               this.router.navigate(['']);
             }
-            if(this.accountService.hasAnyAuthority("ROLE_FACULTY")){
-              this.router.navigate(['']);
+            if (this.accountService.hasAnyAuthority('ROLE_FACULTY')) {
+              this.router.navigate(['instructor-courses']);
             }
             /** * * * * * * * * * * * * * * * * * * * * * * * * * */
           }

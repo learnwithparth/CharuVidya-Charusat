@@ -1,0 +1,221 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form #userInput="ngForm" name="editForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
+      <h2 id="jhi-course-heading" data-cy="CourseCreateUpdateHeading">Create or edit a Course</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('id')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('id')?.errors?.number"> This field should be a number. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseTitle">Course Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="courseTitle"
+            id="field_courseTitle"
+            data-cy="courseTitle"
+            formControlName="courseTitle"
+          />
+          <div *ngIf="editForm.get('courseTitle')!.invalid && (editForm.get('courseTitle')!.dirty || editForm.get('courseTitle')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('courseTitle')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('courseTitle')?.errors?.maxlength">
+              This field cannot be longer than 600 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseDescription">Course Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="courseDescription"
+            id="field_courseDescription"
+            data-cy="courseDescription"
+            formControlName="courseDescription"
+          />
+          <div
+            *ngIf="
+              editForm.get('courseDescription')!.invalid &&
+              (editForm.get('courseDescription')!.dirty || editForm.get('courseDescription')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('courseDescription')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('courseDescription')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseObjectives">Course Objectives</label>
+          <input
+            type="text"
+            class="form-control"
+            name="courseObjectives"
+            id="field_courseObjectives"
+            data-cy="courseObjectives"
+            formControlName="courseObjectives"
+          />
+          <div
+            *ngIf="
+              editForm.get('courseObjectives')!.invalid &&
+              (editForm.get('courseObjectives')!.dirty || editForm.get('courseObjectives')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('courseObjectives')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseSubTitle">Course Sub Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="courseSubTitle"
+            id="field_courseSubTitle"
+            data-cy="courseSubTitle"
+            formControlName="courseSubTitle"
+          />
+          <div
+            *ngIf="
+              editForm.get('courseSubTitle')!.invalid && (editForm.get('courseSubTitle')!.dirty || editForm.get('courseSubTitle')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('courseSubTitle')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('courseSubTitle')?.errors?.maxlength">
+              This field cannot be longer than 120 characters.
+            </small>
+          </div>
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_previewVideourl">Preview Videourl</label>-->
+        <!--          <input-->
+        <!--            type="text"-->
+        <!--            class="form-control"-->
+        <!--            name="previewVideourl"-->
+        <!--            id="field_previewVideourl"-->
+        <!--            data-cy="previewVideourl"-->
+        <!--            formControlName="previewVideourl"-->
+        <!--          />-->
+        <!--          <div-->
+        <!--            *ngIf="-->
+        <!--              editForm.get('previewVideourl')!.invalid &&-->
+        <!--              (editForm.get('previewVideourl')!.dirty || editForm.get('previewVideourl')!.touched)-->
+        <!--            "-->
+        <!--          >-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.required"> This field is required. </small>-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.maxlength">-->
+        <!--              This field cannot be longer than 255 characters.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_logo">Logo</label>
+          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />
+          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_isDraft">Is Draft</label>-->
+        <!--          <input type="checkbox" class="form-check" name="isDraft" id="field_isDraft" data-cy="isDraft" formControlName="isDraft" />-->
+        <!--          <div *ngIf="editForm.get('isDraft')!.invalid && (editForm.get('isDraft')!.dirty || editForm.get('isDraft')!.touched)">-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('isDraft')?.errors?.required"> This field is required. </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseLevel">Course Level</label>
+          <select class="form-control" id="field_courseLevel" data-cy="courseLevel" name="courseLevel" formControlName="courseLevel">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                courseLevelOption.id === editForm.get('courseLevel')!.value?.id ? editForm.get('courseLevel')!.value : courseLevelOption
+              "
+              *ngFor="let courseLevelOption of courseLevelsSharedCollection; trackBy: trackCourseLevelById"
+            >
+              {{ courseLevelOption.level }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseParentCategory">Course Category</label>
+          <select
+            class="form-control"
+            id="field_courseParentCategory"
+            data-cy="courseParentCategory"
+            name="courseParentCategory"
+            formControlName="courseParentCategory"
+            (change)="onChange()"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                courseCategoryOption.id === editForm.get('courseParentCategory')!.value?.id
+                  ? editForm.get('courseParentCategory')!.value
+                  : courseCategoryOption
+              "
+              *ngFor="let courseCategoryOption of courseParentCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+            >
+              {{ courseCategoryOption.courseCategoryTitle }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseCategory">Course Sub Category</label>
+          <select
+            class="form-control"
+            id="field_courseCategory"
+            data-cy="courseCategory"
+            name="courseCategory"
+            formControlName="courseCategory"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                courseCategoryOption.parentId === editForm.get('courseCategory')!.value?.id
+                  ? editForm.get('courseCategory')!.value
+                  : courseCategoryOption
+              "
+              *ngFor="let courseCategoryOption of courseSubCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+            >
+              {{ courseCategoryOption.courseCategoryTitle }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

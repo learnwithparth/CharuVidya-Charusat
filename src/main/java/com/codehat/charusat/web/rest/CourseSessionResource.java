@@ -1,9 +1,14 @@
 package com.codehat.charusat.web.rest;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseSessionService;
+import com.codehat.charusat.service.dto.CourseSectionDTO;
+import com.codehat.charusat.service.dto.CourseSessionDTO;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -179,5 +184,60 @@ public class CourseSessionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * CUSTOM
+     * */
+    @GetMapping("course/{courseId}/course-section/{courseSectionId}/course-sessions")
+    public ResponseEntity<List<CourseSession>> getAllCourseSessionByCourse(
+        @PathVariable Long courseId,
+        @PathVariable Long courseSectionId,
+        Pageable pageable
+    ){
+        log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
+        Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseId, courseSectionId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @GetMapping("course/{courseId}/course-section/{courseSectionId}/course-sessions/{sessionId}")
+    public ResponseEntity<List<CourseSession>> getCourseSessionByCourse(
+        @PathVariable Long courseId,
+        @PathVariable Long courseSectionId,
+        @PathVariable Long sessionId,
+        Pageable pageable
+    ){
+        log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
+        Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseId, courseSectionId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session")
+    public ResponseEntity<CourseSession> createCourseSession(
+        @RequestBody CourseSessionDTO courseSessionDTO,
+        @PathVariable Long courseId,
+        @PathVariable Long courseSectionId
+    ) throws URISyntaxException, IOException {
+        log.debug("REST request to save CourseSession : {}", courseSessionDTO);
+        CourseSession result = courseSessionService.save(courseId, courseSectionId, courseSessionDTO);
+        return ResponseEntity
+            .created(new URI("/api/course-sessions/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session/{courseSessionId}/publish")
+    public ResponseEntity<CourseSession> publishCourseSession(
+        @PathVariable Long courseId,
+        @PathVariable Long courseSectionId,
+        @PathVariable Long courseSessionId,
+        @RequestParam Boolean value
+    ) throws URISyntaxException {
+        log.debug("REST request to publish CourseSession : {}", courseSessionId);
+        CourseSession result = courseSessionService.publish(courseId, courseSectionId, courseSessionId, value);
+        return ResponseEntity
+            .created(new URI("/api/course-sessions/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 }

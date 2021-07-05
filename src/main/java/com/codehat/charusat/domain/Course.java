@@ -1,5 +1,6 @@
 package com.codehat.charusat.domain;
 
+import com.codehat.charusat.service.dto.CourseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  */
 @Entity
 @Table(name = "course")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,9 +44,8 @@ public class Course implements Serializable {
     @Column(name = "course_sub_title", length = 120, nullable = false)
     private String courseSubTitle;
 
-    @NotNull
     @Size(max = 255)
-    @Column(name = "preview_videourl", length = 255, nullable = false)
+    @Column(name = "preview_videourl", length = 255, nullable = true)
     private String previewVideourl;
 
     @Column(name = "course_length")
@@ -103,6 +103,19 @@ public class Course implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "enrolled_users_list_id")
     )
     private Set<User> enrolledUsersLists = new HashSet<>();
+
+    public Course() {}
+
+    public Course(CourseDTO courseDTO) {
+        this.courseTitle = courseDTO.getCourseTitle();
+        this.courseDescription = courseDTO.getCourseDescription();
+        this.courseObjectives = courseDTO.getCourseObjectives();
+        this.courseSubTitle = courseDTO.getCourseSubTitle();
+        this.logo = courseDTO.getLogo();
+        this.courseRootDir = null;
+        this.courseLevel = courseDTO.getCourseLevel();
+        this.courseCategory = courseDTO.getCourseCategory();
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

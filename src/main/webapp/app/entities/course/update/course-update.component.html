@@ -6,7 +6,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_id">Id</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
@@ -102,7 +102,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_previewVideourl">Preview Videourl</label>
           <input
             type="text"
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseLength">Course Length</label>
           <input
             type="number"
@@ -148,7 +148,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseCreatedOn">Course Created On</label>
           <div class="input-group">
             <input
@@ -177,7 +177,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseUpdatedOn">Course Updated On</label>
           <div class="input-group">
             <input
@@ -206,7 +206,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseRootDir">Course Root Dir</label>
           <input
             type="text"
@@ -227,7 +227,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
         </div>
@@ -240,7 +240,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_isApproved">Is Approved</label>
           <input
             type="checkbox"
@@ -255,7 +255,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_courseApprovalDate">Course Approval Date</label>
           <div class="input-group">
             <input
@@ -314,7 +314,7 @@
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
             <option [ngValue]="null"></option>
@@ -327,7 +327,7 @@
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_reviewer">Reviewer</label>
           <select class="form-control" id="field_reviewer" data-cy="reviewer" name="reviewer" formControlName="reviewer">
             <option [ngValue]="null"></option>
@@ -346,13 +346,7 @@
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
       </div>

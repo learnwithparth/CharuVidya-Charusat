@@ -1,7 +1,10 @@
 package com.codehat.charusat.service;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import java.util.Optional;
+
+import com.codehat.charusat.service.dto.CourseSectionDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -47,4 +50,13 @@ public interface CourseSectionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+
+    /**
+    * CUSTOM:
+     * Get the CourseSection based on course.
+    * */
+    Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable);
+
+    CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO);
 }

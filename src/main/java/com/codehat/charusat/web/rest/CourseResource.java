@@ -4,6 +4,7 @@ import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseService;
+import com.codehat.charusat.service.dto.CourseDTO;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -207,4 +208,18 @@ public class CourseResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    /**
+     * CUSTOM
+     * */
+    @PostMapping("/instructor-course")
+    public ResponseEntity<Course> createCourseInstructor(@Valid @RequestBody CourseDTO courseDTO) throws URISyntaxException {
+        log.debug("REST request to save Course : {}", courseDTO);
+        Course result = courseService.save(courseDTO);
+        return ResponseEntity
+            .created(new URI("/api/courses/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
 }

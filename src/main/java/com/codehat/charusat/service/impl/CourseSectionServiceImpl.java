@@ -1,9 +1,15 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
+import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.service.dto.CourseSectionDTO;
+import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,8 +28,18 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     private final CourseSectionRepository courseSectionRepository;
 
-    public CourseSectionServiceImpl(CourseSectionRepository courseSectionRepository) {
+    private final UserService userService;
+
+    private final CourseServiceImpl courseService;
+
+    public CourseSectionServiceImpl(
+        CourseSectionRepository courseSectionRepository,
+        UserService userService,
+        CourseServiceImpl courseService
+    ) {
         this.courseSectionRepository = courseSectionRepository;
+        this.userService = userService;
+        this.courseService = courseService;
     }
 
     @Override
@@ -80,5 +96,48 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     public void delete(Long id) {
         log.debug("Request to delete CourseSection : {}", id);
         courseSectionRepository.deleteById(id);
+    }
+
+    /**
+     * CUSTOM
+     * */
+    @Override
+    public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) {
+        log.debug("Request to get CourseSection by CourseId : {}", courseId);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
+                return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
+            } else if (user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
+                return courseSectionRepository.findCourseSectionByCourse_User_IdAndCourse_Id(user.get().getId(), courseId, pageable);
+            } else if (user.get().getAuthorities().toString().contains("ROLE_STUDENT")) {
+                //                return courseSectionRepository.findCourseSectionByCourse_IdAndCourseEnrolledUsersListsContaining(
+                //                    courseId,
+                //                    user.get(),
+                //                    pageable
+                //                );
+                return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO) {
+        Optional<Course> course = courseService.findOne(courseId);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (course.isPresent() && course.get().getUser().equals(user.get())) {
+            CourseSection courseSection = new CourseSection(courseSectionDTO);
+            courseSection.course(course.get());
+            courseSection.isDraft(false);
+            courseSection.sectionOrder(courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1);
+            courseSection.isApproved(false);
+            return courseSectionRepository.save(courseSection);
+        } else {
+            return null;
+        }
     }
 }
