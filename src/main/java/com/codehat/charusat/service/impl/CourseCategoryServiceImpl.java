@@ -86,7 +86,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     public List<CourseCategory> listParentCategory() {
         log.debug("Request to list parent categories ");
         List<CourseCategory> list;
-        list = courseCategoryRepository.findByIsParent(1);
+        list = courseCategoryRepository.findByIsParent(true);
         return list;
     }
 

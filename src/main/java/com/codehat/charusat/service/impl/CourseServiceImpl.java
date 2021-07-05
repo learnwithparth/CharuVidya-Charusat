@@ -5,6 +5,8 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
+import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +14,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.codehat.charusat.service.UserService;
-import com.codehat.charusat.service.dto.CourseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,10 +36,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
 
-    public CourseServiceImpl(
-        CourseRepository courseRepository,
-        UserService userService
-    ) {
+    public CourseServiceImpl(CourseRepository courseRepository, UserService userService) {
         this.courseRepository = courseRepository;
         this.userService = userService;
     }
@@ -146,23 +142,19 @@ public class CourseServiceImpl implements CourseService {
          * Get different courses according to the role of the user.
          * */
         Optional<User> user = userService.getUserWithAuthorities();
-        if(user.isPresent()){
+        if (user.isPresent()) {
             String authority = user.get().getAuthorities().toString();
-            if(authority.contains(AuthoritiesConstants.ADMIN)){
+            if (authority.contains(AuthoritiesConstants.ADMIN)) {
                 return courseRepository.findAll(pageable);
-            } else if(authority.contains(AuthoritiesConstants.FACULTY)){
-                return courseRepository
-                    .findCourseByUserEqualsOrEnrolledUsersListsContaining(
-                        user.get(),
-                        user.get(),
-                        pageable
-                    );
-            } else if(authority.contains(AuthoritiesConstants.STUDENT)){
-                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
-            } else{
+            } else if (authority.contains(AuthoritiesConstants.FACULTY)) {
+                return courseRepository.findCourseByUserEqualsOrEnrolledUsersListsContaining(user.get(), user.get(), pageable);
+            } else if (authority.contains(AuthoritiesConstants.STUDENT)) {
+                //                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
+                return courseRepository.findAll(pageable);
+            } else {
                 return null;
             }
-        } else{
+        } else {
             return null;
         }
     }
@@ -179,7 +171,6 @@ public class CourseServiceImpl implements CourseService {
         log.debug("Request to delete Course : {}", id);
         courseRepository.deleteById(id);
     }
-
 
     /**
      * CUSTOM
@@ -198,7 +189,7 @@ public class CourseServiceImpl implements CourseService {
                 .map(
                     existingCourse -> {
                         Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();
-                        if(userService.getUserWithAuthorities().isPresent()) {
+                        if (userService.getUserWithAuthorities().isPresent()) {
                             alreadyEnrolledUsers.add(userService.getUserWithAuthorities().get());
                         }
                         return existingCourse;
@@ -206,7 +197,7 @@ public class CourseServiceImpl implements CourseService {
                 )
                 .map(courseRepository::save);
             return ResponseEntity.accepted().build();
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
     }
@@ -220,9 +211,10 @@ public class CourseServiceImpl implements CourseService {
          * */
         Course course = new Course(courseDTO);
         course.setCourseCreatedOn(LocalDate.now());
-        course.setIsApproved(false);
-        course.setAmount(0.0);
         course.setCourseUpdatedOn(LocalDate.now());
+        course.setIsApproved(true);
+        course.setIsDraft(false);
+        course.setAmount(0.0);
         course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

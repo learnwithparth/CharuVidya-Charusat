@@ -31,7 +31,7 @@ export class InstructorCourseSessionService {
     });
   }
 
-  find(id: number): Observable<EntityResponseType> {
+  find(id: string): Observable<EntityResponseType> {
     return this.http.get<ICourseSession>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 

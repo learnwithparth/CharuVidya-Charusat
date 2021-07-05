@@ -44,18 +44,18 @@
       <tbody>
         <tr *ngFor="let courseSession of courseSessions; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/course-session', courseSession.id, 'view']">{{ courseSession.sessionOrder }}</a>
+            <a [routerLink]="[courseSession.id]">{{ courseSession.sessionOrder }}</a>
           </td>
           <td>{{ courseSession.sessionTitle }}</td>
           <td>{{ courseSession.sessionDescription }}</td>
-          <td>{{ courseSession.sessionDuration | formatMediumDatetime }}</td>
+          <td>{{ courseSession.sessionDuration}}</td>
           <td>{{ courseSession.isPreview }}</td>
           <td>{{ courseSession.isPublished }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/course-session', courseSession.id, 'view']"
+                [routerLink]="[courseSession.id]"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >

@@ -102,28 +102,28 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_previewVideourl">Preview Videourl</label>
-          <input
-            type="text"
-            class="form-control"
-            name="previewVideourl"
-            id="field_previewVideourl"
-            data-cy="previewVideourl"
-            formControlName="previewVideourl"
-          />
-          <div
-            *ngIf="
-              editForm.get('previewVideourl')!.invalid &&
-              (editForm.get('previewVideourl')!.dirty || editForm.get('previewVideourl')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.maxlength">
-              This field cannot be longer than 255 characters.
-            </small>
-          </div>
-        </div>
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_previewVideourl">Preview Videourl</label>-->
+        <!--          <input-->
+        <!--            type="text"-->
+        <!--            class="form-control"-->
+        <!--            name="previewVideourl"-->
+        <!--            id="field_previewVideourl"-->
+        <!--            data-cy="previewVideourl"-->
+        <!--            formControlName="previewVideourl"-->
+        <!--          />-->
+        <!--          <div-->
+        <!--            *ngIf="-->
+        <!--              editForm.get('previewVideourl')!.invalid &&-->
+        <!--              (editForm.get('previewVideourl')!.dirty || editForm.get('previewVideourl')!.touched)-->
+        <!--            "-->
+        <!--          >-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.required"> This field is required. </small>-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('previewVideourl')?.errors?.maxlength">-->
+        <!--              This field cannot be longer than 255 characters.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
         <div class="form-group">
           <label class="form-control-label" for="field_logo">Logo</label>
@@ -136,13 +136,13 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_isDraft">Is Draft</label>
-          <input type="checkbox" class="form-check" name="isDraft" id="field_isDraft" data-cy="isDraft" formControlName="isDraft" />
-          <div *ngIf="editForm.get('isDraft')!.invalid && (editForm.get('isDraft')!.dirty || editForm.get('isDraft')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('isDraft')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_isDraft">Is Draft</label>-->
+        <!--          <input type="checkbox" class="form-check" name="isDraft" id="field_isDraft" data-cy="isDraft" formControlName="isDraft" />-->
+        <!--          <div *ngIf="editForm.get('isDraft')!.invalid && (editForm.get('isDraft')!.dirty || editForm.get('isDraft')!.touched)">-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('isDraft')?.errors?.required"> This field is required. </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
         <div class="form-group">
           <label class="form-control-label" for="field_courseLevel">Course Level</label>
@@ -160,7 +160,31 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_courseCategory">Course Category</label>
+          <label class="form-control-label" for="field_courseParentCategory">Course Category</label>
+          <select
+            class="form-control"
+            id="field_courseParentCategory"
+            data-cy="courseParentCategory"
+            name="courseParentCategory"
+            formControlName="courseParentCategory"
+            (change)="onChange()"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                courseCategoryOption.id === editForm.get('courseParentCategory')!.value?.id
+                  ? editForm.get('courseParentCategory')!.value
+                  : courseCategoryOption
+              "
+              *ngFor="let courseCategoryOption of courseParentCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+            >
+              {{ courseCategoryOption.courseCategoryTitle }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseCategory">Course Sub Category</label>
           <select
             class="form-control"
             id="field_courseCategory"
@@ -171,11 +195,11 @@
             <option [ngValue]="null"></option>
             <option
               [ngValue]="
-                courseCategoryOption.id === editForm.get('courseCategory')!.value?.id
+                courseCategoryOption.parentId === editForm.get('courseCategory')!.value?.id
                   ? editForm.get('courseCategory')!.value
                   : courseCategoryOption
               "
-              *ngFor="let courseCategoryOption of courseCategoriesSharedCollection; trackBy: trackCourseCategoryById"
+              *ngFor="let courseCategoryOption of courseSubCategoriesSharedCollection; trackBy: trackCourseCategoryById"
             >
               {{ courseCategoryOption.courseCategoryTitle }}
             </option>

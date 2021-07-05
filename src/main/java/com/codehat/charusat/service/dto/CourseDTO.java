@@ -4,13 +4,12 @@ import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.domain.CourseLevel;
 
 public class CourseDTO {
+
     String courseTitle;
     String courseDescription;
     String courseObjectives;
     String courseSubTitle;
-    String previewVideourl;
     String logo;
-    boolean isDraft;
     CourseLevel courseLevel;
     CourseCategory courseCategory;
 
@@ -46,28 +45,12 @@ public class CourseDTO {
         this.courseSubTitle = courseSubTitle;
     }
 
-    public String getPreviewVideourl() {
-        return previewVideourl;
-    }
-
-    public void setPreviewVideourl(String previewVideourl) {
-        this.previewVideourl = previewVideourl;
-    }
-
     public String getLogo() {
         return logo;
     }
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public boolean getIsDraft() {
-        return isDraft;
-    }
-
-    public void setIsDraft(boolean draft) {
-        isDraft = draft;
     }
 
     public CourseLevel getCourseLevel() {

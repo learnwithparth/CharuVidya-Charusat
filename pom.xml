@@ -318,11 +318,7 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.codehat.charusat</groupId>
-            <artifactId>codehat-charusat</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
 

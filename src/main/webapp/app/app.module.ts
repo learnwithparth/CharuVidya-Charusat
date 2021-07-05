@@ -16,6 +16,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { EntityRoutingModule } from './entities/entity-routing.module';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
 import { fontAwesomeIcons } from './config/font-awesome-icons';
@@ -39,6 +41,9 @@ import { InstructorCoursesectionComponent } from './entities/instructor-pages/in
 import { InstructorUpdateCoursesectionComponent } from 'app/entities/instructor-pages/instructor-coursesection/instructor-update-coursesection.component';
 import { InstructorCourseSessionComponent } from './entities/instructor-pages/instructor-course-session/instructor-course-session.component';
 import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-update-course-session.component';
+import { InstructorSessionViewComponent } from './entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
+import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
+import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
 
 @NgModule({
   imports: [
@@ -57,6 +62,7 @@ import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-
     MatButtonModule,
     FlexLayoutModule,
     CardsModule,
+    YouTubePlayerModule,
   ],
   providers: [
     Title,
@@ -73,12 +79,15 @@ import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-
     UserCourseCategoryComponent,
     UserCourseSubCategoriesComponent,
     UserCoursesComponent,
+    UserCourseSectionsComponent,
+    UserCourseSessionComponent,
     InstructorCoursesComponent,
     InstructorUpdateCoursesComponent,
     InstructorCoursesectionComponent,
     InstructorUpdateCoursesectionComponent,
     InstructorCourseSessionComponent,
     InstructorUpdateCourseSessionComponent,
+    InstructorSessionViewComponent,
   ],
   bootstrap: [MainComponent],
 })

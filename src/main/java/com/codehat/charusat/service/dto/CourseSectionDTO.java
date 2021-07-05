@@ -6,7 +6,6 @@ public class CourseSectionDTO {
 
     String sectionTitle;
     String sectionDescription;
-    Boolean isDraft;
 
     public String getSectionTitle() {
         return sectionTitle;
@@ -22,13 +21,5 @@ public class CourseSectionDTO {
 
     public void setSectionDescription(String sectionDescription) {
         this.sectionDescription = sectionDescription;
-    }
-
-    public Boolean getIsDraft() {
-        return isDraft;
-    }
-
-    public void setIsDraft(Boolean draft) {
-        isDraft = draft;
     }
 }

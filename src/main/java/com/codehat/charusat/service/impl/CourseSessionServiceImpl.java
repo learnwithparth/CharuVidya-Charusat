@@ -139,12 +139,27 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
             if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
-                return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                Optional<Course> course = courseService.findOne(courseId);
+                if (course.isPresent()) {
+                    Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
+                    if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
+                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
             } else if (user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
                 Optional<Course> course = courseService.findOne(courseId);
                 if (course.isPresent()) {
                     if (course.get().getUser().getId().equals(user.get().getId())) {
-                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                        Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
+                        if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
+                            return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                        } else {
+                            return null;
+                        }
                     } else {
                         return null;
                     }
@@ -154,7 +169,13 @@ public class CourseSessionServiceImpl implements CourseSessionService {
             } else if (user.get().getAuthorities().toString().contains("ROLE_STUDENT")) {
                 Optional<Course> course = courseService.findOne(courseId);
                 if (course.isPresent()) {
-                    if (course.get().getEnrolledUsersLists().contains(user.get())) {
+                    /*if (course.get().getEnrolledUsersLists().contains(user.get())) {
+                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                    } else {
+                        return null;
+                    }*/
+                    Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
+                    if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
                         return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
                     } else {
                         return null;
@@ -187,6 +208,12 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     courseSession.setSessionDuration(Instant.now());
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);
+                    if (courseSessionDTO.getIsDraft() == null) {
+                        courseSession.setIsDraft(false);
+                    }
+                    if (courseSessionDTO.getIsPreview() == null) {
+                        courseSession.setIsPreview(false);
+                    }
                     courseSession.sessionOrder(courseSessionRepository.findAllByCourseSection_Id(courseSectionId).size() + 1);
                     String videoId = null;
                     if (courseSession.getSessionVideo().contains("https://www.youtube.com/watch?v=")) {
