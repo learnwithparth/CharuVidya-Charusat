@@ -61,6 +61,12 @@ export class InstructorCoursesectionComponent implements OnInit {
     }
   }
 
+  onClickBack(): void {
+    if (this.courseId) {
+      this.router.navigate([`/instructor-courses`]);
+    }
+  }
+
   private loadSections(): void {
     if (this.courseId !== null) {
       this.courseSectionService.query(this.courseId).subscribe(res => {

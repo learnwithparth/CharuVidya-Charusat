@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
-import {FormBuilder, Validators} from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, Validators } from '@angular/forms';
 
-import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE} from 'app/config/error.constants';
-import {RegisterService} from './register.service';
-import {Authority} from "app/config/authority.constants";
+import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
+import { RegisterService } from './register.service';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-register',
@@ -14,7 +14,7 @@ export class RegisterComponent implements AfterViewInit {
   @ViewChild('login', { static: false })
   login?: ElementRef;
 
-  authorities: Authority[] = [Authority.STUDENT,Authority.FACULTY];
+  authorities: Authority[] = [Authority.STUDENT, Authority.FACULTY];
   doNotMatch = false;
   error = false;
   errorEmailExists = false;
@@ -50,14 +50,13 @@ export class RegisterComponent implements AfterViewInit {
     this.error = false;
     this.errorEmailExists = false;
     this.errorUserExists = false;
-
     const password = this.registerForm.get(['password'])!.value;
     if (password !== this.registerForm.get(['confirmPassword'])!.value) {
       this.doNotMatch = true;
     } else {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
-      const authorities = this.registerForm.get(['authorities'])!.value;
+      const authorities = [this.registerForm.get(['authorities'])!.value];
       this.registerService.save({ login, email, password, langKey: 'en', authorities }).subscribe(
         () => (this.success = true),
         response => this.processError(response)

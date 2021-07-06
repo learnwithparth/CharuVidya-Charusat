@@ -73,4 +73,10 @@ export class InstructorCourseSessionComponent implements OnInit {
       this.router.navigate([`course/${this.courseId}/section/${this.courseSectionId}/add-session`]);
     }
   }
+
+  onClickBack(): void {
+    if (this.courseId && this.courseSectionId) {
+      this.router.navigate([`/course/${this.courseId}/sections`]);
+    }
+  }
 }
