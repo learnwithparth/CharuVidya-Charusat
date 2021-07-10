@@ -231,4 +231,16 @@ public class CourseResource {
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
+
+    /**
+     * TODO: change the name of the endpoint if necessary
+     * Get all the courses based on filter.
+     **/
+    @GetMapping("/admin-courses")
+    public ResponseEntity<List<Course>> getAllCourses(@RequestParam String filter, Pageable pageable) {
+        log.debug("REST request to get all the courses based on filter : {}", filter);
+        Page<Course> page = courseService.findAllCoursesByFilter(filter, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

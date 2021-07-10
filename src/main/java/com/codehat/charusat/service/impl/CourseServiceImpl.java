@@ -251,4 +251,25 @@ public class CourseServiceImpl implements CourseService {
             return null;
         }
     }
+
+    @Override
+    public Page<Course> findAllCoursesByFilter(String filter, Pageable pageable) {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            String authority = user.get().getAuthorities().toString();
+            if (authority.contains(AuthoritiesConstants.ADMIN)) {
+                if (filter.contains("not-approved")) {
+                    return courseRepository.findAllByIsApproved(false, pageable);
+                } else if (filter.contains("approved")) {
+                    return courseRepository.findAllByIsApproved(true, pageable);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 }

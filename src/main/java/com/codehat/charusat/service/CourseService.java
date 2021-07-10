@@ -70,4 +70,6 @@ public interface CourseService {
     Course save(CourseDTO courseDTO);
 
     Course approveCourse(Long courseId);
+
+    Page<Course> findAllCoursesByFilter(String filter, Pageable pageable);
 }
