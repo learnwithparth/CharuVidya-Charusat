@@ -1,12 +1,11 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.Course;
-import java.util.List;
-import java.util.Optional;
-
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.service.dto.CourseDTO;
 import io.swagger.models.Response;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +53,6 @@ public interface CourseService {
      */
     void delete(Long id);
 
-
     /**
      * CUSTOM
      * */
@@ -71,4 +69,5 @@ public interface CourseService {
      */
     Course save(CourseDTO courseDTO);
 
+    Course approveCourse(Long courseId);
 }
