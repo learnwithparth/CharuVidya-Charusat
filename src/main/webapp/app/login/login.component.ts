@@ -13,12 +13,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   username?: ElementRef;
 
   authenticationError = false;
+  errorMessage: string | undefined;
 
   loginForm = this.fb.group({
     username: [null, [Validators.required]],
     password: [null, [Validators.required]],
     rememberMe: [false],
   });
+  invalidLogin = false;
 
   constructor(
     private accountService: AccountService,
@@ -70,7 +72,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
             /** * * * * * * * * * * * * * * * * * * * * * * * * * */
           }
         },
-        () => (this.authenticationError = true)
+        error => this.changeValues(error.error.title)
       );
+  }
+
+  private changeValues(error: string): void {
+    if (error === 'Incorrect login') {
+      this.invalidLogin = true;
+      this.authenticationError = false;
+    } else {
+      this.invalidLogin = false;
+      this.authenticationError = true;
+    }
   }
 }
