@@ -2,6 +2,7 @@ package com.codehat.charusat.web.rest;
 
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
+import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.service.CourseSectionService;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
@@ -9,6 +10,7 @@ import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -184,10 +186,8 @@ public class CourseSectionResource {
     }
 
     @PostMapping("/course/{courseId}/course-sections")
-    public ResponseEntity<CourseSection> createCourseSection(
-        @PathVariable Long courseId,
-        @RequestBody CourseSectionDTO courseSectionDTO
-    ) throws URISyntaxException {
+    public ResponseEntity<CourseSection> createCourseSection(@PathVariable Long courseId, @RequestBody CourseSectionDTO courseSectionDTO)
+        throws URISyntaxException {
         log.debug("REST request to save CourseSection : {}", courseSectionDTO);
         CourseSection result = courseSectionService.save(courseId, courseSectionDTO);
         return ResponseEntity
@@ -203,13 +203,18 @@ public class CourseSectionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the courseSection, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/course/{courseId}/course-sections")
-    public ResponseEntity<List<CourseSection>> getAllCourseSectionByCourse(
-        @PathVariable Long courseId,
-        Pageable pageable
-        ){
+    public ResponseEntity<List<CourseSection>> getAllCourseSectionByCourse(@PathVariable Long courseId, Pageable pageable) {
         log.debug("REST request to get Course-Section based on CourseId: {}", courseId);
         Page<CourseSection> page = courseSectionService.findCourseSectionByCourse(courseId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * TODO: Change the url of endpoint if this does not feel appropriate.
+     * */
+    @GetMapping("/course/{courseId}/course-sections-sessions")
+    public ResponseEntity<Map<CourseSection, List<CourseSession>>> getAllCourseSectionWithCourseSessions(@PathVariable Long courseId) {
+        return courseSectionService.findAllCourseSectionAndSessionByCourse(courseId);
     }
 }

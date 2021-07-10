@@ -2,11 +2,14 @@ package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
-import java.util.Optional;
-
+import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Service Interface for managing {@link CourseSection}.
@@ -51,12 +54,13 @@ public interface CourseSectionService {
      */
     void delete(Long id);
 
-
     /**
-    * CUSTOM:
+     * CUSTOM:
      * Get the CourseSection based on course.
-    * */
+     * */
     Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable);
 
     CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO);
+
+    ResponseEntity<Map<CourseSection, List<CourseSession>>> findAllCourseSectionAndSessionByCourse(Long courseId);
 }
