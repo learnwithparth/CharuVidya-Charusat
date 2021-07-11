@@ -16,6 +16,9 @@ import { CourseDeleteDialogComponent } from '../delete/course-delete-dialog.comp
 })
 export class CourseComponent implements OnInit {
   courses?: ICourse[];
+  coursesToBeDisplayed: ICourse[] = [];
+  approvedCourses: ICourse[] = [];
+  unApprovedCourses: ICourse[] = [];
   isLoading = false;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -45,6 +48,7 @@ export class CourseComponent implements OnInit {
         (res: HttpResponse<ICourse[]>) => {
           this.isLoading = false;
           this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
+          this.bifurcate(res.body);
         },
         () => {
           this.isLoading = false;
@@ -70,6 +74,29 @@ export class CourseComponent implements OnInit {
         this.loadPage();
       }
     });
+  }
+
+  approvedList(): void {
+    this.coursesToBeDisplayed = this.approvedCourses;
+  }
+
+  unApprovedList(): void {
+    this.coursesToBeDisplayed = this.unApprovedCourses;
+  }
+
+  allList(): void {
+    this.coursesToBeDisplayed = this.courses!;
+  }
+
+  onFilter(event: any): void {
+    const filter = event.target.value;
+    if (filter === 'approved') {
+      this.coursesToBeDisplayed = this.approvedCourses;
+    } else if (filter === 'unApproved') {
+      this.coursesToBeDisplayed = this.unApprovedCourses;
+    } else if (filter === 'all') {
+      this.coursesToBeDisplayed = this.courses!;
+    }
   }
 
   protected sort(): string[] {
@@ -108,10 +135,23 @@ export class CourseComponent implements OnInit {
       });
     }
     this.courses = data ?? [];
+    this.coursesToBeDisplayed = this.courses;
     this.ngbPaginationPage = this.page;
   }
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  private bifurcate(courses: ICourse[] | null): void {
+    this.approvedCourses.length = 0;
+    this.unApprovedCourses.length = 0;
+    courses?.forEach(course => {
+      if (course.isApproved) {
+        this.approvedCourses.push(course);
+      } else {
+        this.unApprovedCourses.push(course);
+      }
+    });
   }
 }

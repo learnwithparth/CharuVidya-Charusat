@@ -17,6 +17,12 @@
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Course </span>
       </button>
+
+      <select class="dropdown" (change)="onFilter($event)">
+        <option value="all" class="dropdown-item">All</option>
+        <option value="approved" class="dropdown-item">Approved</option>
+        <option value="unApproved" class="dropdown-item">Not Approved</option>
+      </select>
     </div>
   </h2>
 
@@ -32,30 +38,87 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-          <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseTitle"><span>Course Title</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseDescription"><span>Course Description</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseObjectives"><span>Course Objectives</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseSubTitle"><span>Course Sub Title</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="previewVideourl"><span>Preview Videourl</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseLength"><span>Course Length</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="logo"><span>Logo</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseCreatedOn"><span>Course Created On</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseUpdatedOn"><span>Course Updated On</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseRootDir"><span>Course Root Dir</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="isDraft"><span>Is Draft</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="isApproved"><span>Is Approved</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseApprovalDate"><span>Course Approval Date</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseLevel.id"><span>Course Level</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseCategory.id"><span>Course Category</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="user.id"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="reviewer.id"><span>Reviewer</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id">
+            <span>Id</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseTitle">
+            <span>Course Title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseDescription">
+            <span>Course Description</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseObjectives">
+            <span>Course Objectives</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseSubTitle">
+            <span>Course Sub Title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="previewVideourl">
+            <span>Preview Videourl</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseLength">
+            <span>Course Length</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="logo">
+            <span>Logo</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseCreatedOn">
+            <span>Course Created On</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseUpdatedOn">
+            <span>Course Updated On</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseRootDir">
+            <span>Course Root Dir</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="amount">
+            <span>Amount</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="isDraft">
+            <span>Is Draft</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="isApproved">
+            <span>Is Approved</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseApprovalDate">
+            <span>Course Approval Date</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseLevel.id">
+            <span>Course Level</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseCategory.id">
+            <span>Course Category</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="user.id">
+            <span>User</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="reviewer.id">
+            <span>Reviewer</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let course of courses; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let course of coursesToBeDisplayed; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>
           </td>
