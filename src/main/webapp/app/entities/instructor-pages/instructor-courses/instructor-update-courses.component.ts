@@ -12,7 +12,7 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
 import { IUser } from 'app/entities/user/user.model';
 import { CourseLevelService } from 'app/entities/course-level/service/course-level.service';
 import { CourseCategoryService } from 'app/entities/course-category/service/course-category.service';
-import { type } from 'os';
+import { UploadFilesService } from 'app/entities/instructor-pages/services/upload-files.service';
 
 @Component({
   selector: 'jhi-instructor-update-courses',
@@ -36,6 +36,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     courseParentCategory: [],
     courseCategory: [],
   });
+  selectedFiles!: File;
 
   constructor(
     protected courseService: InstructorCoursesService,
@@ -44,7 +45,8 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: NgbModal,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected uploadService: UploadFilesService
   ) {}
 
   ngOnInit(): void {
@@ -101,6 +103,18 @@ export class InstructorUpdateCoursesComponent implements OnInit {
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });
+  }
+
+  upload(): void {
+    const file = this.selectedFiles;
+    const ans = this.uploadService.uploadFile(file);
+  }
+
+  selectFile(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files !== null) {
+      this.selectedFiles = target.files[0];
+    }
   }
 
   protected loadRelationshipsOptions(): void {
