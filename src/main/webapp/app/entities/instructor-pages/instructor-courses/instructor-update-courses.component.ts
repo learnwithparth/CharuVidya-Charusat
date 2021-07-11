@@ -67,8 +67,11 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     return item.id!;
   }
 
-  save(data: any): void {
+  async save(data: any): Promise<void> {
     delete data.courseParentCategory;
+    const file = this.selectedFiles;
+    const ans = await this.uploadService.uploadFile(file);
+    data.logo = ans;
     this.courseService.create(data).subscribe(
       res => {
         window.alert('Course created successfully');
@@ -105,10 +108,11 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     });
   }
 
-  upload(): void {
-    const file = this.selectedFiles;
-    const ans = this.uploadService.uploadFile(file);
-  }
+  // async upload(): Promise<void> {
+  //   const file = this.selectedFiles;
+  //   const ans = await this.uploadService.uploadFile(file);
+  //   //window.alert(ans);
+  // }
 
   selectFile(event: Event): void {
     const target = event.target as HTMLInputElement;

@@ -6,7 +6,7 @@ import * as S3 from 'aws-sdk/clients/s3';
   providedIn: 'root',
 })
 export class UploadFilesService {
-  uploadFile(file: File | null): string {
+  async uploadFile(file: File | null): Promise<string> {
     let fileName = '';
 
     if (file !== null) {
@@ -25,15 +25,22 @@ export class UploadFilesService {
         ContentType: contentType,
       };
 
-      bucket.upload(params, function (err: any, data: any) {
-        if (err) {
-          window.alert('There was an error uploading your file: ');
-          fileName = '';
-          return false;
-        }
-        window.alert('Successfully uploaded file.');
-        return true;
-      });
+      try {
+        const res = await bucket.upload(params).promise();
+        fileName = res.Location;
+      } catch (e) {
+        window.alert(e.message);
+      }
+
+      //  await bucket.upload(params, function (err: any, data: any) {
+      //   if (err) {
+      //     window.alert('There was an error uploading your file: ');
+      //     fileName = '';
+      //     return false;
+      //   }
+      //   window.alert('Successfully uploaded file.');
+      //   return true;
+      // });
 
       //for upload progress
       // bucket.upload(params).on('httpUploadProgress', function (evt) {

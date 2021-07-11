@@ -127,6 +127,7 @@
 
         <div class="form-group">
           <label class="form-control-label">Logo</label>
+          <br />
           <!--          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />-->
           <!--          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">-->
           <!--            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>-->
@@ -135,7 +136,7 @@
           <!--            </small>-->
           <!--          </div>-->
           <input type="file" accept="image/* " (change)="selectFile($event)" />
-          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+          <!--          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>-->
         </div>
 
         <!--        <div class="form-group">-->
