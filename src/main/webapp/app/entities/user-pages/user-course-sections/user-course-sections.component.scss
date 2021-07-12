@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+}
+
+.side {
+  flex: 2;
+  overflow-y: scroll;
+  //height: 250px;
+}
+
+.mid {
+  flex: 2;
+}
+
+.content {
+  flex: 8;
+  //overflow: scroll;
+}

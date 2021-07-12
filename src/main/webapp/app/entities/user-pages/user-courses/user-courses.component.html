@@ -6,7 +6,7 @@
         <mdb-card-header>
           <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
         </mdb-card-header>
-        <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
+        <img mat-card-image src="{{ course.logo }}" />
         <mdb-card-body>
           <a routerLink="/course/{{ course.id }}/user/sections">
             <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
