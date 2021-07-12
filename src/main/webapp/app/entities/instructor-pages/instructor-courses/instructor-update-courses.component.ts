@@ -12,7 +12,7 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
 import { IUser } from 'app/entities/user/user.model';
 import { CourseLevelService } from 'app/entities/course-level/service/course-level.service';
 import { CourseCategoryService } from 'app/entities/course-category/service/course-category.service';
-import { type } from 'os';
+import { UploadFilesService } from 'app/entities/instructor-pages/services/upload-files.service';
 
 @Component({
   selector: 'jhi-instructor-update-courses',
@@ -36,6 +36,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     courseParentCategory: [],
     courseCategory: [],
   });
+  selectedFiles!: File;
 
   constructor(
     protected courseService: InstructorCoursesService,
@@ -44,7 +45,8 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: NgbModal,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected uploadService: UploadFilesService
   ) {}
 
   ngOnInit(): void {
@@ -65,8 +67,11 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     return item.id!;
   }
 
-  save(data: any): void {
+  async save(data: any): Promise<void> {
     delete data.courseParentCategory;
+    const file = this.selectedFiles;
+    const ans = await this.uploadService.uploadFile(file);
+    data.logo = ans;
     this.courseService.create(data).subscribe(
       res => {
         window.alert('Course created successfully');
@@ -101,6 +106,19 @@ export class InstructorUpdateCoursesComponent implements OnInit {
         this.courseSubCategoriesSharedCollection.push(courseCategory);
       }
     });
+  }
+
+  // async upload(): Promise<void> {
+  //   const file = this.selectedFiles;
+  //   const ans = await this.uploadService.uploadFile(file);
+  //   //window.alert(ans);
+  // }
+
+  selectFile(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files !== null) {
+      this.selectedFiles = target.files[0];
+    }
   }
 
   protected loadRelationshipsOptions(): void {
