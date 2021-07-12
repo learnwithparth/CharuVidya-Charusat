@@ -2,18 +2,20 @@ package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
+import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
+import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseSectionService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import javax.swing.text.html.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +34,18 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     private final CourseServiceImpl courseService;
 
+    private final CourseSessionRepository courseSessionRepository;
+
     public CourseSectionServiceImpl(
         CourseSectionRepository courseSectionRepository,
         UserService userService,
-        CourseServiceImpl courseService
+        CourseServiceImpl courseService,
+        CourseSessionRepository courseSessionRepository
     ) {
         this.courseSectionRepository = courseSectionRepository;
         this.userService = userService;
         this.courseService = courseService;
+        this.courseSessionRepository = courseSessionRepository;
     }
 
     @Override
@@ -136,6 +142,28 @@ public class CourseSectionServiceImpl implements CourseSectionService {
             courseSection.sectionOrder(courseSectionRepository.findCourseSectionByCourse_Id(courseId).size() + 1);
             courseSection.isApproved(false);
             return courseSectionRepository.save(courseSection);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public ResponseEntity<Map<CourseSection, List<CourseSession>>> findAllCourseSectionAndSessionByCourse(Long courseId) {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            Optional<Course> course = courseService.findOne(courseId);
+            if (course.isPresent()) {
+                Map<CourseSection, List<CourseSession>> map = new HashMap<>();
+                List<CourseSection> courseSections = courseSectionRepository.findCourseSectionByCourse_Id(courseId);
+                List<CourseSession> courseSessions;
+                for (CourseSection courseSection : courseSections) {
+                    courseSessions = courseSessionRepository.findAllByCourseSection_Id(courseSection.getId());
+                    map.put(courseSection, courseSessions);
+                }
+                return ResponseEntity.ok(map);
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

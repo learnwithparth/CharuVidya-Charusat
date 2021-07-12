@@ -5,6 +5,9 @@
       <div class="alert alert-danger" *ngIf="authenticationError" data-cy="loginError">
         <strong>Failed to sign in!</strong> Please check your credentials and try again.
       </div>
+      <div class="alert alert-danger" *ngIf="invalidLogin" data-cy="loginError">
+        <strong>Failed to sign in!</strong> User is not registered.
+      </div>
       <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="form-group">
           <label class="username-label" for="username">Login</label>

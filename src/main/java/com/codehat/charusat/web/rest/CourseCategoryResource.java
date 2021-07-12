@@ -168,7 +168,6 @@ public class CourseCategoryResource {
 
     @GetMapping("course-category/parent-categories")
     public ResponseEntity<List<CourseCategory>> getParentCourseCategories() {
-        System.out.println("in controller getParentCourse");
         log.debug("REST request ot get course category by isParent");
         List<CourseCategory> list = courseCategoryService.listParentCategory();
         return ResponseEntity.ok().body(list);

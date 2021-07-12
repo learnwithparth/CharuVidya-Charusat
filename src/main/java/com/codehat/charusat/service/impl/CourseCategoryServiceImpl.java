@@ -1,10 +1,8 @@
 package com.codehat.charusat.service.impl;
 
-import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.repository.CourseCategoryRepository;
 import com.codehat.charusat.service.CourseCategoryService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -86,7 +84,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     public List<CourseCategory> listParentCategory() {
         log.debug("Request to list parent categories ");
         List<CourseCategory> list;
-        list = courseCategoryRepository.findByIsParent(true);
+        list = courseCategoryRepository.findParentCategory();
         return list;
     }
 

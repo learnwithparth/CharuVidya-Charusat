@@ -204,7 +204,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                 if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
                     CourseSession courseSession = new CourseSession(courseSessionDTO);
                     courseSession.setCourseSection(courseSection.get());
-                    courseSession.isApproved(false);
+                    courseSession.isApproved(true);
                     courseSession.setSessionDuration(Instant.now());
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);

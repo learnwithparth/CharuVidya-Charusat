@@ -17,39 +17,97 @@
   <div class="alert alert-warning" id="no-result" *ngIf="courseSections?.length === 0">
     <span>No course sections found</span>
   </div>
-
-  <div id="entities" *ngIf="courseSections && courseSections.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [callback]="loadPage.bind(this)">
-          <th scope="col"><span>Section Order</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col"><span>Section Title</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col"><span>Section Description</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let courseSection of courseSections; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['section', courseSection.id, 'sessions']">{{ courseSection.sectionOrder }}</a>
-          </td>
-          <td>{{ courseSection.sectionTitle }}</td>
-          <td>{{ courseSection.sectionDescription }}</td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['section', courseSection.id, 'sessions']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+</div>
+<!--<div>-->
+<!--  <div class="alert alert-warning" id="no-result" *ngIf="sectionsSessions?.size === 0">-->
+<!--    <span>No Sections added</span>-->
+<!--  </div>-->
+<!--  <hr />-->
+<!--  <div class="container">-->
+<!--    <div class="content">-->
+<!--      <h4>-->
+<!--        <b>{{ selectedSection.sectionTitle }} | {{ selectedSession.sessionTitle}}</b>-->
+<!--      </h4>-->
+<!--      <youtube-player videoId="{{ selectedSession.sessionVideo }}" suggestedQuality="highres" [height]="400" [width]="900">-->
+<!--      </youtube-player>-->
+<!--      <hr />-->
+<!--      <h4><b>Description</b></h4>-->
+<!--      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>-->
+<!--      <h4><b>Resource</b></h4>-->
+<!--      <p>-->
+<!--        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--        <a href="{{ selectedSession.sessionResource }}" target="_blank">{{ selectedSession.sessionResource }}</a>-->
+<!--      </p>-->
+<!--    </div>-->
+<!--    <div class="ml-3">-->
+<!--      <br><br>-->
+<!--      <div class="accordion" id="accordionExample">-->
+<!--        <div class="card" *ngFor="let fruit of sectionsSessions.entries()">-->
+<!--          <div class="card-header" id="headingOne">-->
+<!--            <h2 class="mb-0">-->
+<!--              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleOne(fruit[0])">-->
+<!--                {{fruit[0].sectionTitle}}-->
+<!--              </button>-->
+<!--            </h2>-->
+<!--          </div>-->
+<!--          <div id="collapseOne" class="collapse show" *ngIf="selectedSection.id==fruit[0].id">-->
+<!--            <div class="card-body">-->
+<!--              <ul class="list-group">-->
+<!--                <li class="list-group-item" (click)="displayVideo(session)" *ngFor="let session of fruit[1]"><a>{{session.sessionTitle}}</a></li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div>
+  <div class="alert alert-warning" id="no-result" *ngIf="sectionsSessions?.size === 0">
+    <span>No Sections added</span>
+  </div>
+  <hr />
+  <div class="container" *ngIf="sectionsSessions !== null && sectionsSessions.size > 0">
+    <div class="content">
+      <h4>
+        <b>{{ selectedSection.sectionTitle }} | {{ selectedSession.sessionTitle }}</b>
+      </h4>
+      <vg-player *ngIf="selectedSession !== null" style="height: 400px; width: 900px">
+        <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls crossorigin>
+          <source src="{{ selectedSession.sessionVideo }}" type="video/mp4" />
+        </video>
+      </vg-player>
+      <hr />
+      <h4><b>Description</b></h4>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>
+      <h4><b>Resource</b></h4>
+      <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ selectedSession.sessionResource }}" target="_blank">{{ selectedSession.sessionResource }}</a>
+      </p>
+    </div>
+    <div class="ml-3">
+      <br /><br />
+      <div class="accordion" id="accordionExample">
+        <div class="card" *ngFor="let fruit of sectionsSessions.entries()">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleOne(fruit[0])">
+                {{ fruit[0].sectionTitle }}
               </button>
+            </h2>
+          </div>
+          <div id="collapseOne" class="collapse show" *ngIf="selectedSection.id == fruit[0].id">
+            <div class="card-body">
+              <ul class="list-group">
+                <li class="list-group-item" (click)="displayVideo(session)" *ngFor="let session of fruit[1]">
+                  <a>{{ session.sessionTitle }}</a>
+                </li>
+              </ul>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICourseSection, getCourseSectionIdentifier } from '../../course-section/course-section.model';
+import { ICourseSession } from 'app/entities/course-session/course-session.model';
 
 export type EntityResponseType = HttpResponse<ICourseSection>;
 export type EntityArrayResponseType = HttpResponse<ICourseSection[]>;
@@ -63,5 +64,15 @@ export class InstructorCourseSectionService {
       return [...courseSectionsToAdd, ...courseSectionCollection];
     }
     return courseSectionCollection;
+  }
+
+  getAllSectionsAndSessions(classId: string | null): Observable<HttpResponse<Map<ICourseSection, ICourseSession[]>>> {
+    // if(classId!=null) {
+    // let result:Map<ICourseSection,ICourseSession[]>=new Map();
+    return this.http.get<Map<ICourseSection, ICourseSession[]>>('api/course/' + (classId as string) + '/course-sections-sessions', {
+      observe: 'response',
+    });
+    // }
+    // return null;
   }
 }

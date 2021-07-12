@@ -175,7 +175,7 @@ public class CourseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
      */
     @PostMapping("/courses/enroll")
-    public ResponseEntity enrollInCourse(@RequestBody Course course){
+    public ResponseEntity enrollInCourse(@RequestBody Course course) {
         log.debug("REST request to enroll in Course : {}", course);
         return courseService.enrollInCourse(course);
     }
@@ -222,4 +222,25 @@ public class CourseResource {
             .body(result);
     }
 
+    @PostMapping("/course/{courseId}/approve")
+    public ResponseEntity<Course> approveCourse(@PathVariable Long courseId) throws URISyntaxException {
+        log.debug("REST request to approve CourseId : {}", courseId);
+        Course result = courseService.approveCourse(courseId);
+        return ResponseEntity
+            .created(new URI("/api/courses/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * TODO: change the name of the endpoint if necessary
+     * Get all the courses based on filter.
+     **/
+    @GetMapping("/admin-courses")
+    public ResponseEntity<List<Course>> getAllCourses(@RequestParam String filter, Pageable pageable) {
+        log.debug("REST request to get all the courses based on filter : {}", filter);
+        Page<Course> page = courseService.findAllCoursesByFilter(filter, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }
