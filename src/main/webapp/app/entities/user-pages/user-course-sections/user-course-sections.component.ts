@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CourseSectionDeleteDialogComponent } from 'app/entities/course-section/delete/course-section-delete-dialog.component';
 import { InstructorCourseSessionService } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.service';
 import { ICourseSession } from 'app/entities/course-session/course-session.model';
-import { timeInterval, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-user-course-sections',
@@ -21,6 +20,11 @@ export class UserCourseSectionsComponent implements OnInit {
   toggle = false;
   selectedSection: any;
   selectedSession: any;
+  api!: any;
+  currentIndex = 0;
+  allSessions: any = [];
+  sectionIndex = 0;
+  url!: string;
   constructor(
     protected courseSectionService: InstructorCourseSectionService,
     protected courseSessionService: InstructorCourseSessionService,
@@ -30,7 +34,7 @@ export class UserCourseSectionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sectionsSessions = new Map();
+    this.sectionsSessions = new Map<ICourseSection, ICourseSession[]>();
     const hasCourseId: boolean = this.activatedRoute.snapshot.paramMap.has('courseId');
     if (hasCourseId) {
       this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
@@ -40,6 +44,22 @@ export class UserCourseSectionsComponent implements OnInit {
 
   trackId(index: number, item: ICourseSection): number {
     return item.id!;
+  }
+  onClickBack(): void {
+    window.history.back();
+  }
+  playVideo(): void {
+    this.api.play();
+  }
+  nextVideo(): void {
+    // this.selectedSession = this.allSessions[this.sectionIndex][1];
+  }
+  onPlayerReady(api: any): void {
+    this.api = api;
+    // console.log(this);
+    console.log(api);
+    this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
   }
 
   delete(courseSection: ICourseSection): void {
@@ -52,12 +72,16 @@ export class UserCourseSectionsComponent implements OnInit {
       }
     });
   }
-  toggleOne(data: any): void {
-    this.selectedSection = data;
+  toggleOne(sections: any, index: number): void {
+    this.selectedSection = sections;
+    this.sectionIndex = index;
   }
   displayVideo(data: any): void {
     this.selectedSession = data;
+    this.url = this.selectedSection.sessionVideo;
     console.log(this.selectedSession);
+    this.onPlayerReady(event);
+    // this.sectionIndex++;
   }
   loadPage(): void {
     this.isLoading = true;
@@ -65,37 +89,72 @@ export class UserCourseSectionsComponent implements OnInit {
     this.isLoading = false;
   }
 
-  private loadSections(): void {
+  // private loadSections(): void {
+  //   if (this.courseId !== null) {
+  //     this.courseSectionService.query(this.courseId).subscribe(res => {
+  //       this.courseSections = res.body;
+  //     });
+  //   }
+  //   // console.log(this.courseSections?.length);
+  //   this.courseSections?.forEach(section => {
+  //     if (this.courseId && section.id) {
+  //       const tempArr: ICourseSession[] = [];
+  //       this.courseSessionService.query(this.courseId, section.id.toString()).subscribe(sessions => {
+  //         if (!this.sectionsSessions.has(section) && sessions.body !== null) {
+  //           this.sectionsSessions.set(section, sessions.body);
+  //         }
+  //       });
+  //     }
+  //   });
+  //
+  //   // if(this.courseId!==null) {
+  //   //   this.courseSectionService.getAllSectionsAndSessions(this.courseId).subscribe(res=>{
+  //   //     console.log(res.body);
+  //   //     this.sectionsSessions=res.body;
+  //   //   });
+  //   console.log(this.sectionsSessions);
+  //   console.log(this.sectionsSessions.size);
+  //   if (this.sectionsSessions.size > 0) {
+  //     for (const entry of this.sectionsSessions.entries()) {
+  //       this.selectedSection = entry[0];
+  //       this.selectedSession = entry[1][0];
+  //       break;
+  //     }
+  //   }
+  //   this.url=this.selectedSession.sessionVideo;
+  // }
+  private async loadSections(): Promise<void> {
     if (this.courseId !== null) {
       this.courseSectionService.query(this.courseId).subscribe(res => {
         this.courseSections = res.body;
+        console.log(res.body);
       });
-    }
-    // console.log(this.courseSections?.length);
-    this.courseSections?.forEach(section => {
-      if (this.courseId && section.id) {
-        const tempArr: ICourseSession[] = [];
-        this.courseSessionService.query(this.courseId, section.id.toString()).subscribe(sessions => {
-          if (!this.sectionsSessions.has(section) && sessions.body !== null) {
-            this.sectionsSessions.set(section, sessions.body);
-          }
-        });
-      }
-    });
+      console.log(this.courseSections);
+      const res = await this.courseSectionService.getAllSectionsAndSessions(this.courseId).toPromise();
+      this.sectionsSessions = res.body;
+      console.log(this.sectionsSessions);
+      console.log('#', Object.keys(this.sectionsSessions).length);
+      // for(const entry of this.sectionsSessions.entries()){
+      //   this.selectedSection = entry[0];
+      //   this.selectedSession = entry[1][0];
+      //   break;
+      // }
+      // for(const [key,value] of Object.entries(this.sectionsSessions)){
+      //     this.selectedSection = key;
+      //     this.selectedSession = value[0];
+      //     break;
 
-    // if(this.courseId!==null) {
-    //   this.courseSectionService.getAllSectionsAndSessions(this.courseId).subscribe(res=>{
-    //     console.log(res.body);
-    //     this.sectionsSessions=res.body;
-    //   });
-    console.log(this.sectionsSessions);
-    console.log(this.sectionsSessions.size);
-    if (this.sectionsSessions.size > 0) {
-      for (const entry of this.sectionsSessions.entries()) {
-        this.selectedSection = entry[0];
-        this.selectedSession = entry[1][0];
-        break;
+      if (this.courseSections) {
+        this.selectedSection = this.courseSections[0];
       }
+      for (const value of Object.values(this.sectionsSessions)) {
+        this.allSessions.push(value);
+      }
+      this.selectedSession = this.allSessions[0][0];
+      this.url = this.selectedSession.sessionVideo;
+      console.log(this.selectedSection);
+      console.log(this.selectedSection);
+      console.log(this.allSessions);
     }
   }
 }

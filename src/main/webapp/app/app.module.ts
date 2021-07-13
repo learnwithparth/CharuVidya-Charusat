@@ -48,6 +48,7 @@ import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-
 import { InstructorSessionViewComponent } from './entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
 import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
 import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
+import { UserCouresSectionSessionComponent } from './entities/user-pages/user-coures-section-session/user-coures-section-session.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course
     InstructorCourseSessionComponent,
     InstructorUpdateCourseSessionComponent,
     InstructorSessionViewComponent,
+    UserCouresSectionSessionComponent,
   ],
   bootstrap: [MainComponent],
 })

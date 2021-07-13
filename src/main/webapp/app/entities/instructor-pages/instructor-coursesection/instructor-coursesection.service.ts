@@ -66,10 +66,10 @@ export class InstructorCourseSectionService {
     return courseSectionCollection;
   }
 
-  getAllSectionsAndSessions(classId: string | null): Observable<HttpResponse<Map<ICourseSection, ICourseSession[]>>> {
+  getAllSectionsAndSessions(classId: string | null): Observable<any> {
     // if(classId!=null) {
     // let result:Map<ICourseSection,ICourseSession[]>=new Map();
-    return this.http.get<Map<ICourseSection, ICourseSession[]>>('api/course/' + (classId as string) + '/course-sections-sessions', {
+    return this.http.get('api/course/' + (classId as string) + '/course-sections-sessions', {
       observe: 'response',
     });
     // }

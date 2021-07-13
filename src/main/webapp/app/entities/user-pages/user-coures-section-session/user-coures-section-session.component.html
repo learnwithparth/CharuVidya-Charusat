@@ -1,0 +1,55 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseSessionHeading">
+    <span>Course Sessions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary mr-2" (click)="onClickBack()">
+        <fa-icon icon="arrow-left"></fa-icon>
+        <span>Back to Course Sections</span>
+      </button>
+
+      <button class="btn btn-info mr-2" (click)="loadPage()">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courseSessions?.length === 0">
+    <span>No sessions added</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="courseSessions && courseSessions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>Session Order</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"><span>Session Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"><span>Session Description</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courseSession of courseSessions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="[courseSession.id]">{{ courseSession.sessionOrder }}</a>
+          </td>
+          <td>{{ courseSession.sessionTitle }}</td>
+          <td>{{ courseSession.sessionDescription }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="[courseSession.id]" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

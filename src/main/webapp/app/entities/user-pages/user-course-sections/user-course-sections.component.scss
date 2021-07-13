@@ -3,7 +3,7 @@
 }
 
 .side {
-  flex: 2;
+  flex: 4;
   overflow-y: scroll;
   //height: 250px;
 }
@@ -15,4 +15,8 @@
 .content {
   flex: 8;
   //overflow: scroll;
+}
+.selectedRow {
+  background-color: blueviolet;
+  color: white;
 }

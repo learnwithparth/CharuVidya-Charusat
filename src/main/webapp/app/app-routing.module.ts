@@ -18,6 +18,7 @@ import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-
 import { InstructorSessionViewComponent } from 'app/entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
 import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
 import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
+import { UserCouresSectionSessionComponent } from 'app/entities/user-pages/user-coures-section-session/user-coures-section-session.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -119,7 +120,15 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
             authorities: [Authority.STUDENT],
           },
           canActivate: [UserRouteAccessService],
-          component: UserCourseSessionComponent,
+          component: UserCouresSectionSessionComponent,
+        },
+        {
+          path: 'course/:courseId/user/sections/section/:courseSectionId/sessions/:sessionId',
+          data: {
+            authorities: [Authority.STUDENT],
+          },
+          canActivate: [UserRouteAccessService],
+          component: InstructorSessionViewComponent,
         },
         {
           path: 'course/:courseId/sections/section/:courseSectionId/sessions/:sessionId',
