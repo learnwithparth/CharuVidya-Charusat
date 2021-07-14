@@ -166,14 +166,14 @@ public class CourseCategoryResource {
         return ResponseUtil.wrapOrNotFound(courseCategory);
     }
 
-    @GetMapping("course-category/parent-categories")
+    @GetMapping("/course-category/parent-categories")
     public ResponseEntity<List<CourseCategory>> getParentCourseCategories() {
         log.debug("REST request ot get course category by isParent");
         List<CourseCategory> list = courseCategoryService.listParentCategory();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("course-category/sub-categories/{id}")
+    @GetMapping("/course-category/sub-categories/{id}")
     public ResponseEntity<List<CourseCategory>> getSubCourseCategories(@PathVariable Long id) {
         log.debug("REST request ot get course category by parentId");
         return ResponseEntity.ok().body(courseCategoryService.listByParentId(id));

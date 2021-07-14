@@ -92,7 +92,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     public List<CourseCategory> listByParentId(Long id) {
         log.debug("request to list sub-categories of category : {}", id);
         List<CourseCategory> list;
-        list = courseCategoryRepository.findByParentId(id);
+        list = courseCategoryRepository.findByParentId(Integer.parseInt(id.toString()));
         return list;
     }
 }

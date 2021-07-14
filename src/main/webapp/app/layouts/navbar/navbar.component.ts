@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   inProduction?: boolean;
   isNavbarCollapsed = true;
   openAPIEnabled?: boolean;
+  authority = false;
   version = '';
 
   constructor(
@@ -32,6 +33,12 @@ export class NavbarComponent implements OnInit {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
+    });
+
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.authority = true;
+      }
     });
   }
 
