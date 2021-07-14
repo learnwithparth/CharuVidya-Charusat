@@ -4,7 +4,7 @@ import { ICourse } from 'app/entities/course/course.model';
 import { InstructorCoursesService } from 'app/entities/instructor-pages/instructor-courses/instructor-courses.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { ICourseLevel } from 'app/entities/course-level/course-level.model';
@@ -17,6 +17,7 @@ import { UploadFilesService } from 'app/entities/instructor-pages/services/uploa
 @Component({
   selector: 'jhi-instructor-update-courses',
   templateUrl: './instructor-update-courses.component.html',
+  styleUrls: ['./instructor-update-courses.component.scss'],
 })
 export class InstructorUpdateCoursesComponent implements OnInit {
   courses?: ICourse[] | null;
@@ -37,6 +38,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     courseCategory: [],
   });
   selectedFiles!: File;
+  loading = false;
 
   constructor(
     protected courseService: InstructorCoursesService,
@@ -53,6 +55,7 @@ export class InstructorUpdateCoursesComponent implements OnInit {
     //this.handleNavigation();
     //this.loadAllCourses();
     this.loadRelationshipsOptions();
+    this.loading = false;
   }
 
   previousState(): void {
@@ -68,16 +71,19 @@ export class InstructorUpdateCoursesComponent implements OnInit {
   }
 
   async save(data: any): Promise<void> {
+    this.loading = true;
     delete data.courseParentCategory;
     const file = this.selectedFiles;
     const ans = await this.uploadService.uploadFile(file);
     data.logo = ans;
     this.courseService.create(data).subscribe(
       res => {
+        this.loading = false;
         window.alert('Course created successfully');
         this.router.navigate(['instructor-courses']);
       },
       () => {
+        this.loading = false;
         window.alert('Error while creating course');
       }
     );

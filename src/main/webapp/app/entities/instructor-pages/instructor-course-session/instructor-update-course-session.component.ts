@@ -9,6 +9,7 @@ import { UploadFilesService } from 'app/entities/instructor-pages/services/uploa
 @Component({
   selector: 'jhi-update-session',
   templateUrl: './instructor-update-course-session.component.html',
+  styleUrls: ['./instructor-update-course-session.component.scss'],
 })
 export class InstructorUpdateCourseSessionComponent implements OnInit {
   isSaving = false;
@@ -23,6 +24,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     isPreview: [null, [Validators.required]],
     isDraft: [null, [Validators.required]],
   });
+  loading = false;
   private courseId!: string | null;
   private courseSectionId!: string | null;
   private selectedFiles!: File;
@@ -35,6 +37,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = false;
     const hasCourseId: boolean = this.activatedRoute.snapshot.paramMap.has('courseId');
     if (hasCourseId) {
       this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
@@ -85,16 +88,19 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
   }
 
   async save(data: any): Promise<void> {
+    this.loading = true;
     if (this.courseSectionId !== null && this.courseId !== null) {
       const file = this.selectedFiles;
       const ans = await this.uploadService.uploadFile(file);
       data.sessionVideo = ans;
       this.courseSessionService.create(this.courseId, this.courseSectionId, data).subscribe(
         res => {
+          this.loading = false;
           window.alert('Session added successfully');
           this.previousState();
         },
         () => {
+          this.loading = false;
           window.alert('Error in adding session');
         }
       );

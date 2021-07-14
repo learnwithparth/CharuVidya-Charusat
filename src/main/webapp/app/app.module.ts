@@ -49,6 +49,8 @@ import { InstructorSessionViewComponent } from './entities/instructor-pages/inst
 import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
 import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
 import { UserCouresSectionSessionComponent } from './entities/user-pages/user-coures-section-session/user-coures-section-session.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -72,6 +74,8 @@ import { UserCouresSectionSessionComponent } from './entities/user-pages/user-co
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    MatProgressBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     Title,
