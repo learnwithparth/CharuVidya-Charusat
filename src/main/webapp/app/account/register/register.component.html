@@ -140,7 +140,7 @@
 
         <div class="form-group">
           <label>Profiles</label>
-          <select class="form-control" multiple name="authority" formControlName="authorities">
+          <select class="form-control" ngModel="ROLE_STUDENT" name="authority" formControlName="authorities">
             <option *ngFor="let authority of authorities" [value]="authority">{{ authority }}</option>
           </select>
         </div>

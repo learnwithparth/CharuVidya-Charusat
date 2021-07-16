@@ -1,24 +1,30 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary">
-  <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+  <div *ngIf="!authority; else elseBlock">
     <span class="logo-img"></span>
-    <span class="navbar-title text-white">CHARUVIDYA</span>
-    <span class="navbar-version">{{ version }}</span>
-  </a>
-  <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
-    <span class="logo-img"></span>
-    <span class="navbar-title text-white">CHARUVIDYA</span>
-    <span class="navbar-version">{{ version }}</span>
-  </a>
-  <a *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
-    <span class="logo-img"></span>
-    <span class="navbar-title text-white">CHARUVIDYA</span>
-    <span class="navbar-version">{{ version }}</span>
-  </a>
-  <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
-    <span class="logo-img"></span>
-    <span class="navbar-title text-white">CHARUVIDYA</span>
-    <span class="navbar-version">{{ version }}</span>
-  </a>
+  </div>
+  <ng-template #elseBlock>
+    <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+      <span class="logo-img"></span>
+      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
+      <!--    <span class="navbar-version">{{ version }}</span>-->
+    </a>
+    <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
+      <span class="logo-img"></span>
+      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
+      <!--    <span class="navbar-version">{{ version }}</span>-->
+    </a>
+    <a *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
+      <span class="logo-img"></span>
+      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
+      <!--    <span class="navbar-version">{{ version }}</span>-->
+    </a>
+    <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
+      <span class="logo-img"></span>
+      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
+      <!--    <span class="navbar-version">{{ version }}</span>-->
+    </a>
+  </ng-template>
+
   <a
     class="navbar-toggler d-lg-none"
     href="javascript:void(0);"

@@ -5,6 +5,7 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
+import com.codehat.charusat.service.MailService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
@@ -36,9 +37,12 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
 
-    public CourseServiceImpl(CourseRepository courseRepository, UserService userService) {
+    private final MailService mailService;
+
+    public CourseServiceImpl(CourseRepository courseRepository, UserService userService, MailService mailService) {
         this.courseRepository = courseRepository;
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     @Override
@@ -219,5 +223,53 @@ public class CourseServiceImpl implements CourseService {
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         return courseRepository.save(course);
+    }
+
+    @Override
+    public Course approveCourse(Long courseId) {
+        log.debug("Request to approve CourseId : {}", courseId);
+
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            String authority = user.get().getAuthorities().toString();
+            if (authority.contains("ROLE_ADMIN") || authority.contains("ROLE_REVIEWER")) {
+                Optional<Course> course = courseRepository.findById(courseId);
+                if (course.isPresent()) {
+                    course.get().setIsApproved(true);
+                    mailService.sendCourseApprovalMail(course.get());
+                    return courseRepository.save(course.get());
+                } else {
+                    log.warn("Course not present");
+                    return null;
+                }
+            } else {
+                log.warn("You are not authorized");
+                return null;
+            }
+        } else {
+            log.warn("User not present");
+            return null;
+        }
+    }
+
+    @Override
+    public Page<Course> findAllCoursesByFilter(String filter, Pageable pageable) {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            String authority = user.get().getAuthorities().toString();
+            if (authority.contains(AuthoritiesConstants.ADMIN)) {
+                if (filter.contains("not-approved")) {
+                    return courseRepository.findAllByIsApproved(false, pageable);
+                } else if (filter.contains("approved")) {
+                    return courseRepository.findAllByIsApproved(true, pageable);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

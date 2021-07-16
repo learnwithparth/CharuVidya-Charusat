@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+}
+
+.side {
+  flex: 4;
+  overflow-y: scroll;
+  //height: 250px;
+}
+
+.mid {
+  flex: 2;
+}
+
+.content {
+  flex: 8;
+  //overflow: scroll;
+}
+.selectedRow {
+  background-color: blueviolet;
+  color: white;
+}

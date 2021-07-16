@@ -17,6 +17,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { EntityRoutingModule } from './entities/entity-routing.module';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
@@ -44,6 +48,9 @@ import { InstructorUpdateCourseSessionComponent } from 'app/entities/instructor-
 import { InstructorSessionViewComponent } from './entities/instructor-pages/instructor-course-session/instructor-session-view/instructor-session-view.component';
 import { UserCourseSessionComponent } from 'app/entities/user-pages/user-course-session/user-course-session.component';
 import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course-sections/user-course-sections.component';
+import { UserCouresSectionSessionComponent } from './entities/user-pages/user-coures-section-session/user-coures-section-session.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -63,6 +70,12 @@ import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course
     FlexLayoutModule,
     CardsModule,
     YouTubePlayerModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    MatProgressBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     Title,
@@ -88,6 +101,7 @@ import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course
     InstructorCourseSessionComponent,
     InstructorUpdateCourseSessionComponent,
     InstructorSessionViewComponent,
+    UserCouresSectionSessionComponent,
   ],
   bootstrap: [MainComponent],
 })

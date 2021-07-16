@@ -23,8 +23,33 @@
       <h4>
         <b>{{ selectedSession.sessionTitle }}</b>
       </h4>
-      <youtube-player videoId="{{ selectedSession.sessionVideo }}" suggestedQuality="highres" [height]="400" [width]="950">
-      </youtube-player>
+      <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 900px"
+        >-->
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+          <source [src]="selectedSession.sessionVideo" type="video/mp4" />
+        </video>
+      </vg-player>
       <hr />
       <h4><b>Description</b></h4>
       <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>

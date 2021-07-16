@@ -1,5 +1,6 @@
 package com.codehat.charusat.service;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.User;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
@@ -108,5 +109,40 @@ public class MailService {
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
+    }
+
+    /**
+     * CUSTOM:
+     * */
+    public void sendCourseApprovalMail(Course course) {
+        User author = course.getUser();
+        log.debug("Sending course approval email to '{}'", author.getEmail());
+
+        if (author.getEmail() == null) {
+            log.debug("Email doesn't exist for user '{}'", author.getLogin());
+            return;
+        }
+        String email = author.getEmail();
+        String subject = "RE: Course approval";
+        String content =
+            "Dear " +
+            author.getLogin() +
+            ",<br>" +
+            "Your course : " +
+            course.getCourseTitle() +
+            ", has been approved.<br><br>" +
+            "Regards\nTeam CharuVidya";
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, false, StandardCharsets.UTF_8.name());
+            message.setTo(email);
+            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setSubject(subject);
+            message.setText(content, true);
+            javaMailSender.send(mimeMessage);
+            log.debug("Sent email to User '{}'", email);
+        } catch (MailException | MessagingException e) {
+            log.warn("Email could not be sent to user '{}'", email, e);
+        }
     }
 }

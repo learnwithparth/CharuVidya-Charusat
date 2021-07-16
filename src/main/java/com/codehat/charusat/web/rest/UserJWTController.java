@@ -1,9 +1,16 @@
 package com.codehat.charusat.web.rest;
 
+import com.codehat.charusat.domain.User;
+import com.codehat.charusat.repository.UserRepository;
 import com.codehat.charusat.security.jwt.JWTFilter;
 import com.codehat.charusat.security.jwt.TokenProvider;
+import com.codehat.charusat.service.InvalidPasswordException;
+import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.web.rest.errors.InvalidUserException;
 import com.codehat.charusat.web.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,9 +32,16 @@ public class UserJWTController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final UserRepository userRepository;
+
+    public UserJWTController(
+        TokenProvider tokenProvider,
+        AuthenticationManagerBuilder authenticationManagerBuilder,
+        UserRepository userRepository
+    ) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/authenticate")
@@ -36,6 +50,14 @@ public class UserJWTController {
             loginVM.getUsername(),
             loginVM.getPassword()
         );
+
+        /**
+         * CUSTOM
+         * */
+        Optional<User> user = userRepository.findOneByLogin(loginVM.getUsername());
+        if (user.isEmpty()) {
+            throw new InvalidUserException();
+        }
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

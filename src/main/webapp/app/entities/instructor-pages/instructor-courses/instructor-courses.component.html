@@ -87,7 +87,9 @@
           <!--        <td>-->
           <!--          <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>-->
           <!--        </td>-->
-          <td>{{ course.courseTitle }}</td>
+          <td>
+            <a [routerLink]="['/course', course.id, 'sections']">{{ course.courseTitle }}</a>
+          </td>
           <td>{{ course.courseDescription }}</td>
           <td>{{ course.courseObjectives }}</td>
           <td>{{ course.courseSubTitle }}</td>
@@ -126,7 +128,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+                <span class="d-none d-md-inline">View Course</span>
               </button>
 
               <button type="submit" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">

@@ -15,20 +15,49 @@
         <!--        <dt><span>{{ courseSession.sessionTitle }}</span></dt>-->
         <dt></dt>
         <!--        <dd>-->
-        <div style="margin-left: 10%">
-          <youtube-player videoId="{{ courseSession.sessionVideo }}" suggestedQuality="highres" [height]="300" [width]="550">
-          </youtube-player>
+        <div>
+          <vg-player style="height: 400px; width: 900px"
+            >-->
+            <vg-overlay-play></vg-overlay-play>
+            <vg-buffering></vg-buffering>
+
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+
+            <vg-controls>
+              <vg-play-pause></vg-play-pause>
+              <vg-playback-button></vg-playback-button>
+
+              <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+              <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+              <vg-mute></vg-mute>
+              <vg-volume></vg-volume>
+
+              <vg-fullscreen></vg-fullscreen>
+            </vg-controls>
+            <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+              <source [src]="courseSession.sessionVideo" type="video/mp4" />
+            </video>
+          </vg-player>
           <br />
         </div>
         <!--        </dd>-->
-        <dt><span>Description</span></dt>
+        <div>
+          <span><b>Description</b></span>
+        </div>
         <div>
           <br />
           <br />
           <span>{{ courseSession.sessionDescription }}</span>
         </div>
 
-        <dt><span>Resource</span></dt>
+        <div>
+          <span><b>Resource</b></span>
+        </div>
         <div>
           <br />
           <br />

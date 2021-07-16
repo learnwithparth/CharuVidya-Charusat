@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ICourseSession } from 'app/entities/course-session/course-session.model';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ICourseSection } from 'app/entities/course-section/course-section.model';
+import { InstructorCourseSectionService } from 'app/entities/instructor-pages/instructor-coursesection/instructor-coursesection.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { CourseSessionDeleteDialogComponent } from 'app/entities/course-session/delete/course-session-delete-dialog.component';
-import { combineLatest } from 'rxjs';
+import { CourseSectionDeleteDialogComponent } from 'app/entities/course-section/delete/course-section-delete-dialog.component';
+import { ICourseSession } from 'app/entities/course-session/course-session.model';
 import { InstructorCourseSessionService } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.service';
+import { CourseSessionDeleteDialogComponent } from 'app/entities/course-session/delete/course-session-delete-dialog.component';
 
 @Component({
-  selector: 'jhi-instructor-course-session',
-  templateUrl: './instructor-course-session.component.html',
-  styleUrls: ['./instructor-course-session.component.scss'],
+  selector: 'jhi-user-coures-section-session',
+  templateUrl: './user-coures-section-session.component.html',
+  styleUrls: ['./user-coures-section-session.component.scss'],
 })
-export class InstructorCourseSessionComponent implements OnInit {
+export class UserCouresSectionSessionComponent implements OnInit {
   courseSessions?: ICourseSession[] | null;
   courseId!: string | null;
   courseSectionId!: string | null;
@@ -75,8 +75,6 @@ export class InstructorCourseSessionComponent implements OnInit {
   }
 
   onClickBack(): void {
-    if (this.courseId && this.courseSectionId) {
-      this.router.navigate([`/course/${this.courseId}/sections`]);
-    }
+    window.history.back();
   }
 }

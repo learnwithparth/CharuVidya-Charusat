@@ -51,7 +51,6 @@ public interface CourseCategoryService {
 
     /**
      *
-     * @param
      * @return list of categories where is_parent is 1
      */
     List<CourseCategory> listParentCategory();

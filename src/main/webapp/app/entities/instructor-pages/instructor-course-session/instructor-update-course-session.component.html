@@ -58,27 +58,31 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_sessionVideo">Provide Youtube video URL.</label>
-          <input
-            type="text"
-            class="form-control"
-            name="sessionVideo"
-            id="field_sessionVideo"
-            data-cy="sessionVideo"
-            (change)="videoUrlInput($event)"
-          />
-          <div
-            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">
-              This field cannot be longer than 300 characters.
-            </small>
-          </div>
+          <label class="form-control-label">Upload Video.</label>
+          <br />
+          <input type="file" accept="video/* " (change)="selectFile($event)" />
+          <!--          <input-->
+          <!--            type="text"-->
+          <!--            class="form-control"-->
+          <!--            name="sessionVideo"-->
+          <!--            id="field_sessionVideo"-->
+          <!--            data-cy="sessionVideo"-->
+          <!--            (change)="videoUrlInput($event)"-->
+          <!--          />-->
+          <!--          <div-->
+          <!--            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"-->
+          <!--          >-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">-->
+          <!--              This field cannot be longer than 300 characters.-->
+          <!--            </small>-->
+          <!--          </div>-->
         </div>
-        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">
-          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>
-        </div>
+
+        <!--        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">-->
+        <!--          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>-->
+        <!--        </div>-->
+
         <div class="form-group">
           <label class="form-control-label" for="field_sessionResource">Session Resource</label>
           <input
@@ -128,5 +132,8 @@
         </button>
       </div>
     </form>
+    <div class="progress" *ngIf="loading">
+      <mat-progress-bar mode="indeterminate" style="top: 50%"></mat-progress-bar>
+    </div>
   </div>
 </div>
