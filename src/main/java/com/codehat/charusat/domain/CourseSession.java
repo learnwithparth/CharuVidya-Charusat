@@ -79,7 +79,6 @@ public class CourseSession implements Serializable {
     public CourseSession(CourseSessionDTO courseSessionDTO) {
         this.sessionTitle = courseSessionDTO.getSessionTitle();
         this.sessionDescription = courseSessionDTO.getSessionDescription();
-        this.sessionVideo = courseSessionDTO.getSessionVideo();
         this.sessionResource = courseSessionDTO.getSessionResource();
         this.isPreview = courseSessionDTO.getIsPreview();
         this.isDraft = courseSessionDTO.getIsDraft();

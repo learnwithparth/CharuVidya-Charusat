@@ -1,6 +1,6 @@
 package com.codehat.charusat.service.impl;
 
-import static com.codehat.charusat.config.Constants.YOUTUBE_API_KEY;
+import static com.codehat.charusat.config.Constants.*;
 
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
@@ -10,25 +10,29 @@ import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseSessionService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseSessionDTO;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
-import java.io.IOException;
+import io.github.techgnious.IVCompressor;
+import io.github.techgnious.dto.ResizeResolution;
+import io.github.techgnious.dto.VideoFormats;
+import io.github.techgnious.exception.VideoException;
+import java.io.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service Implementation for managing {@link CourseSession}.
@@ -192,7 +196,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
     }
 
     @Override
-    public CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException {
+    public CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException, VideoException {
         Optional<User> user = userService.getUserWithAuthorities();
         //        Checking if user is present
         if (user.isPresent()) {
@@ -203,6 +207,9 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                 //                Checking if courseSection is present and if the courseSection is part of the course.
                 if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
                     CourseSession courseSession = new CourseSession(courseSessionDTO);
+
+                    courseSession.setSessionVideo(compressAndUpload(courseSessionDTO.getSessionVideo()));
+
                     courseSession.setCourseSection(courseSection.get());
                     courseSession.isApproved(true);
                     courseSession.setSessionDuration(Instant.now());
@@ -215,13 +222,6 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                         courseSession.setIsPreview(false);
                     }
                     courseSession.sessionOrder(courseSessionRepository.findAllByCourseSection_Id(courseSectionId).size() + 1);
-                    String videoId = null;
-                    if (courseSession.getSessionVideo().contains("https://www.youtube.com/watch?v=")) {
-                        videoId = courseSession.getSessionVideo().split("https://www.youtube.com/watch\\?v=")[1];
-                    } else if (courseSession.getSessionVideo().contains("https://youtu.be/")) {
-                        videoId = courseSession.getSessionVideo().split("https://youtu.be/")[1];
-                    }
-                    //                    courseSession.setSessionDuration(getVideoLength(videoId));
                     return courseSessionRepository.save(courseSession);
                 } else {
                     return null;
@@ -232,6 +232,28 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         } else {
             return null;
         }
+    }
+
+    public String compressAndUpload(MultipartFile sessionVideo) throws IOException, VideoException {
+        log.info("Compression started");
+        IVCompressor compressor = new IVCompressor();
+        byte[] bytes = compressor.reduceVideoSize(sessionVideo.getBytes(), VideoFormats.MP4, ResizeResolution.R480P);
+        log.info("Compression completed");
+
+        log.info("Uploading the video to S3");
+        String fileRandom = String.valueOf(Math.abs(new Random().nextInt()));
+        System.out.println(fileRandom);
+        String userLogin = userService.getUserWithAuthorities().get().getLogin();
+        File file = new File(OBJECT_PATH + userLogin + "_" + fileRandom + ".mp4");
+        System.out.println(file.getName());
+        FileOutputStream fout = new FileOutputStream(file);
+        fout.write(bytes);
+        fout.close();
+        s3client.putObject(S3_BUCKET_NAME, userLogin + "/" + file.getName(), file);
+        log.info("Uploading completed");
+
+        file.delete();
+        return S3_BUCKET_LINK + userLogin + "/" + file.getName();
     }
 
     @Override

@@ -19,7 +19,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     id: [null, [Validators.required]],
     sessionTitle: [null, [Validators.required, Validators.maxLength(255)]],
     sessionDescription: [null, [Validators.maxLength(255)]],
-    sessionVideo: [null, [Validators.required, Validators.maxLength(300)]],
+    sessionVideo: [null, [Validators.required]],
     sessionResource: [null, [Validators.maxLength(300)]],
     isPreview: [null, [Validators.required]],
     isDraft: [null, [Validators.required]],
@@ -87,12 +87,12 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     }
   }
 
-  async save(data: any): Promise<void> {
+  save(data: any): void {
     this.loading = true;
     if (this.courseSectionId !== null && this.courseId !== null) {
       const file = this.selectedFiles;
-      const ans = await this.uploadService.uploadFile(file);
-      data.sessionVideo = ans;
+      // const ans = await this.uploadService.uploadFile(file);
+      data.sessionVideo = file;
       this.courseSessionService.create(this.courseId, this.courseSectionId, data).subscribe(
         res => {
           this.loading = false;
