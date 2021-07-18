@@ -2,6 +2,8 @@ package com.codehat.charusat.service.impl;
 
 import static com.codehat.charusat.config.Constants.*;
 
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.CourseSession;
@@ -250,7 +252,11 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         FileOutputStream fout = new FileOutputStream(file);
         fout.write(bytes);
         fout.close();
-        s3client.putObject(S3_BUCKET_NAME, userLogin + "/" + file.getName(), file);
+
+        //        s3client.putObject(S3_BUCKET_NAME, userLogin + "/" + file.getName(), file);
+        s3client.putObject(
+            new PutObjectRequest(S3_BUCKET_NAME, userLogin + "/" + file.getName(), file).withCannedAcl(CannedAccessControlList.PublicRead)
+        );
         log.info("Uploading completed");
 
         file.delete();

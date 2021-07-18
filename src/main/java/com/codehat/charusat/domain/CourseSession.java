@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
 
 /**
  * A CourseSession.
@@ -70,7 +71,7 @@ public class CourseSession implements Serializable {
     @Column(name = "is_published", nullable = false)
     private Boolean isPublished;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
     private CourseSection courseSection;
 
