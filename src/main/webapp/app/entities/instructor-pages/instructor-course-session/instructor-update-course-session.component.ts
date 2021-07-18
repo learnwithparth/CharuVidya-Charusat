@@ -5,6 +5,7 @@ import { CourseSectionService } from 'app/entities/course-section/service/course
 import { ActivatedRoute } from '@angular/router';
 import { InstructorCourseSessionService } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.service';
 import { UploadFilesService } from 'app/entities/instructor-pages/services/upload-files.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-update-session',
@@ -19,10 +20,10 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     id: [null, [Validators.required]],
     sessionTitle: [null, [Validators.required, Validators.maxLength(255)]],
     sessionDescription: [null, [Validators.maxLength(255)]],
-    sessionVideo: [null, [Validators.required]],
+    sessionVideo: [''],
     sessionResource: [null, [Validators.maxLength(300)]],
-    isPreview: [null, [Validators.required]],
-    isDraft: [null, [Validators.required]],
+    isPreview: [false, [Validators.required]],
+    isDraft: [false, [Validators.required]],
   });
   loading = false;
   private courseId!: string | null;
@@ -33,7 +34,8 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     protected courseSessionService: InstructorCourseSessionService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
-    protected uploadService: UploadFilesService
+    protected uploadService: UploadFilesService,
+    protected http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -84,16 +86,35 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     if (target.files !== null) {
       this.selectedFiles = target.files[0];
+      this.editForm.get('sessionVideo')?.setValue(target.files[0]);
     }
   }
 
-  save(data: any): void {
+  async save(dt: any): Promise<void> {
     this.loading = true;
     if (this.courseSectionId !== null && this.courseId !== null) {
-      const file = this.selectedFiles;
+      const form_Data = new FormData();
+      form_Data.append('file', this.editForm.get('sessionVideo')?.value);
+      const data = await this.http.post('api/test', form_Data, { responseType: 'text' }).toPromise();
+      //window.alert(data);
+      window.alert('after test call');
+      //const file = this.selectedFiles;
       // const ans = await this.uploadService.uploadFile(file);
-      data.sessionVideo = file;
-      this.courseSessionService.create(this.courseId, this.courseSectionId, data).subscribe(
+      //data.sessionVideo = file;
+      //this.editForm.get('sessionVideo')?.setValue(data)
+      const formData = new FormData();
+      formData.append('id', this.editForm.get('id')?.value);
+      formData.append('sessionTitle', this.editForm.get('sessionTitle')?.value);
+      formData.append('sessionDescription', this.editForm.get('sessionDescription')?.value);
+      formData.append('sessionVideo', data);
+      formData.append('sessionResource', this.editForm.get('sessionResource')?.value);
+      formData.append('isPreview', dt.isPreview);
+      formData.append('isDraft', dt.isDraft);
+      //
+      //
+      window.alert(formData.get('sessionVideo'));
+      window.alert('calling create');
+      this.courseSessionService.create(this.courseId, this.courseSectionId, formData).subscribe(
         res => {
           this.loading = false;
           window.alert('Session added successfully');
@@ -105,5 +126,6 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
         }
       );
     }
+    this.loading = false;
   }
 }

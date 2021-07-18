@@ -217,7 +217,7 @@ public class CourseSessionResource {
 
     @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session")
     public ResponseEntity<CourseSession> createCourseSession(
-        @RequestBody CourseSessionDTO courseSessionDTO,
+        @ModelAttribute CourseSessionDTO courseSessionDTO,
         @PathVariable Long courseId,
         @PathVariable Long courseSectionId
     ) throws URISyntaxException, IOException, VideoException {
@@ -245,7 +245,8 @@ public class CourseSessionResource {
     }
 
     @PostMapping("/test")
-    public void test(@RequestBody MultipartFile file) throws Exception {
-        courseSessionService.compressAndUpload(file);
+    public ResponseEntity<String> test(@RequestBody MultipartFile file) throws Exception {
+        String link = courseSessionService.compressAndUpload(file);
+        return ResponseEntity.ok().body(link);
     }
 }

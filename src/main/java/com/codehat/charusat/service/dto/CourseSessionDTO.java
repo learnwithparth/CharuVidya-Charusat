@@ -1,13 +1,14 @@
 package com.codehat.charusat.service.dto;
 
 import com.codehat.charusat.domain.CourseSection;
+import java.io.File;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CourseSessionDTO {
 
     String sessionTitle;
     String sessionDescription;
-    MultipartFile sessionVideo;
+    String sessionVideo;
     String sessionResource;
     Boolean isPreview;
     Boolean isDraft;
@@ -30,13 +31,13 @@ public class CourseSessionDTO {
         this.sessionDescription = sessionDescription;
     }
 
-    public MultipartFile getSessionVideo() {
+    public String getSessionVideo() {
         return sessionVideo;
     }
 
-    //    public void setSessionVideo(MultipartFile sessionVideo) {
-    //        this.sessionVideo = sessionVideo;
-    //    }
+    public void setSessionVideo(String sessionVideo) {
+        this.sessionVideo = sessionVideo;
+    }
 
     public String getSessionResource() {
         return sessionResource;

@@ -197,6 +197,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 
     @Override
     public CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException, VideoException {
+        System.out.println(courseSessionDTO.getSessionVideo());
         Optional<User> user = userService.getUserWithAuthorities();
         //        Checking if user is present
         if (user.isPresent()) {
@@ -207,9 +208,9 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                 //                Checking if courseSection is present and if the courseSection is part of the course.
                 if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
                     CourseSession courseSession = new CourseSession(courseSessionDTO);
-
-                    courseSession.setSessionVideo(compressAndUpload(courseSessionDTO.getSessionVideo()));
-
+                    System.out.println(courseSessionDTO.getSessionVideo());
+                    //courseSession.setSessionVideo(compressAndUpload(courseSessionDTO.getSessionVideo()));
+                    courseSession.setSessionVideo(courseSessionDTO.getSessionVideo());
                     courseSession.setCourseSection(courseSection.get());
                     courseSession.isApproved(true);
                     courseSession.setSessionDuration(Instant.now());

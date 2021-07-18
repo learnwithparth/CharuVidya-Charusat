@@ -32,12 +32,12 @@ public final class Constants {
 
     static {
         AWS_REGION = "us-east-1";
-        AWS_ACCESS_KEY = "AKIAULVXRPQG5YWU4DLU";
-        AWS_SECRET_KEY = "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";
+        AWS_ACCESS_KEY = "";
+        AWS_SECRET_KEY = "";
         S3_BUCKET_NAME = "charuvidya1";
         userDir = System.getProperty("user.dir");
         OBJECT_PATH = userDir + "/src/main/resources/objects/";
-        S3_BUCKET_LINK = "s3://" + S3_BUCKET_NAME + "/";
+        S3_BUCKET_LINK = "https://" + S3_BUCKET_NAME + ".s3.amazonaws.com/";
         credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
         s3client =
             AmazonS3ClientBuilder

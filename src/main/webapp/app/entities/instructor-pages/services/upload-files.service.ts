@@ -12,8 +12,8 @@ export class UploadFilesService {
     if (file !== null) {
       const contentType = file.type;
       const bucket = new S3({
-        accessKeyId: 'AKIAULVXRPQG5YWU4DLU',
-        secretAccessKey: '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',
+        accessKeyId: '',
+        secretAccessKey: '',
         region: 'us-east-1',
       });
       fileName = '_' + Math.random().toString(36).substr(2, 9);
