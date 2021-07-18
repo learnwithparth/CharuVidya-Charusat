@@ -103,6 +103,7 @@ public class CourseSectionServiceImpl implements CourseSectionService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete CourseSection : {}", id);
+        courseSessionRepository.deleteCourseSessionByCourseSectionId(id);
         courseSectionRepository.deleteById(id);
     }
 
