@@ -5,6 +5,8 @@
       <mdb-card>
         <mdb-card-header>
           <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
+          <br />
+          <mdb-card-title *ngIf="course.user"> Course Provider - {{ course.user.login }}</mdb-card-title>
         </mdb-card-header>
         <img mat-card-image src="{{ course.logo }}" />
         <mdb-card-body>
