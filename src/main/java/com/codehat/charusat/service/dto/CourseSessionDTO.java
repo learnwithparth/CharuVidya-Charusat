@@ -12,6 +12,7 @@ public class CourseSessionDTO {
     String sessionResource;
     Boolean isPreview;
     Boolean isDraft;
+    String quizLink;
 
     //CourseSection courseSection;
 
@@ -61,5 +62,13 @@ public class CourseSessionDTO {
 
     public void setIsDraft(Boolean draft) {
         isDraft = draft;
+    }
+
+    public String getQuizLink() {
+        return quizLink;
+    }
+
+    public void setQuizLink(String quizLink) {
+        this.quizLink = quizLink;
     }
 }

@@ -14,6 +14,7 @@ export interface ICourseSession {
   isDraft?: boolean;
   isApproved?: boolean;
   isPublished?: boolean;
+  quizLink?: string;
   courseSection?: ICourseSection | null;
 }
 

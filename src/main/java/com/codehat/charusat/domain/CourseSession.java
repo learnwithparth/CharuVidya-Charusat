@@ -71,6 +71,9 @@ public class CourseSession implements Serializable {
     @Column(name = "is_published", nullable = false)
     private Boolean isPublished;
 
+    @Column(name = "quiz_link", nullable = true)
+    private String quizLink;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
     private CourseSection courseSection;
@@ -83,6 +86,7 @@ public class CourseSession implements Serializable {
         this.sessionResource = courseSessionDTO.getSessionResource();
         this.isPreview = courseSessionDTO.getIsPreview();
         this.isDraft = courseSessionDTO.getIsDraft();
+        this.quizLink = courseSessionDTO.getQuizLink();
         //this.courseSection = courseSessionDTO.getCourseSection();
     }
 
@@ -241,6 +245,14 @@ public class CourseSession implements Serializable {
 
     public void setIsPublished(Boolean isPublished) {
         this.isPublished = isPublished;
+    }
+
+    public String getQuizLink() {
+        return quizLink;
+    }
+
+    public void setQuizLink(String quizLink) {
+        this.quizLink = quizLink;
     }
 
     public CourseSection getCourseSection() {

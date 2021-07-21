@@ -24,6 +24,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     sessionResource: [null, [Validators.maxLength(300)]],
     isPreview: [false, [Validators.required]],
     isDraft: [false, [Validators.required]],
+    quizLink: [null, [Validators.maxLength(300)]],
   });
   loading = false;
   private courseId!: string | null;
@@ -115,6 +116,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
         formData.append('sessionResource', this.editForm.get('sessionResource')?.value);
         formData.append('isPreview', dt.isPreview);
         formData.append('isDraft', dt.isDraft);
+        formData.append('quizLink', dt.quizLink);
         //
         //
         // window.alert(formData.get('sessionVideo'));

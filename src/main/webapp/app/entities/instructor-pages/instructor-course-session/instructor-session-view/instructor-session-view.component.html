@@ -65,6 +65,17 @@
             <a href="{{ courseSession.sessionResource }}">{{ courseSession.sessionResource }}</a>
           </span>
         </div>
+
+        <div *ngIf="courseSession.quizLink">
+          <span><b>Quiz Link</b></span>
+        </div>
+        <div>
+          <br />
+          <br />
+          <span>
+            <a href="{{ courseSession.quizLink }}"> {{ courseSession.quizLink }}</a>
+          </span>
+        </div>
       </dl>
     </div>
     <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
