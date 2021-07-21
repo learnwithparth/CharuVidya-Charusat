@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Course, ICourse} from 'app/entities/course/course.model';
+import { Course, ICourse } from 'app/entities/course/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
@@ -14,6 +14,7 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
 export class UserCoursesComponent implements OnInit {
   courses?: ICourse[] | null;
   categoryId!: string | null;
+  studentCount: Map<ICourse, number> = new Map<ICourse, number>();
 
   constructor(
     protected userCourseService: UserCourseService,
@@ -26,13 +27,13 @@ export class UserCoursesComponent implements OnInit {
     this.loadAllCourses();
   }
 
-  onEnroll(course: ICourse):void {
+  onEnroll(course: ICourse): void {
     this.userCourseService.onEnroll(course).subscribe(
-      (res) => {
-        window.alert("Enrolled Successful");
+      res => {
+        window.alert('Enrolled Successful');
       },
       () => {
-        window.alert("Error while enrolling in course");
+        window.alert('Error while enrolling in course');
       }
     );
   }
@@ -46,6 +47,13 @@ export class UserCoursesComponent implements OnInit {
       this.userCourseService.query(this.categoryId).subscribe(
         (res: HttpResponse<ICourseCategory[]>) => {
           this.courses = res.body;
+          this.courses?.forEach(course => {
+            if (course.id != null) {
+              this.userCourseService.getStudentCount(course.id).subscribe(count => {
+                this.studentCount.set(course, count.body);
+              });
+            }
+          });
         },
         () => {
           window.alert('Error in fetching parent categories');

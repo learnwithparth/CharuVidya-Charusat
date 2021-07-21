@@ -14,11 +14,11 @@ export class UploadFilesService {
       const bucket = new S3({
         accessKeyId: '',
         secretAccessKey: '',
-        region: 'us-east-1',
+        region: 'ap-south-1',
       });
       fileName = '_' + Math.random().toString(36).substr(2, 9);
       const params = {
-        Bucket: 'charuvidya1',
+        Bucket: 'charuvidya-charusat',
         Key: fileName,
         Body: file,
         ACL: 'public-read',

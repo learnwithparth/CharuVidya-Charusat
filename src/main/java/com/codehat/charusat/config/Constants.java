@@ -31,10 +31,10 @@ public final class Constants {
     public static final String userDir;
 
     static {
-        AWS_REGION = "us-east-1";
+        AWS_REGION = "ap-south-1";
         AWS_ACCESS_KEY = "";
         AWS_SECRET_KEY = "";
-        S3_BUCKET_NAME = "charuvidya1";
+        S3_BUCKET_NAME = "charuvidya-charusat";
         userDir = System.getProperty("user.dir");
         OBJECT_PATH = userDir + "/src/main/resources/objects/";
         S3_BUCKET_LINK = "https://" + S3_BUCKET_NAME + ".s3.amazonaws.com/";
@@ -43,7 +43,7 @@ public final class Constants {
             AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(Regions.US_EAST_1)
+                .withRegion(Regions.AP_SOUTH_1)
                 .build();
     }
 

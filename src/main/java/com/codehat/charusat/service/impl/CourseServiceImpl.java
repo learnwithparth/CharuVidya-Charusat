@@ -296,4 +296,16 @@ public class CourseServiceImpl implements CourseService {
             return null;
         }
     }
+
+    @Override
+    public ResponseEntity<Integer> getStudentEnrolledCountByCourse(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            Integer count = course.get().getEnrolledUsersLists().size();
+            return ResponseEntity.ok(count);
+        } else {
+            log.error("Course not found");
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

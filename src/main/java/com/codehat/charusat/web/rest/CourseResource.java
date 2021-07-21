@@ -243,4 +243,10 @@ public class CourseResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    @GetMapping("/courses/{courseId}/student-count")
+    public ResponseEntity<Integer> getStudentCountByCourse(@PathVariable Long courseId) {
+        log.debug("REST request to get student enrolled count based on courseId : {}", courseId);
+        return courseService.getStudentEnrolledCountByCourse(courseId);
+    }
 }
