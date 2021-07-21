@@ -44,7 +44,7 @@ public class CourseSection implements Serializable {
     @Column(name = "is_approved", nullable = false)
     private Boolean isApproved;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnoreProperties(value = { "courseLevel", "courseCategory", "user", "reviewer", "enrolledUsersLists" }, allowSetters = true)
     private Course course;
 

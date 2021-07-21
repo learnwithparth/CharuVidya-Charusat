@@ -189,6 +189,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Course : {}", id);
 

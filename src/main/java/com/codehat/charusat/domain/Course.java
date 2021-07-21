@@ -96,7 +96,7 @@ public class Course implements Serializable {
     @ManyToOne
     private User reviewer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(
         name = "rel_course__enrolled_users_list",

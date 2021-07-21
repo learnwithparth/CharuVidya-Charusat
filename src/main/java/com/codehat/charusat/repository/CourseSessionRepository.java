@@ -32,5 +32,6 @@ public interface CourseSessionRepository extends JpaRepository<CourseSession, Lo
     void deleteCourseSessionByCourseId(@Param("courseId") Long courseId);
 
     @Query(value = "delete from CourseSession courseSession where courseSession.courseSection.id = :courseSectionId")
+    @Modifying
     void deleteCourseSessionByCourseSectionId(@Param("courseSectionId") Long courseSectionId);
 }

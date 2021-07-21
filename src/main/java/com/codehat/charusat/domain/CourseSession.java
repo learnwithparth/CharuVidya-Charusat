@@ -71,7 +71,7 @@ public class CourseSession implements Serializable {
     @Column(name = "is_published", nullable = false)
     private Boolean isPublished;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
     private CourseSection courseSection;
 

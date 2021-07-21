@@ -84,48 +84,56 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
 
   selectFile(event: Event): void {
     const target = event.target as HTMLInputElement;
-    if (target.files !== null) {
+    if (target.files !== null && target.files[0].size < 1048576 * 1024) {
       this.selectedFiles = target.files[0];
       this.editForm.get('sessionVideo')?.setValue(target.files[0]);
+    } else {
+      this.editForm.get('sessionVideo')?.setValue('');
+      window.alert('Please upload the file of size less than 1GB');
     }
   }
 
   async save(dt: any): Promise<void> {
-    this.loading = true;
-    if (this.courseSectionId !== null && this.courseId !== null) {
-      const form_Data = new FormData();
-      form_Data.append('file', this.editForm.get('sessionVideo')?.value);
-      const data = await this.http.post('api/test', form_Data, { responseType: 'text' }).toPromise();
-      //window.alert(data);
-      window.alert('after test call');
-      //const file = this.selectedFiles;
-      // const ans = await this.uploadService.uploadFile(file);
-      //data.sessionVideo = file;
-      //this.editForm.get('sessionVideo')?.setValue(data)
-      const formData = new FormData();
-      formData.append('id', this.editForm.get('id')?.value);
-      formData.append('sessionTitle', this.editForm.get('sessionTitle')?.value);
-      formData.append('sessionDescription', this.editForm.get('sessionDescription')?.value);
-      formData.append('sessionVideo', data);
-      formData.append('sessionResource', this.editForm.get('sessionResource')?.value);
-      formData.append('isPreview', dt.isPreview);
-      formData.append('isDraft', dt.isDraft);
-      //
-      //
-      window.alert(formData.get('sessionVideo'));
-      window.alert('calling create');
-      this.courseSessionService.create(this.courseId, this.courseSectionId, formData).subscribe(
-        res => {
-          this.loading = false;
-          window.alert('Session added successfully');
-          this.previousState();
-        },
-        () => {
-          this.loading = false;
-          window.alert('Error in adding session');
-        }
-      );
+    console.log(this.editForm.get('sessionVideo')?.value);
+    if (this.editForm.get('sessionVideo')?.value !== '') {
+      this.loading = true;
+      if (this.courseSectionId !== null && this.courseId !== null) {
+        const form_Data = new FormData();
+        form_Data.append('file', this.editForm.get('sessionVideo')?.value);
+        const data = await this.http.post('api/test', form_Data, { responseType: 'text' }).toPromise();
+        //window.alert(data);
+        // window.alert('after test call');
+        //const file = this.selectedFiles;
+        // const ans = await this.uploadService.uploadFile(file);
+        //data.sessionVideo = file;
+        //this.editForm.get('sessionVideo')?.setValue(data)
+        const formData = new FormData();
+        formData.append('id', this.editForm.get('id')?.value);
+        formData.append('sessionTitle', this.editForm.get('sessionTitle')?.value);
+        formData.append('sessionDescription', this.editForm.get('sessionDescription')?.value);
+        formData.append('sessionVideo', data);
+        formData.append('sessionResource', this.editForm.get('sessionResource')?.value);
+        formData.append('isPreview', dt.isPreview);
+        formData.append('isDraft', dt.isDraft);
+        //
+        //
+        // window.alert(formData.get('sessionVideo'));
+        // window.alert('calling create');
+        this.courseSessionService.create(this.courseId, this.courseSectionId, formData).subscribe(
+          res => {
+            this.loading = false;
+            window.alert('Session added successfully');
+            this.previousState();
+          },
+          () => {
+            this.loading = false;
+            window.alert('Error in adding session');
+          }
+        );
+      }
+      this.loading = false;
+    } else {
+      window.alert('Please upload an appropriate video');
     }
-    this.loading = false;
   }
 }
