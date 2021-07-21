@@ -3,7 +3,7 @@
   <!--    <span class="hipster img-fluid rounded"></span>-->
   <!--  </div>-->
 
-  <div class="col-md-9">
+  <div class="col-md-12">
     <h1 class="display-4">Welcome to CHARUVIDYA!</h1>
 
     <!--    <p class="lead">This is your homepage</p>-->
@@ -13,15 +13,15 @@
         <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
       </div>
 
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>If you want to </span>
-        <a class="alert-link" (click)="login()">sign in</a>
-      </div>
+      <!--      <div class="alert alert-warning" *ngSwitchCase="false">-->
+      <!--        <span>If you want to </span>-->
+      <!--        <a class="alert-link" (click)="login()">sign in</a>-->
+      <!--      </div>-->
 
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register">Register a new account</a>
-      </div>
+      <!--      <div class="alert alert-warning" *ngSwitchCase="false">-->
+      <!--        <span>You don't have an account yet?</span>&nbsp;-->
+      <!--        <a class="alert-link" routerLink="account/register">Register a new account</a>-->
+      <!--      </div>-->
     </div>
 
     <!--    <p>If you have any question on JHipster:</p>-->

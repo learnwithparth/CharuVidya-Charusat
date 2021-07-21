@@ -49,12 +49,23 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
-  thymeleaf:
-    cache: true
+    host: smtp.gmail.com
+    port: 587
+    username: webmaster@charusat.ac.in
+    password: vnyurvdhlqsrkozm
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
+    thymeleaf:
+      cache: false
+    servlet:
+      multipart:
+        max-file-size: 1024MB
+        max-request-size: 100MB
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:

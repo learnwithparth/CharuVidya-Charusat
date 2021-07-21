@@ -5,15 +5,18 @@
       <mdb-card>
         <mdb-card-header>
           <mdb-card-title>{{ course.courseCategoryTitle }}</mdb-card-title>
+          <a routerLink="/courses/{{ course.id }}">
+            <button mat-button class="btn btn-info btn-sm" style="padding-left: 20px"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
+          </a>
         </mdb-card-header>
         <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
-        <mdb-card-body>
-          <a routerLink="/courses/{{ course.id }}">
-            <button mat-button class="btn btn-info btn-sm">
-              <fa-icon icon="eye"></fa-icon> &nbsp; VIEW
-            </button>
-          </a>
-        </mdb-card-body>
+        <!--        <mdb-card-body>-->
+        <!--          <a routerLink="/courses/{{ course.id }}">-->
+        <!--            <button mat-button class="btn btn-info btn-sm">-->
+        <!--              <fa-icon icon="eye"></fa-icon> &nbsp; VIEW-->
+        <!--            </button>-->
+        <!--          </a>-->
+        <!--        </mdb-card-body>-->
       </mdb-card>
     </div>
   </div>

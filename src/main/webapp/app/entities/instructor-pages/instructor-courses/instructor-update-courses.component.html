@@ -59,7 +59,9 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_courseObjectives">Course Objectives</label>
+          <label class="form-control-label" for="field_courseObjectives"
+            >Course Objectives (What will students learn in your course?)</label
+          >
           <input
             type="text"
             class="form-control"
@@ -126,7 +128,7 @@
         <!--        </div>-->
 
         <div class="form-group">
-          <label class="form-control-label">Logo</label>
+          <label class="form-control-label">Course Logo (Only PNG/JPEG)</label>
           <br />
           <!--          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />-->
           <!--          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">-->
@@ -135,7 +137,7 @@
           <!--              This field cannot be longer than 255 characters.-->
           <!--            </small>-->
           <!--          </div>-->
-          <input type="file" accept="image/* " (change)="selectFile($event)" />
+          <input type="file" accept="image/png, image/jpeg" (change)="selectFile($event)" />
           <!--          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>-->
         </div>
 
