@@ -343,11 +343,11 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.codehat.charusat</groupId>
             <artifactId>codehat-charusat</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
@@ -727,10 +727,10 @@
                                 <message>You are running an older version of Maven. JHipster requires at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
-                            <requireJavaVersion>
+                            <!--<requireJavaVersion>
                                 <message>You are running an incompatible version of Java. JHipster supports JDK 8 to 15.</message>
                                 <version>[1.8,16)</version>
-                            </requireJavaVersion>
+                            </requireJavaVersion>-->
                         </rules>
                     </configuration>
                 </plugin>

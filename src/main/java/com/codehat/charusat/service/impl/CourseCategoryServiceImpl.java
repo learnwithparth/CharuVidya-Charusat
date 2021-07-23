@@ -68,6 +68,11 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     }
 
     @Override
+    public List<CourseCategory> findAll() {
+        return courseCategoryRepository.findAll();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<CourseCategory> findOne(Long id) {
         log.debug("Request to get CourseCategory : {}", id);

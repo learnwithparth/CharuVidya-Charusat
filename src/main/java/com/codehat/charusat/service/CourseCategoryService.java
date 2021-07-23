@@ -34,6 +34,8 @@ public interface CourseCategoryService {
      */
     Page<CourseCategory> findAll(Pageable pageable);
 
+    List<CourseCategory> findAll();
+
     /**
      * Get the "id" courseCategory.
      *

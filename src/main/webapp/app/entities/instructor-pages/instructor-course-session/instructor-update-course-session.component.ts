@@ -85,12 +85,12 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
 
   selectFile(event: Event): void {
     const target = event.target as HTMLInputElement;
-    if (target.files !== null && target.files[0].size < 1048576 * 1024) {
+    if (target.files !== null && target.files[0].size < 1048576 * 4096) {
       this.selectedFiles = target.files[0];
       this.editForm.get('sessionVideo')?.setValue(target.files[0]);
     } else {
       this.editForm.get('sessionVideo')?.setValue('');
-      window.alert('Please upload the file of size less than 1GB');
+      window.alert('Please upload the file of size less than 4GB');
     }
   }
 

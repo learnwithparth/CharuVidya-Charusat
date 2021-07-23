@@ -153,6 +153,12 @@ public class CourseCategoryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/course-category-list")
+    public ResponseEntity<List<CourseCategory>> getAllCourseCategories() {
+        log.debug("REST request to get a list of CourseCategories");
+        return ResponseEntity.ok().body(courseCategoryService.findAll());
+    }
+
     /**
      * {@code GET  /course-categories/:id} : get the "id" courseCategory.
      *

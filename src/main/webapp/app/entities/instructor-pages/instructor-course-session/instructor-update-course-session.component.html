@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-8">
     <form #userInput="ngForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
-      <h2 id="jhi-course-session-heading" data-cy="CourseSessionCreateUpdateHeading">Create or edit a Course Session</h2>
+      <h2 id="jhi-course-session-heading" data-cy="CourseSessionCreateUpdateHeading">Create or Edit a Course Session</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -92,7 +92,7 @@
         <!--        </div>-->
 
         <div class="form-group">
-          <label class="form-control-label" for="field_sessionResource">Session Resource</label>
+          <label class="form-control-label" for="field_sessionResource">Session Resource <span style="color: red">(If Any)</span> </label>
           <input
             type="text"
             class="form-control"
@@ -114,7 +114,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_quizLink">Quiz Link</label>
+          <label class="form-control-label" for="field_quizLink">Quiz Link <span style="color: red">(If Any)</span></label>
           <input type="text" class="form-control" name="quizLink" id="field_quizLink" data-cy="quizLink" formControlName="quizLink" />
           <div *ngIf="editForm.get('quizLink')!.invalid && (editForm.get('quizLink')!.dirty || editForm.get('quizLink')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('quizLink')?.errors?.maxlength">
