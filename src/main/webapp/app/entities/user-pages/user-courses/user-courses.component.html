@@ -6,11 +6,11 @@
         <mdb-card-header>
           <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
           <br />
-          <mdb-card-title *ngIf="course.user">Instructor : {{ course.user.firstName }}</mdb-card-title>
+          <mdb-card-title *ngIf="course.user"><b>Instructor :</b> {{ course.user.firstName }}</mdb-card-title>
           <br />
-          <mdb-card-title *ngIf="course.courseCreatedOn">Created On : {{ course.courseCreatedOn }}</mdb-card-title>
+          <mdb-card-title *ngIf="course.courseCreatedOn"><b>Created On :</b> {{ course.courseCreatedOn }}</mdb-card-title>
           <br />
-          <mdb-card-title *ngIf="studentCount">Student Enrolled : {{ studentCount.get(course) }}</mdb-card-title>
+          <mdb-card-title *ngIf="studentCount"><b>Student Enrolled :</b> {{ studentCount.get(course) }}</mdb-card-title>
         </mdb-card-header>
         <img mat-card-image src="{{ course.logo }}" />
         <mdb-card-body>
