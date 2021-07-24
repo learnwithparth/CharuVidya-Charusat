@@ -49,7 +49,7 @@ export class UserCourseSubCategoriesComponent implements OnInit {
 
   private loadCourseCount(): void {
     this.userCourseSubCategoryService.courseCount(this.categoryId!).subscribe(res => {
-      this.map = res.body;
+      this.map = new Map(Object.entries(res.body));
     });
   }
 }

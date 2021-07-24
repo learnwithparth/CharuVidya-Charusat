@@ -13,16 +13,14 @@ import { HttpResponse } from '@angular/common/http';
 export class UserCourseCategoryComponent implements OnInit {
   courseCategories?: ICourseCategory[] | null;
   isActive = false;
-  map: Map<string, number>;
+  map: Map<string, number> = new Map<string, number>();
 
   constructor(
     protected userCourseCategoryService: UserCourseCategoryService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: NgbModal
-  ) {
-    this.map = new Map<string, number>([]);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadAllCategories();
@@ -42,8 +40,7 @@ export class UserCourseCategoryComponent implements OnInit {
 
   private loadCourseCount(): void {
     this.userCourseCategoryService.courseCount().subscribe((res: any) => {
-      this.map = res.body;
-      console.log(this.map);
+      this.map = new Map(Object.entries(res.body));
     });
   }
 }

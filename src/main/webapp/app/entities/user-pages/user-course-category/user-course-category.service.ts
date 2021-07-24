@@ -23,7 +23,7 @@ export class UserCourseCategoryService {
     return this.http.get<ICourseCategory[]>(`api/course-category/parent-categories`, { observe: 'response' });
   }
 
-  courseCount(): Observable<any> {
-    return this.http.get(`api/course-category/get-course-count`, { observe: 'response' });
+  courseCount(): Observable<HttpResponse<Map<string, number>>> {
+    return this.http.get<Map<string, number>>(`api/course-category/get-course-count`, { observe: 'response' });
   }
 }
