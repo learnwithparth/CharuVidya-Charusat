@@ -69,7 +69,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
 
     @Override
     public List<CourseCategory> findAll() {
-        return courseCategoryRepository.findAll();
+        return courseCategoryRepository.findAllCategories();
     }
 
     @Override

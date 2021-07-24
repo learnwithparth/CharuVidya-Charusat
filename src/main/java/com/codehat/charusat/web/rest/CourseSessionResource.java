@@ -217,7 +217,7 @@ public class CourseSessionResource {
 
     @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session")
     public ResponseEntity<CourseSession> createCourseSession(
-        @ModelAttribute CourseSessionDTO courseSessionDTO,
+        @RequestBody CourseSessionDTO courseSessionDTO,
         @PathVariable Long courseId,
         @PathVariable Long courseSectionId
     ) throws URISyntaxException, IOException, VideoException {

@@ -6,7 +6,7 @@
         <mdb-card-header>
           <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
           <br />
-          <mdb-card-title *ngIf="course.user">Instructor : {{ course.user.login }}</mdb-card-title>
+          <mdb-card-title *ngIf="course.user">Instructor : {{ course.user.firstName }}</mdb-card-title>
           <br />
           <mdb-card-title *ngIf="course.courseCreatedOn">Created On : {{ course.courseCreatedOn }}</mdb-card-title>
           <br />

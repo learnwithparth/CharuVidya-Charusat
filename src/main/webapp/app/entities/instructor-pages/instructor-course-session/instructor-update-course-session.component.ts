@@ -85,6 +85,33 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
 
   selectFile(event: Event): void {
     const target = event.target as HTMLInputElement;
+    if (target.files !== null) {
+      this.selectedFiles = target.files[0];
+    }
+  }
+
+  async save(data: any): Promise<void> {
+    this.loading = true;
+    if (this.courseSectionId !== null && this.courseId !== null) {
+      const file = this.selectedFiles;
+      const ans = await this.uploadService.uploadFile(file);
+      data.sessionVideo = ans;
+      this.courseSessionService.create(this.courseId, this.courseSectionId, data).subscribe(
+        res => {
+          this.loading = false;
+          window.alert('Session added successfully');
+          this.previousState();
+        },
+        () => {
+          this.loading = false;
+          window.alert('Error in adding session');
+        }
+      );
+    }
+  }
+
+  /*selectFile(event: Event): void {
+    const target = event.target as HTMLInputElement;
     if (target.files !== null && target.files[0].size < 1048576 * 4096) {
       this.selectedFiles = target.files[0];
       this.editForm.get('sessionVideo')?.setValue(target.files[0]);
@@ -92,9 +119,9 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
       this.editForm.get('sessionVideo')?.setValue('');
       window.alert('Please upload the file of size less than 4GB');
     }
-  }
+  }*/
 
-  async save(dt: any): Promise<void> {
+  /*async save(dt: any): Promise<void> {
     console.log(this.editForm.get('sessionVideo')?.value);
     if (this.editForm.get('sessionVideo')?.value !== '') {
       this.loading = true;
@@ -137,5 +164,5 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     } else {
       window.alert('Please upload an appropriate video');
     }
-  }
+  }*/
 }
