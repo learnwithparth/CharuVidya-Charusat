@@ -8,9 +8,10 @@ import { CourseDeleteDialogComponent } from './delete/course-delete-dialog.compo
 import { CourseRoutingModule } from './route/course-routing.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
-  imports: [SharedModule, CourseRoutingModule, MatCheckboxModule, MatSelectModule],
+  imports: [SharedModule, CourseRoutingModule, MatCheckboxModule, MatSelectModule, MatProgressBarModule],
   declarations: [CourseComponent, CourseDetailComponent, CourseUpdateComponent, CourseDeleteDialogComponent],
   entryComponents: [CourseDeleteDialogComponent],
 })

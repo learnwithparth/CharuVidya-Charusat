@@ -137,14 +137,33 @@
           />
         </div>
 
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_logo">Logo</label>-->
+        <!--          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />-->
+        <!--          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.maxlength">-->
+        <!--              This field cannot be longer than 255 characters.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
         <div class="form-group">
-          <label class="form-control-label" for="field_logo">Logo</label>
-          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />
+          <label class="form-control-label"
+            >Course Logo <span style="color: red">(Only PNG/JPEG. Select a new image to change previously uploaded logo)</span></label
+          >
+          <br />
+          <!--          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />-->
+          <!--          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.maxlength">-->
+          <!--              This field cannot be longer than 255 characters.-->
+          <!--            </small>-->
+          <!--          </div>-->
+          <input type="file" name="logo" accept="image/png, image/jpeg" (change)="selectFile($event)" required />
+          <!--          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>-->
           <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.maxlength">
-              This field cannot be longer than 255 characters.
-            </small>
           </div>
         </div>
 
@@ -349,6 +368,9 @@
         <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
+      </div>
+      <div class="progress" *ngIf="loading">
+        <mat-progress-bar mode="indeterminate" style="top: 50%"></mat-progress-bar>
       </div>
     </form>
   </div>
