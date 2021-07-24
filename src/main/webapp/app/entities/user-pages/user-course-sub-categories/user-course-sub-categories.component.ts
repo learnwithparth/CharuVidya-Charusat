@@ -14,13 +14,16 @@ import { HttpResponse } from '@angular/common/http';
 export class UserCourseSubCategoriesComponent implements OnInit {
   courseCategories?: ICourseCategory[] | null;
   categoryId?: string | null;
+  map: Map<string, number> = new Map<string, number>();
 
   constructor(
     protected userCourseSubCategoryService: UserCourseSubCategoryService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.map = new Map<string, number>([]);
+  }
 
   ngOnInit(): void {
     this.loadAllSubCategories();
@@ -35,11 +38,18 @@ export class UserCourseSubCategoriesComponent implements OnInit {
       this.userCourseSubCategoryService.query(this.categoryId).subscribe(
         (res: HttpResponse<ICourseCategory[]>) => {
           this.courseCategories = res.body;
+          this.loadCourseCount();
         },
         () => {
           window.alert('Error in fetching parent categories');
         }
       );
     }
+  }
+
+  private loadCourseCount(): void {
+    this.userCourseSubCategoryService.courseCount(this.categoryId!).subscribe(res => {
+      this.map = res.body;
+    });
   }
 }

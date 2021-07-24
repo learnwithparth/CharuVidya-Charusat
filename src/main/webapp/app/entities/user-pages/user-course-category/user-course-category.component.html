@@ -7,6 +7,8 @@
           <div class="row">
             <div class="col-8">
               <mdb-card-title>{{ course.courseCategoryTitle }}</mdb-card-title>
+              <br />
+              <mdb-card-title>Course Count: {{ map.get(course.id!.toString()) }}</mdb-card-title>
             </div>
             <div class="col-4">
               <a routerLink="/sub-category/{{ course.parentId }}">

@@ -2,6 +2,7 @@ export interface IUser {
   id?: number;
   login?: string;
   firstName?: string;
+  email?: string;
 }
 
 export class User implements IUser {

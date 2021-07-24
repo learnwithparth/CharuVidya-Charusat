@@ -55,10 +55,10 @@
           <span>{{ courseSession.sessionDescription }}</span>
         </div>
 
-        <div>
+        <div *ngIf="courseSession.sessionResource">
           <span><b>Resource</b></span>
         </div>
-        <div>
+        <div *ngIf="courseSession.sessionResource">
           <br />
           <br />
           <span>
@@ -69,7 +69,7 @@
         <div *ngIf="courseSession.quizLink">
           <span><b>Quiz Link</b></span>
         </div>
-        <div>
+        <div *ngIf="courseSession.quizLink">
           <br />
           <br />
           <span>

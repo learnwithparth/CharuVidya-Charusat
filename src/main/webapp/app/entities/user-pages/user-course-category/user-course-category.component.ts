@@ -13,13 +13,16 @@ import { HttpResponse } from '@angular/common/http';
 export class UserCourseCategoryComponent implements OnInit {
   courseCategories?: ICourseCategory[] | null;
   isActive = false;
+  map: Map<string, number>;
 
   constructor(
     protected userCourseCategoryService: UserCourseCategoryService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.map = new Map<string, number>([]);
+  }
 
   ngOnInit(): void {
     this.loadAllCategories();
@@ -29,10 +32,18 @@ export class UserCourseCategoryComponent implements OnInit {
     this.userCourseCategoryService.query().subscribe(
       (res: HttpResponse<ICourseCategory[]>) => {
         this.courseCategories = res.body;
+        this.loadCourseCount();
       },
       () => {
         window.alert('Error in fetching parent categories');
       }
     );
+  }
+
+  private loadCourseCount(): void {
+    this.userCourseCategoryService.courseCount().subscribe((res: any) => {
+      this.map = res.body;
+      console.log(this.map);
+    });
   }
 }

@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
 import { Authority } from 'app/config/authority.constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'jhi-register',
@@ -20,6 +21,7 @@ export class RegisterComponent implements AfterViewInit {
   errorEmailExists = false;
   errorUserExists = false;
   success = false;
+  encryptSecretKey = 'CHARUSAT';
 
   registerForm = this.fb.group({
     login: [
@@ -73,4 +75,13 @@ export class RegisterComponent implements AfterViewInit {
       this.error = true;
     }
   }
+
+  /*private encryptData(data: any){
+    try{
+      return CryptoJS.AES.encrypt(JSON.stringify(data), this.encryptSecretKey).toString();
+    } catch (e) {
+      console.log(e);
+    }
+    return null;
+  }*/
 }
