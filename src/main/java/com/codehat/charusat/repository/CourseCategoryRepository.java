@@ -34,4 +34,18 @@ public interface CourseCategoryRepository extends JpaRepository<CourseCategory, 
 
     @Query(value = "select category from CourseCategory category order by category.courseCategoryTitle")
     List<CourseCategory> findAllCategories();
+
+    @Query(
+        value = "select count(course) from Course course where course.courseCategory.id = (" +
+        "select courseCategory.id from CourseCategory courseCategory where courseCategory.id = :categoryId and courseCategory.isParent = false" +
+        ")"
+    )
+    Integer getCourseCountBySubCategory(@Param("categoryId") Long categoryId);
+
+    @Query(
+        value = "select count(course) from Course course where course.courseCategory.id in (" +
+        "select courseCategory.id from CourseCategory courseCategory where courseCategory.isParent = false and courseCategory.parentId = :categoryId" +
+        ")"
+    )
+    Integer getCourseCountByParentCategory(@Param("categoryId") Integer categoryId);
 }

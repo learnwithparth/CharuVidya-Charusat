@@ -39,7 +39,7 @@
               "src/main/webapp/content/scss/global.scss",
               "./node_modules/@videogular/ngx-videogular/fonts/videogular.css"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/crypto-js/crypto-js.js"]
           },
           "configurations": {
             "production": {
