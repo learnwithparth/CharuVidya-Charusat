@@ -2,7 +2,7 @@
   <h1>Available Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <mdb-card>
+      <mdb-card style="height: 500px">
         <mdb-card-header>
           <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
           <br />
@@ -12,7 +12,7 @@
           <br />
           <mdb-card-title *ngIf="studentCount"><b>Student Enrolled :</b> {{ studentCount.get(course) }}</mdb-card-title>
         </mdb-card-header>
-        <img mat-card-image src="{{ course.logo }}" />
+        <img mat-card-image src="{{ course.logo }}" style="height: 100%" />
         <mdb-card-body>
           <a routerLink="/course/{{ course.id }}/user/sections">
             <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
