@@ -28,11 +28,11 @@ export class InstructorUpdateCoursesComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [null, [Validators.required]],
-    courseTitle: [null, [Validators.required, Validators.maxLength(600)]],
+    courseTitle: [null, [Validators.required, Validators.maxLength(255)]],
     courseDescription: [null, [Validators.required, Validators.maxLength(255)]],
     courseObjectives: [null, [Validators.maxLength(255)]],
     courseSubTitle: [null, [Validators.required, Validators.maxLength(120)]],
-    logo: [null, [Validators.required, Validators.maxLength(255)]],
+    logo: [null, [Validators.required]],
     courseLevel: [],
     courseParentCategory: [],
     courseCategory: [],

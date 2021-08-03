@@ -13,7 +13,7 @@ export class InstructorCourseSessionService {
 
   constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
-  create(courseId: string, courseSectionId: string, data: any): Observable<EntityResponseType> {
+  create(courseId: string, courseSectionId: string, data: FormData): Observable<EntityResponseType> {
     return this.http.post<ICourseSession>(`api/course/${courseId}/course-section/${courseSectionId}/course-session`, data, {
       observe: 'response',
     });

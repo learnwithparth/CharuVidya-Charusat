@@ -2,9 +2,11 @@ package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.CourseCategory;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Service Interface for managing {@link CourseCategory}.
@@ -34,6 +36,8 @@ public interface CourseCategoryService {
      */
     Page<CourseCategory> findAll(Pageable pageable);
 
+    List<CourseCategory> findAll();
+
     /**
      * Get the "id" courseCategory.
      *
@@ -61,4 +65,8 @@ public interface CourseCategoryService {
      * @return list of sub-categories of a parent category
      */
     List<CourseCategory> listByParentId(Long id);
+
+    ResponseEntity<Map<Long, Integer>> getCourseCountBySubCategory(Long parentId);
+
+    ResponseEntity<Map<Long, Integer>> getCourseCountByParentCategory();
 }

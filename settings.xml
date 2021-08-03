@@ -1,0 +1,6 @@
+<settings>
+    xmlns="yourcontent"
+    xmlns:xsi="yourcontent"
+    xsi:schemaLocation="yourcontent.xsd">
+    <localRepository>c:/.m2/repository</localRepository>
+</settings>

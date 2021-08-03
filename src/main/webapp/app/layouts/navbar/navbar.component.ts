@@ -5,6 +5,7 @@ import { VERSION } from 'app/app.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'jhi-navbar',
@@ -22,14 +23,22 @@ export class NavbarComponent implements OnInit {
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
+    console.warn('Constructor called');
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION;
     }
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.authority = true;
+      }
+    });
   }
 
   ngOnInit(): void {
+    console.warn('ngOnInit called');
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
@@ -57,6 +66,7 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.collapseNavbar();
     this.loginService.logout();
+    this.authority = false;
     this.router.navigate(['']);
   }
 

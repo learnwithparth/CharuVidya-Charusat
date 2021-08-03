@@ -24,6 +24,7 @@
             id="field_sessionTitle"
             data-cy="sessionTitle"
             formControlName="sessionTitle"
+            maxlength="255"
           />
           <div
             *ngIf="editForm.get('sessionTitle')!.invalid && (editForm.get('sessionTitle')!.dirty || editForm.get('sessionTitle')!.touched)"
@@ -44,6 +45,7 @@
             id="field_sessionDescription"
             data-cy="sessionDescription"
             formControlName="sessionDescription"
+            maxlength="255"
           />
           <div
             *ngIf="
@@ -57,28 +59,60 @@
           </div>
         </div>
 
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_sessionVideo">Session Video</label>-->
+        <!--          <input-->
+        <!--            type="text"-->
+        <!--            class="form-control"-->
+        <!--            name="sessionVideo"-->
+        <!--            id="field_sessionVideo"-->
+        <!--            data-cy="sessionVideo"-->
+        <!--            (change)="videoUrlInput($event)"-->
+        <!--          />-->
+        <!--          <div-->
+        <!--            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"-->
+        <!--          >-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">-->
+        <!--              This field cannot be longer than 300 characters.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <!--        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">-->
+        <!--          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>-->
+        <!--        </div>-->
+
         <div class="form-group">
-          <label class="form-control-label" for="field_sessionVideo">Session Video</label>
+          <label class="form-control-label" for="field_sessionVideo"
+            >Change Video <span style="color: red">( Only MP4. Select a new video to change previously uploaded video.)</span></label
+          >
           <input
-            type="text"
+            type="file"
             class="form-control"
             name="sessionVideo"
             id="field_sessionVideo"
             data-cy="sessionVideo"
-            (change)="videoUrlInput($event)"
+            formControlName="sessionVideo"
+            accept="video/mp4 "
+            (change)="selectFile($event)"
           />
-          <div
-            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">
-              This field cannot be longer than 300 characters.
-            </small>
-          </div>
-        </div>
-
-        <div *ngIf="urlValue && urlValue != ''" style="margin-left: 20%">
-          <youtube-player videoId="{{ urlValue }}" suggestedQuality="highres" [height]="300" [width]="550"> </youtube-player>
+          <!--          <input-->
+          <!--            type="text"-->
+          <!--            class="form-control"-->
+          <!--            name="sessionVideo"-->
+          <!--            id="field_sessionVideo"-->
+          <!--            data-cy="sessionVideo"-->
+          <!--            (change)="videoUrlInput($event)"-->
+          <!--          />-->
+          <!--          <div-->
+          <!--            *ngIf="editForm.get('sessionVideo')!.invalid && (editForm.get('sessionVideo')!.dirty || editForm.get('sessionVideo')!.touched)"-->
+          <!--          >-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.required"> This field is required. </small>-->
+          <!--            <small class="form-text text-danger" *ngIf="editForm.get('sessionVideo')?.errors?.maxlength">-->
+          <!--              This field cannot be longer than 300 characters.-->
+          <!--            </small>-->
+          <!--          </div>-->
         </div>
         <div class="form-group" [hidden]="true">
           <label class="form-control-label" for="field_sessionDuration">Session Duration</label>
@@ -242,13 +276,16 @@
       </div>
       {{ urlValue }}
       <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+        <button type="button" id="cancel-save" [disabled]="loading" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+        <button type="submit" id="save-entity" [disabled]="loading" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
+      </div>
+      <div class="progress" *ngIf="loading">
+        <mat-progress-bar mode="indeterminate" style="top: 50%"></mat-progress-bar>
       </div>
     </form>
   </div>

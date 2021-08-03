@@ -41,12 +41,17 @@ Navbar
   }
 }
 
+.bg-primary {
+  background-color: #480d0b !important;
+}
+
 /* ==========================================================================
 Logo styles
 ========================================================================== */
 .logo-img {
-  height: 45px;
-  width: 170px;
+  padding: 10px;
+  height: 30px;
+  width: 150px;
   display: inline-block;
   vertical-align: middle;
   background: url('../../../content/images/CharuVidya.png') no-repeat center center;

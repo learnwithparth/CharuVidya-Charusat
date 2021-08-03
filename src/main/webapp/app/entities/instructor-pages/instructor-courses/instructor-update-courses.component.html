@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-8">
     <form #userInput="ngForm" name="editForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
-      <h2 id="jhi-course-heading" data-cy="CourseCreateUpdateHeading">Create or edit a Course</h2>
+      <h2 id="jhi-course-heading" data-cy="CourseCreateUpdateHeading">Create or Edit a Course</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -24,6 +24,8 @@
             id="field_courseTitle"
             data-cy="courseTitle"
             formControlName="courseTitle"
+            maxlength="255"
+            required
           />
           <div *ngIf="editForm.get('courseTitle')!.invalid && (editForm.get('courseTitle')!.dirty || editForm.get('courseTitle')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('courseTitle')?.errors?.required"> This field is required. </small>
@@ -42,6 +44,7 @@
             id="field_courseDescription"
             data-cy="courseDescription"
             formControlName="courseDescription"
+            maxlength="255"
           />
           <div
             *ngIf="
@@ -59,7 +62,9 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_courseObjectives">Course Objectives</label>
+          <label class="form-control-label" for="field_courseObjectives"
+            >Course Objectives (What will students learn in your course?)</label
+          >
           <input
             type="text"
             class="form-control"
@@ -67,6 +72,7 @@
             id="field_courseObjectives"
             data-cy="courseObjectives"
             formControlName="courseObjectives"
+            maxlength="255"
           />
           <div
             *ngIf="
@@ -89,6 +95,7 @@
             id="field_courseSubTitle"
             data-cy="courseSubTitle"
             formControlName="courseSubTitle"
+            maxlength="120"
           />
           <div
             *ngIf="
@@ -126,7 +133,7 @@
         <!--        </div>-->
 
         <div class="form-group">
-          <label class="form-control-label">Logo</label>
+          <label class="form-control-label">Course Logo <span style="color: red">(Only PNG/JPEG)</span></label>
           <br />
           <!--          <input type="text" class="form-control" name="logo" id="field_logo" data-cy="logo" formControlName="logo" />-->
           <!--          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">-->
@@ -135,8 +142,11 @@
           <!--              This field cannot be longer than 255 characters.-->
           <!--            </small>-->
           <!--          </div>-->
-          <input type="file" accept="image/* " (change)="selectFile($event)" />
+          <input type="file" name="logo" accept="image/png, image/jpeg" (change)="selectFile($event)" required />
           <!--          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>-->
+          <div *ngIf="editForm.get('logo')!.invalid && (editForm.get('logo')!.dirty || editForm.get('logo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('logo')?.errors?.required"> This field is required. </small>
+          </div>
         </div>
 
         <!--        <div class="form-group">-->

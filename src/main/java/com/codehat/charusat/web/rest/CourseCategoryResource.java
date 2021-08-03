@@ -7,6 +7,7 @@ import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -153,6 +153,12 @@ public class CourseCategoryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/course-category-list")
+    public ResponseEntity<List<CourseCategory>> getAllCourseCategories() {
+        log.debug("REST request to get a list of CourseCategories");
+        return ResponseEntity.ok().body(courseCategoryService.findAll());
+    }
+
     /**
      * {@code GET  /course-categories/:id} : get the "id" courseCategory.
      *
@@ -193,5 +199,15 @@ public class CourseCategoryResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/course-category/{parentId}/sub-category/get-course-count")
+    public ResponseEntity<Map<Long, Integer>> getCourseCountBySubCategory(@PathVariable Long parentId) {
+        return courseCategoryService.getCourseCountBySubCategory(parentId);
+    }
+
+    @GetMapping("/course-category/get-course-count")
+    public ResponseEntity<Map<Long, Integer>> getCourseCountByParentCategory() {
+        return courseCategoryService.getCourseCountByParentCategory();
     }
 }

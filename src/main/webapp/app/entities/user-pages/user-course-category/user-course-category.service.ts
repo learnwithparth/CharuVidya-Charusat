@@ -22,4 +22,8 @@ export class UserCourseCategoryService {
   query(): Observable<EntityArrayResponseType> {
     return this.http.get<ICourseCategory[]>(`api/course-category/parent-categories`, { observe: 'response' });
   }
+
+  courseCount(): Observable<HttpResponse<Map<string, number>>> {
+    return this.http.get<Map<string, number>>(`api/course-category/get-course-count`, { observe: 'response' });
+  }
 }

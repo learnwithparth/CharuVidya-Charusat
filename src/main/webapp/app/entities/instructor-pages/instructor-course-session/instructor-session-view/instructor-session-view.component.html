@@ -55,14 +55,25 @@
           <span>{{ courseSession.sessionDescription }}</span>
         </div>
 
-        <div>
+        <div *ngIf="courseSession.sessionResource">
           <span><b>Resource</b></span>
         </div>
-        <div>
+        <div *ngIf="courseSession.sessionResource">
           <br />
           <br />
           <span>
             <a href="{{ courseSession.sessionResource }}">{{ courseSession.sessionResource }}</a>
+          </span>
+        </div>
+
+        <div *ngIf="courseSession.quizLink">
+          <span><b>Quiz Link</b></span>
+        </div>
+        <div *ngIf="courseSession.quizLink">
+          <br />
+          <br />
+          <span>
+            <a href="{{ courseSession.quizLink }}"> {{ courseSession.quizLink }}</a>
           </span>
         </div>
       </dl>

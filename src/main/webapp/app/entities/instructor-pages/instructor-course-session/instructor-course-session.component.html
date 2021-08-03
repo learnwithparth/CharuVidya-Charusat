@@ -20,7 +20,7 @@
         (click)="addSessions()"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Course Session </span>
+        <span> Create a new Course Session.</span>
       </button>
     </div>
   </h2>
@@ -30,7 +30,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="courseSessions?.length === 0">
-    <span>No sessions added</span>
+    <span>No sessions added. To create a new session click on "Create a new Course Session"</span>
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="courseSessions && courseSessions.length > 0">

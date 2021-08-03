@@ -7,7 +7,7 @@ import com.codehat.charusat.service.CourseSessionService;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
 import com.codehat.charusat.service.dto.CourseSessionDTO;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
-
+import io.github.techgnious.exception.VideoException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,6 +25,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -194,30 +195,32 @@ public class CourseSessionResource {
         @PathVariable Long courseId,
         @PathVariable Long courseSectionId,
         Pageable pageable
-    ){
+    ) {
         log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
         Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseId, courseSectionId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
     @GetMapping("course/{courseId}/course-section/{courseSectionId}/course-sessions/{sessionId}")
     public ResponseEntity<List<CourseSession>> getCourseSessionByCourse(
         @PathVariable Long courseId,
         @PathVariable Long courseSectionId,
         @PathVariable Long sessionId,
         Pageable pageable
-    ){
+    ) {
         log.debug("REST request to get CourseSession by CourseSection: {}", courseSectionId);
         Page<CourseSession> page = courseSessionService.findCourseSessionByCourseSection(courseId, courseSectionId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
     @PostMapping("course/{courseId}/course-section/{courseSectionId}/course-session")
     public ResponseEntity<CourseSession> createCourseSession(
         @RequestBody CourseSessionDTO courseSessionDTO,
         @PathVariable Long courseId,
         @PathVariable Long courseSectionId
-    ) throws URISyntaxException, IOException {
+    ) throws URISyntaxException, IOException, VideoException {
         log.debug("REST request to save CourseSession : {}", courseSessionDTO);
         CourseSession result = courseSessionService.save(courseId, courseSectionId, courseSessionDTO);
         return ResponseEntity
@@ -239,5 +242,11 @@ public class CourseSessionResource {
             .created(new URI("/api/course-sessions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity<String> test(@RequestBody MultipartFile file) throws Exception {
+        String link = courseSessionService.compressAndUpload(file);
+        return ResponseEntity.ok().body(link);
     }
 }

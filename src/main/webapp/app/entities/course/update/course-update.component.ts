@@ -13,6 +13,7 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
 import { CourseCategoryService } from 'app/entities/course-category/service/course-category.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
+import { UploadFilesService } from 'app/entities/instructor-pages/services/upload-files.service';
 
 @Component({
   selector: 'jhi-course-update',
@@ -24,7 +25,7 @@ export class CourseUpdateComponent implements OnInit {
   courseLevelsSharedCollection: ICourseLevel[] = [];
   courseCategoriesSharedCollection: ICourseCategory[] = [];
   usersSharedCollection: IUser[] = [];
-
+  loading = false;
   editForm = this.fb.group({
     id: [null, [Validators.required]],
     courseTitle: [null, [Validators.required, Validators.maxLength(600)]],
@@ -46,6 +47,8 @@ export class CourseUpdateComponent implements OnInit {
     user: [],
     reviewer: [],
   });
+  private selectedFiles!: File;
+  private fileChange = false;
 
   constructor(
     protected courseService: CourseService,
@@ -53,7 +56,8 @@ export class CourseUpdateComponent implements OnInit {
     protected courseCategoryService: CourseCategoryService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected uploadService: UploadFilesService
   ) {}
 
   ngOnInit(): void {
@@ -68,14 +72,30 @@ export class CourseUpdateComponent implements OnInit {
     window.history.back();
   }
 
-  save(): void {
+  selectFile(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files !== null) {
+      this.selectedFiles = target.files[0];
+      this.fileChange = true;
+    }
+  }
+
+  async save(): Promise<void> {
     this.isSaving = true;
+    this.loading = true;
+    if (this.fileChange) {
+      const file = this.selectedFiles;
+      const ans = await this.uploadService.uploadFile(file);
+      this.editForm.get('logo')?.setValue(ans);
+    }
+
     const course = this.createFromForm();
     if (course.id !== undefined) {
       this.subscribeToSaveResponse(this.courseService.update(course));
     } else {
       this.subscribeToSaveResponse(this.courseService.create(course));
     }
+    this.loading = false;
   }
 
   trackCourseLevelById(index: number, item: ICourseLevel): number {

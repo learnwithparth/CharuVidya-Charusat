@@ -101,6 +101,26 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.1020</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>2.16.30</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.techgnious</groupId>
+            <artifactId>IVCompressor</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.mp4parser</groupId>
             <artifactId>isoparser</artifactId>
             <version>1.9.27</version>
@@ -323,6 +343,11 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>com.codehat.charusat</groupId>
+            <artifactId>codehat-charusat</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>-->
 
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
@@ -702,10 +727,10 @@
                                 <message>You are running an older version of Maven. JHipster requires at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
-                            <requireJavaVersion>
+                            <!--<requireJavaVersion>
                                 <message>You are running an incompatible version of Java. JHipster supports JDK 8 to 15.</message>
                                 <version>[1.8,16)</version>
-                            </requireJavaVersion>
+                            </requireJavaVersion>-->
                         </rules>
                     </configuration>
                 </plugin>

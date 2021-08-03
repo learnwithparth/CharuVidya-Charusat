@@ -1,13 +1,13 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.CourseSession;
-
+import com.codehat.charusat.service.dto.CourseSessionDTO;
+import io.github.techgnious.exception.VideoException;
 import java.io.IOException;
 import java.util.Optional;
-
-import com.codehat.charusat.service.dto.CourseSessionDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service Interface for managing {@link CourseSession}.
@@ -52,15 +52,16 @@ public interface CourseSessionService {
      */
     void delete(Long id);
 
-
     /**
      * Custom
      * */
     Page<CourseSession> findCourseSessionByCourseSection(Long courseId, Long courseSectionId, Pageable pageable);
 
-    CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException;
+    CourseSession save(Long courseId, Long courseSectionId, CourseSessionDTO courseSessionDTO) throws IOException, VideoException;
 
     Long getVideoLength(String videoLink) throws IOException;
 
     CourseSession publish(Long courseId, Long courseSectionId, Long courseSessionId, Boolean value);
+
+    String compressAndUpload(MultipartFile file) throws Exception;
 }

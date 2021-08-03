@@ -2,13 +2,17 @@ package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.repository.CourseCategoryRepository;
+import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseCategoryService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +27,11 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
 
     private final CourseCategoryRepository courseCategoryRepository;
 
-    public CourseCategoryServiceImpl(CourseCategoryRepository courseCategoryRepository) {
+    private final CourseRepository courseRepository;
+
+    public CourseCategoryServiceImpl(CourseCategoryRepository courseCategoryRepository, CourseRepository courseRepository) {
         this.courseCategoryRepository = courseCategoryRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -68,6 +75,11 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     }
 
     @Override
+    public List<CourseCategory> findAll() {
+        return courseCategoryRepository.findAllCategories();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<CourseCategory> findOne(Long id) {
         log.debug("Request to get CourseCategory : {}", id);
@@ -94,5 +106,25 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         List<CourseCategory> list;
         list = courseCategoryRepository.findByParentId(Integer.parseInt(id.toString()));
         return list;
+    }
+
+    @Override
+    public ResponseEntity<Map<Long, Integer>> getCourseCountBySubCategory(Long parentId) {
+        List<CourseCategory> courseCategories = courseCategoryRepository.findByParentId(parentId.intValue());
+        Map<Long, Integer> map = new HashMap<>();
+        for (CourseCategory category : courseCategories) {
+            map.put(category.getId(), courseCategoryRepository.getCourseCountBySubCategory(category.getId()));
+        }
+        return ResponseEntity.ok().body(map);
+    }
+
+    @Override
+    public ResponseEntity<Map<Long, Integer>> getCourseCountByParentCategory() {
+        List<CourseCategory> courseCategories = courseCategoryRepository.findParentCategory();
+        Map<Long, Integer> map = new HashMap<>();
+        for (CourseCategory category : courseCategories) {
+            map.put(category.getId(), courseCategoryRepository.getCourseCountByParentCategory(category.getId().intValue()));
+        }
+        return ResponseEntity.ok().body(map);
     }
 }

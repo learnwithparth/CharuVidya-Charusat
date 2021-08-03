@@ -4,16 +4,29 @@
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courseCategories">
       <mdb-card>
         <mdb-card-header>
-          <mdb-card-title>{{ course.courseCategoryTitle }}</mdb-card-title>
+          <div class="row">
+            <div class="col-8">
+              <mdb-card-title>{{ course.courseCategoryTitle }}</mdb-card-title>
+              <br />
+              <mdb-card-title>Course Count: {{ map.get(course.id!.toString()) }}</mdb-card-title>
+            </div>
+            <div>
+              <a routerLink="/sub-category/{{ course.parentId }}">
+                <button mat-button class="btn btn-info btn-sm" style="padding-left: 20px">
+                  <fa-icon icon="eye"></fa-icon> &nbsp; VIEW
+                </button>
+              </a>
+            </div>
+          </div>
         </mdb-card-header>
         <!--        <img mat-card-image src="./../assets/images/mountains.jpg">-->
-        <mdb-card-body>
-          <a routerLink="/sub-category/{{ course.parentId }}">
-            <button mat-button class="btn btn-info btn-sm">
-              <fa-icon icon="eye"></fa-icon> &nbsp; VIEW
-            </button>
-          </a>
-        </mdb-card-body>
+        <!--        <mdb-card-body>-->
+        <!--          <a routerLink="/sub-category/{{ course.parentId }}">-->
+        <!--            <button mat-button class="btn btn-info btn-sm">-->
+        <!--              <fa-icon icon="eye"></fa-icon> &nbsp; VIEW-->
+        <!--            </button>-->
+        <!--          </a>-->
+        <!--        </mdb-card-body>-->
       </mdb-card>
     </div>
   </div>

@@ -1,6 +1,8 @@
 package com.codehat.charusat.service.dto;
 
 import com.codehat.charusat.domain.CourseSection;
+import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CourseSessionDTO {
 
@@ -10,6 +12,7 @@ public class CourseSessionDTO {
     String sessionResource;
     Boolean isPreview;
     Boolean isDraft;
+    String quizLink;
 
     //CourseSection courseSection;
 
@@ -60,11 +63,12 @@ public class CourseSessionDTO {
     public void setIsDraft(Boolean draft) {
         isDraft = draft;
     }
-    //    public CourseSection getCourseSection() {
-    //        return courseSection;
-    //    }
 
-    //    public void setCourseSection(CourseSection courseSection) {
-    //        this.courseSection = courseSection;
-    //    }
+    public String getQuizLink() {
+        return quizLink;
+    }
+
+    public void setQuizLink(String quizLink) {
+        this.quizLink = quizLink;
+    }
 }

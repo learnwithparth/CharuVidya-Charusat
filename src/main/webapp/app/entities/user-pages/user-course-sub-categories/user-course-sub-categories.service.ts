@@ -22,4 +22,8 @@ export class UserCourseSubCategoryService {
   query(id: string): Observable<EntityArrayResponseType> {
     return this.http.get<ICourseCategory[]>(`api/course-category/sub-categories/${id}`, { observe: 'response' });
   }
+
+  courseCount(id: string): Observable<any> {
+    return this.http.get(`api/course-category/${id}/sub-category/get-course-count`, { observe: 'response' });
+  }
 }

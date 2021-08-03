@@ -24,6 +24,7 @@
             id="field_sectionTitle"
             data-cy="sectionTitle"
             formControlName="sectionTitle"
+            maxlength="255"
           />
           <div
             *ngIf="editForm.get('sectionTitle')!.invalid && (editForm.get('sectionTitle')!.dirty || editForm.get('sectionTitle')!.touched)"
@@ -44,6 +45,7 @@
             id="field_sectionDescription"
             data-cy="sectionDescription"
             formControlName="sectionDescription"
+            maxlength="255"
           />
           <div
             *ngIf="

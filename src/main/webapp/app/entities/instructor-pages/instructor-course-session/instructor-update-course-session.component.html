@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-8">
     <form #userInput="ngForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
-      <h2 id="jhi-course-session-heading" data-cy="CourseSessionCreateUpdateHeading">Create or edit a Course Session</h2>
+      <h2 id="jhi-course-session-heading" data-cy="CourseSessionCreateUpdateHeading">Create or Edit a Course Session</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -24,6 +24,7 @@
             id="field_sessionTitle"
             data-cy="sessionTitle"
             formControlName="sessionTitle"
+            maxlength="255"
           />
           <div
             *ngIf="editForm.get('sessionTitle')!.invalid && (editForm.get('sessionTitle')!.dirty || editForm.get('sessionTitle')!.touched)"
@@ -44,6 +45,7 @@
             id="field_sessionDescription"
             data-cy="sessionDescription"
             formControlName="sessionDescription"
+            maxlength="255"
           />
           <div
             *ngIf="
@@ -58,9 +60,17 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label">Upload Video.</label>
-          <br />
-          <input type="file" accept="video/* " (change)="selectFile($event)" />
+          <label class="form-control-label" for="field_sessionVideo">Upload Video.</label>
+          <input
+            type="file"
+            class="form-control"
+            name="sessionVideo"
+            id="field_sessionVideo"
+            data-cy="sessionVideo"
+            formControlName="sessionVideo"
+            accept="video/mp4 "
+            (change)="selectFile($event)"
+          />
           <!--          <input-->
           <!--            type="text"-->
           <!--            class="form-control"-->
@@ -84,7 +94,7 @@
         <!--        </div>-->
 
         <div class="form-group">
-          <label class="form-control-label" for="field_sessionResource">Session Resource</label>
+          <label class="form-control-label" for="field_sessionResource">Session Resource <span style="color: red">(If Any)</span> </label>
           <input
             type="text"
             class="form-control"
@@ -100,6 +110,16 @@
             "
           >
             <small class="form-text text-danger" *ngIf="editForm.get('sessionResource')?.errors?.maxlength">
+              This field cannot be longer than 300 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_quizLink">Quiz Link <span style="color: red">(If Any)</span></label>
+          <input type="text" class="form-control" name="quizLink" id="field_quizLink" data-cy="quizLink" formControlName="quizLink" />
+          <div *ngIf="editForm.get('quizLink')!.invalid && (editForm.get('quizLink')!.dirty || editForm.get('quizLink')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('quizLink')?.errors?.maxlength">
               This field cannot be longer than 300 characters.
             </small>
           </div>
@@ -123,11 +143,11 @@
       </div>
 
       <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+        <button type="button" [disabled]="loading" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+        <button type="submit" [disabled]="loading" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
       </div>

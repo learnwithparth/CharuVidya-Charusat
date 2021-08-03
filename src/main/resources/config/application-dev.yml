@@ -32,7 +32,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/Codehat_Charusat?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/Codehat_Charusat?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password: root
     hikari:
@@ -61,6 +61,10 @@ spring:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
+  servlet:
+    multipart:
+      max-file-size: 4096MB
+      max-request-size: 4096MB
 
 server:
   port: 8080
@@ -95,7 +99,7 @@ jhipster:
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     #    base-url: http://127.0.0.1:8080
-    base-url: http://172.16.12.95:8080
+    base-url: http://172.16.11.80:8080
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

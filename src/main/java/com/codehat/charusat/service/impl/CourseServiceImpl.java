@@ -1,8 +1,11 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
+import com.codehat.charusat.repository.CourseSectionRepository;
+import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.service.MailService;
@@ -15,6 +18,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,10 +45,22 @@ public class CourseServiceImpl implements CourseService {
 
     private final MailService mailService;
 
-    public CourseServiceImpl(CourseRepository courseRepository, UserService userService, MailService mailService) {
+    private final CourseSectionRepository courseSectionRepository;
+
+    private final CourseSessionRepository courseSessionRepository;
+
+    public CourseServiceImpl(
+        CourseRepository courseRepository,
+        UserService userService,
+        MailService mailService,
+        CourseSectionRepository courseSectionRepository,
+        CourseSessionRepository courseSessionRepository
+    ) {
         this.courseRepository = courseRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.courseSectionRepository = courseSectionRepository;
+        this.courseSessionRepository = courseSessionRepository;
     }
 
     @Override
@@ -171,8 +189,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Course : {}", id);
+
+        /**
+         * CUSTOM
+         * */
+        courseSessionRepository.deleteCourseSessionByCourseId(id);
+        courseSectionRepository.deleteCourseSectionByCourseId(id);
         courseRepository.deleteById(id);
     }
 
@@ -270,6 +295,18 @@ public class CourseServiceImpl implements CourseService {
             }
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> getStudentEnrolledCountByCourse(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            Integer count = course.get().getEnrolledUsersLists().size();
+            return ResponseEntity.ok(count);
+        } else {
+            log.error("Course not found");
+            return ResponseEntity.noContent().build();
         }
     }
 }
