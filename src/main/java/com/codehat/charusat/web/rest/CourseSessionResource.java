@@ -249,4 +249,9 @@ public class CourseSessionResource {
         String link = courseSessionService.compressAndUpload(file);
         return ResponseEntity.ok().body(link);
     }
+
+    @PostMapping("/course-sessions/approve")
+    public ResponseEntity<CourseSession> approveCourseSession(@RequestBody CourseSession courseSession) throws Exception {
+        return courseSessionService.approveCourseSession(courseSession);
+    }
 }

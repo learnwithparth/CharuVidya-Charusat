@@ -13,12 +13,12 @@ Main page styles
 .col-md-12 {
   text-align: center;
 }
-
-.row {
-  height: 100vh;
-  background-image: url('../../content/images/backgorund-2.jpg');
-  background-size: 100vh;
-}
+//
+//.row {
+//  height: 10vh;
+//  background-image: url('../../content/images/backgorund-2.jpg');
+//  background-size: cover;
+//}
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),

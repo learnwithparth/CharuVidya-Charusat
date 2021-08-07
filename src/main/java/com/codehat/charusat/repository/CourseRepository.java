@@ -32,7 +32,10 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     )
     List<Course> findByCategoryId(@Param("id") Long id);
 
-    Page<Course> findCourseByEnrolledUsersListsContaining(User user, Pageable pageable);
+    List<Course> findCourseByEnrolledUsersListsContaining(User user);
 
     Page<Course> findAllByIsApproved(Boolean value, Pageable pageable);
+
+    @Query(value = "select course from Course course order by course.courseCreatedOn desc")
+    List<Course> coursesOrderedByUpdatedDate();
 }

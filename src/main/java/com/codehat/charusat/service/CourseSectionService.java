@@ -63,4 +63,6 @@ public interface CourseSectionService {
     CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO);
 
     ResponseEntity<Map<CourseSection, List<CourseSession>>> findAllCourseSectionAndSessionByCourse(Long courseId);
+
+    CourseSection approveCourseSection(Long id) throws Exception;
 }

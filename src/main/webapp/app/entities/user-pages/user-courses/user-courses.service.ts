@@ -27,4 +27,8 @@ export class UserCourseService {
   getEnrolledCourses(): Observable<EntityArrayResponseType> {
     return this.http.get<ICourse[]>(`${this.resourceUrl}/enrolled`, { observe: 'response' });
   }
+
+  getLatestCourses(): Observable<EntityArrayResponseType> {
+    return this.http.get<ICourse[]>(`${this.resourceUrl}/top-10`, { observe: 'response' });
+  }
 }

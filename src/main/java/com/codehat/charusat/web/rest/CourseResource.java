@@ -181,7 +181,7 @@ public class CourseResource {
     }
 
     @GetMapping("courses/enrolled")
-    public ResponseEntity<List<Course>> enrolledCourses() {
+    public ResponseEntity<List<Course>> enrolledCourses() throws Exception {
         log.debug("REST request to get a page of Courses");
         List<Course> list = courseService.getEnrolledCourses();
         return ResponseEntity.ok().body(list);
@@ -255,5 +255,11 @@ public class CourseResource {
     public ResponseEntity<Integer> getStudentCountByCourse(@PathVariable Long courseId) {
         log.debug("REST request to get student enrolled count based on courseId : {}", courseId);
         return courseService.getStudentEnrolledCountByCourse(courseId);
+    }
+
+    @GetMapping("/courses/top-10")
+    public ResponseEntity<List<Course>> getTop10LatestCourses() {
+        log.debug("REST request to get top 10 latest courses");
+        return courseService.getTop10LatestCourses();
     }
 }

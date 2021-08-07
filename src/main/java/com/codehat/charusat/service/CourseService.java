@@ -75,5 +75,7 @@ public interface CourseService {
 
     ResponseEntity<Integer> getStudentEnrolledCountByCourse(Long courseId);
 
-    List<Course> getEnrolledCourses();
+    List<Course> getEnrolledCourses() throws Exception;
+
+    ResponseEntity<List<Course>> getTop10LatestCourses();
 }

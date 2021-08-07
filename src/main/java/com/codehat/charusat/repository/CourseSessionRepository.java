@@ -1,5 +1,6 @@
 package com.codehat.charusat.repository;
 
+import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.CourseSession;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -34,4 +35,6 @@ public interface CourseSessionRepository extends JpaRepository<CourseSession, Lo
     @Query(value = "delete from CourseSession courseSession where courseSession.courseSection.id = :courseSectionId")
     @Modifying
     void deleteCourseSessionByCourseSectionId(@Param("courseSectionId") Long courseSectionId);
+
+    Integer countCourseSessionByCourseSectionAndIsApproved(CourseSection courseSection, Boolean approvalValue);
 }

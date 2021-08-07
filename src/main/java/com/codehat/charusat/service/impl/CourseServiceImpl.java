@@ -1,7 +1,6 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
-import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.repository.CourseSectionRepository;
@@ -13,15 +12,9 @@ import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -254,7 +247,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = new Course(courseDTO);
         course.setCourseCreatedOn(LocalDate.now());
         course.setCourseUpdatedOn(LocalDate.now());
-        course.setIsApproved(true);
+        course.setIsApproved(false);
         course.setIsDraft(false);
         course.setAmount(0.0);
         course.setMaxStudents(0);
@@ -326,17 +319,20 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getEnrolledCourses() {
+    public List<Course> getEnrolledCourses() throws Exception {
         Optional<User> user = userService.getUserWithAuthorities();
-        List<Course> courses = new ArrayList<>();
+        List<Course> courses;
         if (user.isPresent()) {
-            List<Course> allCourses = courseRepository.findAll();
-            for (Course course : allCourses) {
-                if (course.getEnrolledUsersLists().contains(user.get())) {
-                    courses.add(course);
-                }
-            }
+            courses = courseRepository.findCourseByEnrolledUsersListsContaining(user.get());
+            return courses;
+        } else {
+            throw new Exception("User not found");
         }
-        return courses;
+    }
+
+    @Override
+    public ResponseEntity<List<Course>> getTop10LatestCourses() {
+        List<Course> courses = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+        return ResponseEntity.ok().body(courses);
     }
 }

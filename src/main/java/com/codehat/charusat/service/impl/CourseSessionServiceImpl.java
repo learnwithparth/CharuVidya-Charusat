@@ -8,6 +8,7 @@ import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.domain.User;
+import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseSessionService;
 import com.codehat.charusat.service.UserService;
@@ -32,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,16 +55,20 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 
     private final CourseSectionServiceImpl courseSectionService;
 
+    private final CourseSectionRepository courseSectionRepository;
+
     public CourseSessionServiceImpl(
         CourseSessionRepository courseSessionRepository,
         CourseServiceImpl courseService,
         UserService userService,
-        CourseSectionServiceImpl courseSectionService
+        CourseSectionServiceImpl courseSectionService,
+        CourseSectionRepository courseSectionRepository
     ) {
         this.courseSessionRepository = courseSessionRepository;
         this.courseService = courseService;
         this.userService = userService;
         this.courseSectionService = courseSectionService;
+        this.courseSectionRepository = courseSectionRepository;
     }
 
     @Override
@@ -214,7 +220,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     //courseSession.setSessionVideo(compressAndUpload(courseSessionDTO.getSessionVideo()));
                     courseSession.setSessionVideo(courseSessionDTO.getSessionVideo());
                     courseSession.setCourseSection(courseSection.get());
-                    courseSession.isApproved(true);
+                    courseSession.isApproved(false);
                     courseSession.setSessionDuration(Instant.now());
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);
@@ -307,5 +313,43 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         System.out.println(targetVideo.getContentDetails().getDuration());
         String duration = targetVideo.getContentDetails().getDuration();
         return Duration.parse(duration).getSeconds();
+    }
+
+    @Override
+    public ResponseEntity<CourseSession> approveCourseSession(CourseSession courseSessionDTO) throws Exception {
+        Optional<CourseSession> courseSession = courseSessionRepository.findById(courseSessionDTO.getId());
+        if (courseSession.isPresent() && !courseSession.get().getIsDraft()) {
+            courseSession.get().setIsApproved(true);
+            courseSessionRepository.save(courseSession.get());
+
+            Integer approvedCourseSessionCountByCourseSection = courseSessionRepository.countCourseSessionByCourseSectionAndIsApproved(
+                courseSession.get().getCourseSection(),
+                true
+            );
+            Integer totalCourseSessionCountByCourseSection = courseSessionRepository
+                .findAllByCourseSection_Id(courseSession.get().getCourseSection().getId())
+                .size();
+
+            if (approvedCourseSessionCountByCourseSection.equals(totalCourseSessionCountByCourseSection)) {
+                System.out.println("Sessions" + approvedCourseSessionCountByCourseSection + " " + totalCourseSessionCountByCourseSection);
+                courseSectionService.approveCourseSection(courseSession.get().getCourseSection().getId());
+
+                Integer approvedCourseSectionByCourse = courseSectionRepository.countCourseSectionByCourseAndIsApproved(
+                    courseSession.get().getCourseSection().getCourse(),
+                    true
+                );
+                Integer totalCourseSectionByCourse = courseSectionRepository
+                    .findCourseSectionByCourse_Id(courseSession.get().getCourseSection().getCourse().getId())
+                    .size();
+
+                if (approvedCourseSectionByCourse.equals(totalCourseSectionByCourse)) {
+                    System.out.println("Sections " + approvedCourseSectionByCourse + " " + totalCourseSectionByCourse);
+                    courseService.approveCourse(courseSession.get().getCourseSection().getCourse().getId());
+                }
+            }
+        } else {
+            throw new Exception("No such course-session found");
+        }
+        return ResponseEntity.accepted().body(courseSession.get());
     }
 }
