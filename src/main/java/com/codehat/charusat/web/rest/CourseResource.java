@@ -180,6 +180,13 @@ public class CourseResource {
         return courseService.enrollInCourse(course);
     }
 
+    @GetMapping("courses/enrolled")
+    public ResponseEntity<List<Course>> enrolledCourses() {
+        log.debug("REST request to get a page of Courses");
+        List<Course> list = courseService.getEnrolledCourses();
+        return ResponseEntity.ok().body(list);
+    }
+
     /**
      * {@code GET  /courses/:id} : get the "id" course.
      *

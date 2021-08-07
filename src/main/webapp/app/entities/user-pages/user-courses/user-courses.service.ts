@@ -23,4 +23,8 @@ export class UserCourseService {
   getStudentCount(courseId: number): Observable<HttpResponse<any>> {
     return this.http.get(`${this.resourceUrl}/${courseId}/student-count`, { observe: 'response' });
   }
+
+  getEnrolledCourses(): Observable<EntityArrayResponseType> {
+    return this.http.get<ICourse[]>(`${this.resourceUrl}/enrolled`, { observe: 'response' });
+  }
 }

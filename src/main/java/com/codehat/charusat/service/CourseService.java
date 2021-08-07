@@ -74,4 +74,6 @@ public interface CourseService {
     Page<Course> findAllCoursesByFilter(String filter, Pageable pageable);
 
     ResponseEntity<Integer> getStudentEnrolledCountByCourse(Long courseId);
+
+    List<Course> getEnrolledCourses();
 }

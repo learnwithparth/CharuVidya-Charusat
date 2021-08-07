@@ -324,4 +324,19 @@ public class CourseServiceImpl implements CourseService {
             return ResponseEntity.noContent().build();
         }
     }
+
+    @Override
+    public List<Course> getEnrolledCourses() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        List<Course> courses = new ArrayList<>();
+        if (user.isPresent()) {
+            List<Course> allCourses = courseRepository.findAll();
+            for (Course course : allCourses) {
+                if (course.getEnrolledUsersLists().contains(user.get())) {
+                    courses.add(course);
+                }
+            }
+        }
+        return courses;
+    }
 }
