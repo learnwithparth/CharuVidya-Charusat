@@ -56,7 +56,7 @@ public interface CourseService {
     /**
      * CUSTOM
      * */
-    List<Course> getByCategoryId(Long id);
+    List<CourseDTO> getByCategoryId(Long id) throws Exception;
 
     ResponseEntity enrollInCourse(Course course);
 

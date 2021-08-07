@@ -25,6 +25,7 @@ export interface ICourse {
   courseCategory?: ICourseCategory | null;
   user?: IUser | null;
   reviewer?: IUser | null;
+  enrolled?: boolean | null;
 }
 
 export class Course implements ICourse {
@@ -49,7 +50,8 @@ export class Course implements ICourse {
     public courseLevel?: ICourseLevel | null,
     public courseCategory?: ICourseCategory | null,
     public user?: IUser | null,
-    public reviewer?: IUser | null
+    public reviewer?: IUser | null,
+    public enrolled?: boolean
   ) {
     this.isDraft = this.isDraft ?? false;
     this.isApproved = this.isApproved ?? false;

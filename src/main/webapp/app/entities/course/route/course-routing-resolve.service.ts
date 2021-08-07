@@ -15,7 +15,7 @@ export class CourseRoutingResolveService implements Resolve<ICourse> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((course: HttpResponse<Course>) => {
+        mergeMap((course: HttpResponse<ICourse>) => {
           if (course.body) {
             return of(course.body);
           } else {

@@ -162,9 +162,9 @@ public class CourseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
      */
     @GetMapping("/courses/category/{categoryId}")
-    public ResponseEntity<List<Course>> getCourseByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<CourseDTO>> getCourseByCategory(@PathVariable Long categoryId) throws Exception {
         log.debug("REST request to get Course by categoryId : {}", categoryId);
-        List<Course> list = courseService.getByCategoryId(categoryId);
+        List<CourseDTO> list = courseService.getByCategoryId(categoryId);
         return ResponseEntity.ok().body(list);
     }
 

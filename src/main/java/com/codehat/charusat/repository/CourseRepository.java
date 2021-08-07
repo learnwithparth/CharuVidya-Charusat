@@ -27,7 +27,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * */
     Page<Course> findCourseByUserEqualsOrEnrolledUsersListsContaining(User author, User user, Pageable pageable);
 
-    @Query(value = "select course from Course course where course.courseCategory.id = :id order by course.courseTitle")
+    @Query(
+        value = "select course from Course course where course.courseCategory.id = :id and course.isApproved = true order by course.courseTitle"
+    )
     List<Course> findByCategoryId(@Param("id") Long id);
 
     Page<Course> findCourseByEnrolledUsersListsContaining(User user, Pageable pageable);

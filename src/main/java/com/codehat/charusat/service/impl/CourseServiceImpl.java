@@ -12,10 +12,7 @@ import com.codehat.charusat.service.MailService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.hibernate.annotations.Cascade;
@@ -205,9 +202,25 @@ public class CourseServiceImpl implements CourseService {
      * CUSTOM
      * */
     @Override
-    public List<Course> getByCategoryId(Long id) {
-        List<Course> list = courseRepository.findByCategoryId(id);
-        return list;
+    public List<CourseDTO> getByCategoryId(Long id) throws Exception {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            List<CourseDTO> list = new ArrayList<>();
+            List<Course> courses = courseRepository.findByCategoryId(id);
+            CourseDTO courseDTO;
+            for (Course course : courses) {
+                courseDTO = new CourseDTO(course);
+                if (course.getEnrolledUsersLists().contains(user.get())) {
+                    courseDTO.setEnrolled(true);
+                } else {
+                    courseDTO.setEnrolled(false);
+                }
+                list.add(courseDTO);
+            }
+            return list;
+        } else {
+            throw new Exception("User ot found");
+        }
     }
 
     @Override
