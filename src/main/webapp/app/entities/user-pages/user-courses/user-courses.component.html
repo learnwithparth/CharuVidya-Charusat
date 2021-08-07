@@ -10,7 +10,9 @@
           <br />
           <mdb-card-title *ngIf="course.courseCreatedOn"><b>Created On :</b> {{ course.courseCreatedOn }}</mdb-card-title>
           <br />
-          <mdb-card-title *ngIf="studentCount"><b>Student Enrolled :</b> {{ studentCount.get(course) }}</mdb-card-title>
+          <mdb-card-title *ngIf="studentCount"
+            ><b>Student Enrolled :</b> {{ generateRandomNumber(course.minStudents, course.maxStudents) }}</mdb-card-title
+          >
         </mdb-card-header>
         <img mat-card-image src="{{ course.logo }}" style="height: 100%" />
         <mdb-card-body>

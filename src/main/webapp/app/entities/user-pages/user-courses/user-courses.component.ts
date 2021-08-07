@@ -38,6 +38,13 @@ export class UserCoursesComponent implements OnInit {
     );
   }
 
+  generateRandomNumber(min: number | undefined, max: number | undefined): number {
+    if (min !== undefined && max !== undefined) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    return 0;
+  }
+
   private loadAllCourses(): void {
     const hasCategoryId: boolean = this.activatedRoute.snapshot.paramMap.has('categoryId');
     if (hasCategoryId) {

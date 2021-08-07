@@ -244,6 +244,8 @@ public class CourseServiceImpl implements CourseService {
         course.setIsApproved(true);
         course.setIsDraft(false);
         course.setAmount(0.0);
+        course.setMaxStudents(0);
+        course.setMinStudents(0);
         course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

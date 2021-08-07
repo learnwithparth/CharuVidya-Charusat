@@ -11,6 +11,8 @@ export interface ICourse {
   courseSubTitle?: string;
   previewVideourl?: string;
   courseLength?: number | null;
+  minStudents?: number;
+  maxStudents?: number;
   logo?: string;
   courseCreatedOn?: dayjs.Dayjs;
   courseUpdatedOn?: dayjs.Dayjs;
@@ -34,6 +36,8 @@ export class Course implements ICourse {
     public courseSubTitle?: string,
     public previewVideourl?: string,
     public courseLength?: number | null,
+    public minStudents?: number,
+    public maxStudents?: number,
     public logo?: string,
     public courseCreatedOn?: dayjs.Dayjs,
     public courseUpdatedOn?: dayjs.Dayjs,
