@@ -81,5 +81,29 @@
     <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
       <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
     </button>
+    <div *ngIf="!courseSession!.isApproved; else elseBlock">
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN' || 'ROLE_REVIEWER'"
+        type="submit"
+        (click)="approve(courseSession)"
+        class="btn btn-success"
+        data-cy="entityDetailsBackButton"
+        [disabled]="courseSession!.isDraft"
+      >
+        <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
+      </button>
+    </div>
+    <ng-template #elseBlock class="btn btn-success">
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN' || 'ROLE_REVIEWER'"
+        type="submit"
+        (click)="approve(courseSession)"
+        class="btn btn-success"
+        data-cy="entityDetailsBackButton"
+        [disabled]="true"
+      >
+        <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
+      </button>
+    </ng-template>
   </div>
 </div>

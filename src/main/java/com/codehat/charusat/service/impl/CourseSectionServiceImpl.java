@@ -172,4 +172,27 @@ public class CourseSectionServiceImpl implements CourseSectionService {
             return null;
         }
     }
+
+    @Override
+    public CourseSection approveCourseSection(Long id) throws Exception {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            if (
+                user.get().getAuthorities().toString().contains("ROLE_ADMIN") ||
+                user.get().getAuthorities().toString().contains("ROLE_REVIEWER")
+            ) {
+                Optional<CourseSection> courseSection = courseSectionRepository.findById(id);
+                if (courseSection.isPresent()) {
+                    courseSection.get().setIsApproved(true);
+                    return courseSectionRepository.save(courseSection.get());
+                } else {
+                    throw new Exception("No such course-section");
+                }
+            } else {
+                throw new Exception("User is not authorised");
+            }
+        } else {
+            throw new Exception("User not found!");
+        }
+    }
 }

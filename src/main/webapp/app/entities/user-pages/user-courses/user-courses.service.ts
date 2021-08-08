@@ -16,11 +16,19 @@ export class UserCourseService {
     return this.http.get<ICourse[]>(`${this.resourceUrl}/category/${id}`, { observe: 'response' });
   }
 
-  onEnroll(course: ICourse): Observable<HttpResponse<any>> {
-    return this.http.post(`${this.resourceUrl}/enroll`, course, { observe: 'response' });
+  onEnroll(courseId: string): Observable<HttpResponse<any>> {
+    return this.http.post(`${this.resourceUrl}/enroll`, courseId, { observe: 'response' });
   }
 
   getStudentCount(courseId: number): Observable<HttpResponse<any>> {
     return this.http.get(`${this.resourceUrl}/${courseId}/student-count`, { observe: 'response' });
+  }
+
+  getEnrolledCourses(): Observable<EntityArrayResponseType> {
+    return this.http.get<ICourse[]>(`${this.resourceUrl}/enrolled`, { observe: 'response' });
+  }
+
+  getLatestCourses(): Observable<EntityArrayResponseType> {
+    return this.http.get<ICourse[]>(`${this.resourceUrl}/top-10`, { observe: 'response' });
   }
 }

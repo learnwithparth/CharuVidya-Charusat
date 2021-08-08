@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ICourseSession} from "app/entities/course-session/course-session.model";
-import {InstructorCourseSessionService} from "app/entities/instructor-pages/instructor-course-session/instructor-course-session.service";
+import { ActivatedRoute } from '@angular/router';
+import { ICourseSession } from 'app/entities/course-session/course-session.model';
+import { InstructorCourseSessionService } from 'app/entities/instructor-pages/instructor-course-session/instructor-course-session.service';
 
 @Component({
   selector: 'jhi-instructor-session-view',
   templateUrl: './instructor-session-view.component.html',
-  styleUrls: ['./instructor-session-view.component.scss']
+  styleUrls: ['./instructor-session-view.component.scss'],
 })
 export class InstructorSessionViewComponent implements OnInit {
   courseSession: ICourseSession | null = null;
   courseSessions?: ICourseSession[] | null;
-  sessionId!: string | null ;
+  sessionId!: string | null;
   courseSectionId!: string | null;
   isLoading = false;
-  constructor(protected activatedRoute: ActivatedRoute,protected courseSessionService: InstructorCourseSessionService) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected courseSessionService: InstructorCourseSessionService) {}
 
   ngOnInit(): void {
-    this.sessionId="";
+    this.sessionId = '';
     const hasCourseId: boolean = this.activatedRoute.snapshot.paramMap.has('sessionId');
     if (hasCourseId) {
       this.sessionId = this.activatedRoute.snapshot.paramMap.get('sessionId');
@@ -33,10 +33,24 @@ export class InstructorSessionViewComponent implements OnInit {
     window.history.back();
   }
   loadSessions(): void {
-    if ( this.sessionId!==null) {
-      this.courseSessionService.find(this.sessionId).subscribe((data)=>{
-          this.courseSession=data.body;
-      })
+    if (this.sessionId !== null) {
+      this.courseSessionService.find(this.sessionId).subscribe(data => {
+        this.courseSession = data.body;
+      });
+    }
+  }
+
+  approve(courseSession: ICourseSession | null): void {
+    if (courseSession?.id) {
+      this.courseSessionService.approveSession(courseSession).subscribe(
+        res => {
+          window.alert('Session approved');
+        },
+        error => {
+          console.error(error);
+          window.alert('Something went wrong');
+        }
+      );
     }
   }
 }

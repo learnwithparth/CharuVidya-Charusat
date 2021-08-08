@@ -6,6 +6,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { ActivatedRoute } from '@angular/router';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-navbar',
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   openAPIEnabled?: boolean;
   authority = false;
   version = '';
+  faBookmark = faBookmark;
 
   constructor(
     private loginService: LoginService,

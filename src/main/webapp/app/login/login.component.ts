@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
              * Loading the landing page according to role.
              * */
             if (this.accountService.hasAnyAuthority('ROLE_STUDENT')) {
-              this.router.navigate(['categories']);
+              this.router.navigate(['enrolled-courses']);
             }
             if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
               this.router.navigate(['']);

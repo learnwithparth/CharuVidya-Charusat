@@ -11,6 +11,8 @@ export interface ICourse {
   courseSubTitle?: string;
   previewVideourl?: string;
   courseLength?: number | null;
+  minStudents?: number;
+  maxStudents?: number;
   logo?: string;
   courseCreatedOn?: dayjs.Dayjs;
   courseUpdatedOn?: dayjs.Dayjs;
@@ -23,6 +25,7 @@ export interface ICourse {
   courseCategory?: ICourseCategory | null;
   user?: IUser | null;
   reviewer?: IUser | null;
+  enrolled?: boolean | null;
 }
 
 export class Course implements ICourse {
@@ -34,6 +37,8 @@ export class Course implements ICourse {
     public courseSubTitle?: string,
     public previewVideourl?: string,
     public courseLength?: number | null,
+    public minStudents?: number,
+    public maxStudents?: number,
     public logo?: string,
     public courseCreatedOn?: dayjs.Dayjs,
     public courseUpdatedOn?: dayjs.Dayjs,
@@ -45,7 +50,8 @@ export class Course implements ICourse {
     public courseLevel?: ICourseLevel | null,
     public courseCategory?: ICourseCategory | null,
     public user?: IUser | null,
-    public reviewer?: IUser | null
+    public reviewer?: IUser | null,
+    public enrolled?: boolean
   ) {
     this.isDraft = this.isDraft ?? false;
     this.isApproved = this.isApproved ?? false;

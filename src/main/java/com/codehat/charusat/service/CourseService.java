@@ -56,9 +56,9 @@ public interface CourseService {
     /**
      * CUSTOM
      * */
-    List<Course> getByCategoryId(Long id);
+    List<CourseDTO> getByCategoryId(Long id) throws Exception;
 
-    ResponseEntity enrollInCourse(Course course);
+    ResponseEntity enrollInCourse(String courseId);
 
     /**
      * Overloaded method.
@@ -74,4 +74,8 @@ public interface CourseService {
     Page<Course> findAllCoursesByFilter(String filter, Pageable pageable);
 
     ResponseEntity<Integer> getStudentEnrolledCountByCourse(Long courseId);
+
+    List<Course> getEnrolledCourses() throws Exception;
+
+    ResponseEntity<List<Course>> getTop10LatestCourses();
 }

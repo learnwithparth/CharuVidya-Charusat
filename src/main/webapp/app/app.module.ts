@@ -51,6 +51,7 @@ import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course
 import { UserCouresSectionSessionComponent } from './entities/user-pages/user-coures-section-session/user-coures-section-session.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-courses/user-enrolled-courses.component';
 
 @NgModule({
   imports: [
@@ -102,6 +103,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     InstructorUpdateCourseSessionComponent,
     InstructorSessionViewComponent,
     UserCouresSectionSessionComponent,
+    UserEnrolledCoursesComponent,
   ],
   bootstrap: [MainComponent],
 })

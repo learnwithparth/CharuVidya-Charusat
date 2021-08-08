@@ -126,7 +126,7 @@ public class MailService {
         String subject = "RE: Course approval";
         String content =
             "Dear " +
-            author.getLogin() +
+            author.getFirstName() +
             ",<br>" +
             "Your course : " +
             course.getCourseTitle() +

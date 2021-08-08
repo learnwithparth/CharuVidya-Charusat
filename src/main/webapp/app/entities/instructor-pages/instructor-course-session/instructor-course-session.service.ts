@@ -44,4 +44,8 @@ export class InstructorCourseSessionService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  approveSession(session: ICourseSession): Observable<HttpResponse<any>> {
+    return this.http.post(`${this.resourceUrl}/approve`, session, { observe: 'response' });
+  }
 }

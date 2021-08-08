@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -64,4 +65,6 @@ public interface CourseSessionService {
     CourseSession publish(Long courseId, Long courseSectionId, Long courseSessionId, Boolean value);
 
     String compressAndUpload(MultipartFile file) throws Exception;
+
+    ResponseEntity<CourseSession> approveCourseSession(CourseSession courseSession) throws Exception;
 }

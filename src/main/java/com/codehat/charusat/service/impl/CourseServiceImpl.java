@@ -1,7 +1,6 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.Course;
-import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.repository.CourseSectionRepository;
@@ -12,19 +11,10 @@ import com.codehat.charusat.service.MailService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -205,16 +195,32 @@ public class CourseServiceImpl implements CourseService {
      * CUSTOM
      * */
     @Override
-    public List<Course> getByCategoryId(Long id) {
-        List<Course> list = courseRepository.findByCategoryId(id);
-        return list;
+    public List<CourseDTO> getByCategoryId(Long id) throws Exception {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            List<CourseDTO> list = new ArrayList<>();
+            List<Course> courses = courseRepository.findByCategoryId(id);
+            CourseDTO courseDTO;
+            for (Course course : courses) {
+                courseDTO = new CourseDTO(course);
+                if (course.getEnrolledUsersLists().contains(user.get())) {
+                    courseDTO.setEnrolled(true);
+                } else {
+                    courseDTO.setEnrolled(false);
+                }
+                list.add(courseDTO);
+            }
+            return list;
+        } else {
+            throw new Exception("User ot found");
+        }
     }
 
     @Override
-    public ResponseEntity enrollInCourse(Course course) {
+    public ResponseEntity enrollInCourse(String courseId) {
         try {
             courseRepository
-                .findById(course.getId())
+                .findById(Long.parseLong(courseId))
                 .map(
                     existingCourse -> {
                         Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();
@@ -241,9 +247,11 @@ public class CourseServiceImpl implements CourseService {
         Course course = new Course(courseDTO);
         course.setCourseCreatedOn(LocalDate.now());
         course.setCourseUpdatedOn(LocalDate.now());
-        course.setIsApproved(true);
+        course.setIsApproved(false);
         course.setIsDraft(false);
         course.setAmount(0.0);
+        course.setMaxStudents(0);
+        course.setMinStudents(0);
         course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -308,5 +316,23 @@ public class CourseServiceImpl implements CourseService {
             log.error("Course not found");
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @Override
+    public List<Course> getEnrolledCourses() throws Exception {
+        Optional<User> user = userService.getUserWithAuthorities();
+        List<Course> courses;
+        if (user.isPresent()) {
+            courses = courseRepository.findCourseByEnrolledUsersListsContaining(user.get());
+            return courses;
+        } else {
+            throw new Exception("User not found");
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Course>> getTop10LatestCourses() {
+        List<Course> courses = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+        return ResponseEntity.ok().body(courses);
     }
 }

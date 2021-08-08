@@ -120,7 +120,7 @@
       <tbody>
         <tr *ngFor="let course of coursesToBeDisplayed; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>
+            <a [routerLink]="['/course', course.id, 'sections']">{{ course.id }}</a>
           </td>
           <td>{{ course.courseTitle }}</td>
           <td>{{ course.courseDescription }}</td>
@@ -154,7 +154,12 @@
           </td>
           <td class="text-right">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/course', course.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/course', course.id, 'sections']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>

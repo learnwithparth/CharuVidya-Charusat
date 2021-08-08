@@ -87,6 +87,12 @@ public class Course implements Serializable {
     @JsonIgnoreProperties(value = { "levels" }, allowSetters = true)
     private CourseLevel courseLevel;
 
+    @Column(name = "min_students")
+    private Integer minStudents;
+
+    @Column(name = "max_students")
+    private Integer maxStudents;
+
     @ManyToOne
     private CourseCategory courseCategory;
 
@@ -95,6 +101,22 @@ public class Course implements Serializable {
 
     @ManyToOne
     private User reviewer;
+
+    public Integer getMinStudents() {
+        return minStudents;
+    }
+
+    public void setMinStudents(Integer minStudents) {
+        this.minStudents = minStudents;
+    }
+
+    public Integer getMaxStudents() {
+        return maxStudents;
+    }
+
+    public void setMaxStudents(Integer maxStudents) {
+        this.maxStudents = maxStudents;
+    }
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

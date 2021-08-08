@@ -27,15 +27,24 @@ export class UserCoursesComponent implements OnInit {
     this.loadAllCourses();
   }
 
-  onEnroll(course: ICourse): void {
-    this.userCourseService.onEnroll(course).subscribe(
-      res => {
-        window.alert('Enrolled Successful');
-      },
-      () => {
-        window.alert('Error while enrolling in course');
-      }
-    );
+  onEnroll(courseId: number | undefined): void {
+    if (courseId !== undefined) {
+      this.userCourseService.onEnroll(courseId.toString()).subscribe(
+        res => {
+          window.alert('Enrolled Successful');
+        },
+        () => {
+          window.alert('Error while enrolling in course');
+        }
+      );
+    }
+  }
+
+  generateRandomNumber(min: number | undefined, max: number | undefined): number {
+    if (min !== undefined && max !== undefined) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    return 0;
   }
 
   private loadAllCourses(): void {

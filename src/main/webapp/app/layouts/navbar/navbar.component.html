@@ -50,7 +50,7 @@
         <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
-            <span>Home</span>
+            <span>Categories</span>
           </span>
         </a>
 
@@ -69,6 +69,14 @@
         </a>
       </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+      <li>
+        <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/enrolled-courses" (click)="collapseNavbar()">
+          <span>
+            <fa-icon [icon]="faBookmark"></fa-icon>
+            <span>My Courses</span>
+          </span>
+        </a>
+      </li>
       <li
         *jhiHasAnyAuthority="'ROLE_ADMIN'"
         ngbDropdown

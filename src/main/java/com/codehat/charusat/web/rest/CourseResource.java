@@ -162,9 +162,9 @@ public class CourseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
      */
     @GetMapping("/courses/category/{categoryId}")
-    public ResponseEntity<List<Course>> getCourseByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<CourseDTO>> getCourseByCategory(@PathVariable Long categoryId) throws Exception {
         log.debug("REST request to get Course by categoryId : {}", categoryId);
-        List<Course> list = courseService.getByCategoryId(categoryId);
+        List<CourseDTO> list = courseService.getByCategoryId(categoryId);
         return ResponseEntity.ok().body(list);
     }
 
@@ -175,9 +175,16 @@ public class CourseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
      */
     @PostMapping("/courses/enroll")
-    public ResponseEntity enrollInCourse(@RequestBody Course course) {
-        log.debug("REST request to enroll in Course : {}", course);
-        return courseService.enrollInCourse(course);
+    public ResponseEntity enrollInCourse(@RequestBody String courseId) {
+        log.debug("REST request to enroll in Course : {}", courseId);
+        return courseService.enrollInCourse(courseId);
+    }
+
+    @GetMapping("courses/enrolled")
+    public ResponseEntity<List<Course>> enrolledCourses() throws Exception {
+        log.debug("REST request to get a page of Courses");
+        List<Course> list = courseService.getEnrolledCourses();
+        return ResponseEntity.ok().body(list);
     }
 
     /**
@@ -248,5 +255,11 @@ public class CourseResource {
     public ResponseEntity<Integer> getStudentCountByCourse(@PathVariable Long courseId) {
         log.debug("REST request to get student enrolled count based on courseId : {}", courseId);
         return courseService.getStudentEnrolledCountByCourse(courseId);
+    }
+
+    @GetMapping("/courses/top-10")
+    public ResponseEntity<List<Course>> getTop10LatestCourses() {
+        log.debug("REST request to get top 10 latest courses");
+        return courseService.getTop10LatestCourses();
     }
 }

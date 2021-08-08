@@ -30,4 +30,6 @@ public interface CourseSectionRepository extends JpaRepository<CourseSection, Lo
     @Modifying
     @Query(value = "delete from CourseSection courseSection where courseSection.course.id = :courseId")
     void deleteCourseSectionByCourseId(@Param("courseId") Long courseId);
+
+    Integer countCourseSectionByCourseAndIsApproved(Course course, Boolean approvalValue);
 }
