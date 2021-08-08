@@ -30,7 +30,7 @@
         </mdb-card-header>
         <img mat-card-image src="{{ course.logo }}" style="object-fit: fill" />
         <mdb-card-body>
-          <a routerLink="/login">
+          <a (click)="login(course.id)">
             <div>
               <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; ENROLL</button>
             </div>

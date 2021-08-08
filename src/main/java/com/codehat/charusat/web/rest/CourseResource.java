@@ -175,9 +175,9 @@ public class CourseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
      */
     @PostMapping("/courses/enroll")
-    public ResponseEntity enrollInCourse(@RequestBody Course course) {
-        log.debug("REST request to enroll in Course : {}", course);
-        return courseService.enrollInCourse(course);
+    public ResponseEntity enrollInCourse(@RequestBody String courseId) {
+        log.debug("REST request to enroll in Course : {}", courseId);
+        return courseService.enrollInCourse(courseId);
     }
 
     @GetMapping("courses/enrolled")

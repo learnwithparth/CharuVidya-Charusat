@@ -58,7 +58,7 @@ public interface CourseService {
      * */
     List<CourseDTO> getByCategoryId(Long id) throws Exception;
 
-    ResponseEntity enrollInCourse(Course course);
+    ResponseEntity enrollInCourse(String courseId);
 
     /**
      * Overloaded method.

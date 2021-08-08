@@ -217,10 +217,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity enrollInCourse(Course course) {
+    public ResponseEntity enrollInCourse(String courseId) {
         try {
             courseRepository
-                .findById(course.getId())
+                .findById(Long.parseLong(courseId))
                 .map(
                     existingCourse -> {
                         Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();

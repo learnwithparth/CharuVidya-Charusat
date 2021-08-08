@@ -23,7 +23,7 @@
           </a>
           <a routerLink="/course/{{ course.id }}/user/sections">
             <div *ngIf="!course.enrolled">
-              <button mat-button class="btn btn-info btn-sm" (click)="onEnroll(course)"><fa-icon icon="eye"></fa-icon> ENROLL</button>
+              <button mat-button class="btn btn-info btn-sm" (click)="onEnroll(course.id)"><fa-icon icon="eye"></fa-icon> ENROLL</button>
             </div>
           </a>
           <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->

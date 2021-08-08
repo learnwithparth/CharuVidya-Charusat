@@ -7,6 +7,7 @@ import { Account } from 'app/core/auth/account.model';
 import { ICourse } from 'app/entities/course/course.model';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
 import { HttpResponse } from '@angular/common/http';
+import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
   selector: 'jhi-home',
@@ -29,7 +30,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.accountService.isAuthenticated();
   }
 
-  login(): void {
+  login(courseId: number | undefined): void {
+    if (courseId !== undefined) {
+      localStorage.setItem('course_Id', String(courseId));
+    }
     this.router.navigate(['/login']);
   }
 
