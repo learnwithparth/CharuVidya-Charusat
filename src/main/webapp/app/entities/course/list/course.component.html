@@ -11,16 +11,17 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-course"
+        class="btn btn-primary mr-2 jh-create-entity create-course"
         [routerLink]="['/course/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Course </span>
       </button>
 
-      <select class="dropdown" (change)="onFilter($event)">
+      <select class="btn btn-outline-secondary dropdown-toggle" (change)="onFilter($event)">
         <option value="all" class="dropdown-item">All</option>
         <option value="approved" class="dropdown-item">Approved</option>
+        <option value="approvalPending" class="dropdown-item">Approval Pending</option>
         <option value="unApproved" class="dropdown-item">Not Approved</option>
       </select>
     </div>
@@ -154,6 +155,16 @@
           </td>
           <td class="text-right">
             <div class="btn-group">
+              <button
+                *ngIf="isCourseTypeApproval"
+                type="submit"
+                [routerLink]="['/assign', course.id]"
+                class="btn btn-warning btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline">Assign Reviewer</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/course', course.id, 'sections']"

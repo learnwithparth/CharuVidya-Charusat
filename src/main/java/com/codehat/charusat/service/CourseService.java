@@ -78,4 +78,6 @@ public interface CourseService {
     List<Course> getEnrolledCourses() throws Exception;
 
     ResponseEntity<List<Course>> getTop10LatestCourses();
+
+    ResponseEntity receivedForApproval(Long courseId);
 }

@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {ICourse} from "app/entities/course/course.model";
-import {ITEMS_PER_PAGE} from "app/config/pagination.constants";
-import {InstructorCoursesService} from "app/entities/instructor-pages/instructor-courses/instructor-courses.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {HttpHeaders, HttpResponse} from "@angular/common/http";
-import {CourseDeleteDialogComponent} from "app/entities/course/delete/course-delete-dialog.component";
-import {combineLatest} from "rxjs";
+import { ICourse } from 'app/entities/course/course.model';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { InstructorCoursesService } from 'app/entities/instructor-pages/instructor-courses/instructor-courses.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { CourseDeleteDialogComponent } from 'app/entities/course/delete/course-delete-dialog.component';
+import { combineLatest } from 'rxjs';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faClock } from '@fortawesome/free-solid-svg-icons/faClock';
 
 @Component({
   selector: 'jhi-instructor-courses',
   templateUrl: './instructor-courses.component.html',
-  styleUrls: ['./instructor-courses.component.scss']
+  styleUrls: ['./instructor-courses.component.scss'],
 })
 export class InstructorCoursesComponent implements OnInit {
-
   courses?: ICourse[] | null;
   isLoading = false;
   totalItems = 0;
@@ -23,6 +24,8 @@ export class InstructorCoursesComponent implements OnInit {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  faCheck = faCheckCircle;
+  faPending = faClock;
 
   constructor(
     protected courseService: InstructorCoursesService,
@@ -53,6 +56,19 @@ export class InstructorCoursesComponent implements OnInit {
         this.loadPage();
       }
     });
+  }
+
+  sendForApproval(courseId: number | undefined): void {
+    if (courseId !== undefined) {
+      this.courseService.approveCourse(courseId.toString()).subscribe(
+        res => {
+          window.alert('Your request is sent for reviewing. You will hear from us shortly.');
+        },
+        err => {
+          window.alert('There is some problem procesing your request. Try again later.');
+        }
+      );
+    }
   }
 
   protected sort(): string[] {
@@ -98,14 +114,14 @@ export class InstructorCoursesComponent implements OnInit {
     this.ngbPaginationPage = this.page ?? 1;
   }
 
-  private loadAllCourses() : void{
+  private loadAllCourses(): void {
     this.courseService.getCourses().subscribe(
-      (res:HttpResponse<ICourse[]>) => {
+      (res: HttpResponse<ICourse[]>) => {
         this.courses = res.body;
       },
       () => {
-        window.alert("error")
+        window.alert('error');
       }
-    )
+    );
   }
 }

@@ -1,0 +1,102 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form #userInput="ngForm" name="editForm" role="form" novalidate (ngSubmit)="save(userInput.value)" [formGroup]="editForm">
+      <h2 id="jhi-course-section-heading" data-cy="CourseSectionCreateUpdateHeading">Assign Reviewer</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_sectionTitle">Course Title</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            name="sectionTitle"
+            id="field_sectionTitle"
+            data-cy="sectionTitle"
+            formControlName="sectionTitle"
+            maxlength="255"
+          />
+          <div
+            *ngIf="editForm.get('sectionTitle')!.invalid && (editForm.get('sectionTitle')!.dirty || editForm.get('sectionTitle')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sectionTitle')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('sectionTitle')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseCategory">Course Category</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            name="sectionDescription"
+            id="field_courseCategory"
+            data-cy="sectionDescription"
+            formControlName="sectionDescription"
+            maxlength="255"
+          />
+          <div
+            *ngIf="
+              editForm.get('sectionDescription')!.invalid &&
+              (editForm.get('sectionDescription')!.dirty || editForm.get('sectionDescription')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sectionDescription')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_courseSubCategory">Course Sub-Category</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            name="sectionDescription"
+            id="field_courseSubCategory"
+            data-cy="sectionDescription"
+            formControlName="sectionDescription"
+            maxlength="255"
+          />
+          <div
+            *ngIf="
+              editForm.get('sectionDescription')!.invalid &&
+              (editForm.get('sectionDescription')!.dirty || editForm.get('sectionDescription')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('sectionDescription')?.errors?.maxlength">
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Choose Reviewer</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -262,4 +262,10 @@ public class CourseResource {
         log.debug("REST request to get top 10 latest courses");
         return courseService.getTop10LatestCourses();
     }
+
+    @GetMapping("/courses/{courseId}/forApproval")
+    public ResponseEntity sendForApproval(@PathVariable Long courseId) {
+        log.debug("REST request received for course approval");
+        return courseService.receivedForApproval(courseId);
+    }
 }

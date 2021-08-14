@@ -62,6 +62,7 @@ public class CourseServiceImpl implements CourseService {
          * */
         course.setCourseCreatedOn(LocalDate.now());
         course.setIsApproved(false);
+        course.setIsDraft(true);
         course.setCourseUpdatedOn(LocalDate.now());
         course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -248,7 +249,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseCreatedOn(LocalDate.now());
         course.setCourseUpdatedOn(LocalDate.now());
         course.setIsApproved(false);
-        course.setIsDraft(false);
+        course.setIsDraft(true);
         course.setAmount(0.0);
         course.setMaxStudents(0);
         course.setMinStudents(0);
@@ -334,5 +335,17 @@ public class CourseServiceImpl implements CourseService {
     public ResponseEntity<List<Course>> getTop10LatestCourses() {
         List<Course> courses = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
         return ResponseEntity.ok().body(courses);
+    }
+
+    @Override
+    public ResponseEntity receivedForApproval(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            course.get().isDraft(false);
+            course.get().isApproved(false);
+            courseRepository.save(course.get());
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }
