@@ -354,6 +354,37 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public ResponseEntity<Map<String, String>> getOverview() {
+        Map<String, String> map = new HashMap<>();
+
+        Integer data = courseRepository.findAll().size();
+        map.put("totalCourses", data.toString());
+
+        data = courseRepository.findTotalEnrollment();
+        List<Course> courses = courseRepository.findAll();
+        for (Course course : courses) {
+            data += course.getMinStudents();
+        }
+        map.put("totalEnrollments", data.toString());
+
+        data = userService.getTotalUsersByAuthority(AuthoritiesConstants.FACULTY);
+        map.put("totalInstructors", data.toString());
+
+        return ResponseEntity.ok().body(map);
+    }
+
+    @Override
+    public ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            Set<User> users = course.get().getEnrolledUsersLists();
+            return ResponseEntity.ok().body(users);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
     public ResponseEntity receivedForApproval(Long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isPresent()) {

@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 export class AssignReviewerComponent implements OnInit {
   editForm: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.warn('in ngoninit');
+  }
 
-  save(value: any): void {}
+  save(value: any): void {
+    console.warn('in ngoninit');
+  }
 
   previousState(): void {
     window.history.back();

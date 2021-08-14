@@ -79,9 +79,8 @@ public interface CourseService {
 
     List<Course> getEnrolledCourses() throws Exception;
 
-    ResponseEntity<List<Course>> getTop10LatestCourses();
-
     ResponseEntity receivedForApproval(Long courseId);
+
     ResponseEntity<List<CourseDTO>> getTop10LatestCourses();
 
     ResponseEntity<Map<String, String>> getOverview();
