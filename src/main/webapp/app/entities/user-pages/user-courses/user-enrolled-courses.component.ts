@@ -6,6 +6,7 @@ import { UserCourseService } from 'app/entities/user-pages/user-courses/user-cou
 import { HttpResponse } from '@angular/common/http';
 import { ICourseCategory } from 'app/entities/course-category/course-category.model';
 import { Subscription } from 'rxjs';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'jhi-user-enrolled-courses',
@@ -32,8 +33,12 @@ export class UserEnrolledCoursesComponent implements OnInit {
           window.alert('Enrolled Successfully');
           this.loadAllCourses();
         },
-        () => {
-          window.alert('Error while enrolling in course');
+        err => {
+          if (err.error) {
+            window.alert(err.error);
+          } else {
+            window.alert('Enrollment failed. Please try again later.');
+          }
         }
       );
       localStorage.clear();

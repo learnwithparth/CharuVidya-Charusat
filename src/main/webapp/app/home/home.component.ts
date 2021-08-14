@@ -18,12 +18,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
   courses?: ICourse[] | null;
+  overview = new Map<string, string>();
 
   constructor(protected userCourseService: UserCourseService, private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.loadAllCourses();
+    this.getOverview();
   }
 
   isAuthenticated(): boolean {
@@ -41,6 +43,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  private getOverview(): void {
+    this.userCourseService.getOverview().subscribe(
+      res => {
+        if (res.body) {
+          this.overview = new Map(Object.entries(res.body));
+        }
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
   private loadAllCourses(): void {

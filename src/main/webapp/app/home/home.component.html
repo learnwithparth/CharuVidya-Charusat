@@ -16,6 +16,17 @@
   </div>
 </div>
 <div class="content">
+  <div class="row">
+    <div class="col-4 overview">
+      <h2>Total Courses: {{ overview.get('totalCourses') }}</h2>
+    </div>
+    <div class="col-4 overview">
+      <h2>Total Enrollments: {{ overview.get('totalEnrollments') }}</h2>
+    </div>
+    <div class="col-4 overview">
+      <h2>Total Instructors: {{ overview.get('totalInstructors') }}</h2>
+    </div>
+  </div>
   <h1 style="text-align: center">Recently added Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
@@ -26,6 +37,8 @@
           <mdb-card-title *ngIf="course.user"><b>Instructor :</b> {{ course.user.firstName }}</mdb-card-title>
           <br />
           <mdb-card-title *ngIf="course.courseCreatedOn"><b>Created On :</b> {{ course.courseCreatedOn }}</mdb-card-title>
+          <br />
+          <mdb-card-title><b>Students Enrolled :</b> {{ course.minStudents }}</mdb-card-title>
           <br />
         </mdb-card-header>
         <img mat-card-image src="{{ course.logo }}" style="object-fit: fill" />
