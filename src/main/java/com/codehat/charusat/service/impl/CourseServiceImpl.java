@@ -12,6 +12,7 @@ import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -209,6 +210,7 @@ public class CourseServiceImpl implements CourseService {
                 } else {
                     courseDTO.setEnrolled(false);
                 }
+                courseDTO.setMinStudents(course.getMinStudents() + getStudentEnrolledCountByCourse(course.getId()).getBody());
                 list.add(courseDTO);
             }
             return list;
@@ -219,20 +221,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity enrollInCourse(String courseId) {
+        AtomicBoolean flag = new AtomicBoolean(false);
         try {
             courseRepository
                 .findById(Long.parseLong(courseId))
                 .map(
                     existingCourse -> {
                         Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();
-                        if (userService.getUserWithAuthorities().isPresent()) {
+                        if (
+                            userService.getUserWithAuthorities().isPresent() &&
+                            !alreadyEnrolledUsers.contains(userService.getUserWithAuthorities().get())
+                        ) {
                             alreadyEnrolledUsers.add(userService.getUserWithAuthorities().get());
+                            flag.set(true);
                         }
                         return existingCourse;
                     }
                 )
                 .map(courseRepository::save);
-            return ResponseEntity.accepted().build();
+            if (flag.get()) return ResponseEntity.accepted().build(); else {
+                return ResponseEntity.badRequest().body("Already enrolled");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
@@ -332,8 +341,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity<List<Course>> getTop10LatestCourses() {
-        List<Course> courses = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+    public ResponseEntity<List<CourseDTO>> getTop10LatestCourses() {
+        List<Course> result = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+        List<CourseDTO> courses = new ArrayList<>();
+        CourseDTO temp;
+        for (Course course : result) {
+            temp = new CourseDTO(course);
+            temp.setMinStudents(temp.getMinStudents() + getStudentEnrolledCountByCourse(temp.getId()).getBody());
+            courses.add(temp);
+        }
         return ResponseEntity.ok().body(courses);
     }
 

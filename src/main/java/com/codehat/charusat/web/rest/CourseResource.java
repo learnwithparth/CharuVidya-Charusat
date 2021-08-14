@@ -5,12 +5,11 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.service.dto.CourseDTO;
+import com.codehat.charusat.service.impl.CourseServiceImpl;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -258,9 +257,21 @@ public class CourseResource {
     }
 
     @GetMapping("/courses/top-10")
-    public ResponseEntity<List<Course>> getTop10LatestCourses() {
+    public ResponseEntity<List<CourseDTO>> getTop10LatestCourses() {
         log.debug("REST request to get top 10 latest courses");
         return courseService.getTop10LatestCourses();
+    }
+
+    @GetMapping("/courses/get-overview")
+    public ResponseEntity<Map<String, String>> getOverview() {
+        log.debug("REST request to get courses overview");
+        return courseService.getOverview();
+    }
+
+    @GetMapping("/course/{courseId}/get-enrolled-users")
+    public ResponseEntity<Set<User>> getEnrolledUsersByCourse(@PathVariable Long courseId) {
+        log.debug("REST request to get enrolled user list by Course: {}", courseId);
+        return courseService.getEnrolledUsersByCourseId(courseId);
     }
 
     @GetMapping("/courses/{courseId}/forApproval")

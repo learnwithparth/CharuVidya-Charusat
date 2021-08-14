@@ -2,6 +2,7 @@ package com.codehat.charusat.service.dto;
 
 import com.codehat.charusat.domain.*;
 import java.time.LocalDate;
+import java.util.Random;
 
 public class CourseDTO {
 
