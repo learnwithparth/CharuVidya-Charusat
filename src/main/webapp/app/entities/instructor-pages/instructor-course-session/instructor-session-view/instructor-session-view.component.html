@@ -39,7 +39,7 @@
 
               <vg-fullscreen></vg-fullscreen>
             </vg-controls>
-            <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+            <video #media name="video" [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
               <source [src]="courseSession.sessionVideo" type="video/mp4" />
             </video>
           </vg-player>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ICourseSection } from 'app/entities/course-section/course-section.model';
 import { InstructorCourseSectionService } from 'app/entities/instructor-pages/instructor-coursesection/instructor-coursesection.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { ICourseSession } from 'app/entities/course-session/course-session.model
   templateUrl: './user-course-sections.component.html',
   styleUrls: ['./user-course-sections.component.scss'],
 })
-export class UserCourseSectionsComponent implements OnInit {
+export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
   courseSections?: ICourseSection[] | null;
   isLoading = false;
   courseId!: string | null;
@@ -20,11 +20,9 @@ export class UserCourseSectionsComponent implements OnInit {
   toggle = false;
   selectedSection: any;
   selectedSession: any;
-  api!: any;
-  currentIndex = 0;
   allSessions: any = [];
   sectionIndex = 0;
-  url!: string;
+  video: any = null;
   constructor(
     protected courseSectionService: InstructorCourseSectionService,
     protected courseSessionService: InstructorCourseSessionService,
@@ -41,6 +39,14 @@ export class UserCourseSectionsComponent implements OnInit {
     }
     this.loadSections();
   }
+  ngAfterViewInit(): void {
+    setInterval(() => {
+      const v = document.getElementById('singleVideo');
+      if (v !== null) {
+        console.log(v.getAttribute('currentTime'));
+      }
+    }, 5000);
+  }
 
   trackId(index: number, item: ICourseSection): number {
     return item.id!;
@@ -48,19 +54,18 @@ export class UserCourseSectionsComponent implements OnInit {
   onClickBack(): void {
     window.history.back();
   }
-  playVideo(): void {
-    this.api.play();
-  }
-  nextVideo(): void {
-    // this.selectedSession = this.allSessions[this.sectionIndex][1];
-  }
-  onPlayerReady(api: any): void {
-    this.api = api;
-    // console.log(this);
-    console.log(api);
-    this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-    this.api.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-  }
+  // playVideo(): void {
+  //   this.api.play();
+  // }
+  // nextVideo(): void {
+  //   // this.selectedSession = this.allSessions[this.sectionIndex][1];
+  // }
+  // onPlayerReady(api: any): void {
+  //   this.api = api;
+  //   console.log(api);
+  //   this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+  //   this.api.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
+  // }
 
   delete(courseSection: ICourseSection): void {
     const modalRef = this.modalService.open(CourseSectionDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
@@ -78,10 +83,12 @@ export class UserCourseSectionsComponent implements OnInit {
   }
   displayVideo(data: any): void {
     this.selectedSession = data;
-    this.url = this.selectedSection.sessionVideo;
-    console.log(this.selectedSession);
-    this.onPlayerReady(event);
-    // this.sectionIndex++;
+    // this.url = this.selectedSection.sessionVideo;
+    const video = document.getElementById('singleVideo');
+    console.log(video);
+    if (video !== null) {
+      video.setAttribute('src', this.selectedSession.sessionVideo);
+    }
   }
   loadPage(): void {
     this.isLoading = true;
@@ -127,13 +134,13 @@ export class UserCourseSectionsComponent implements OnInit {
     if (this.courseId !== null) {
       this.courseSectionService.query(this.courseId).subscribe(res => {
         this.courseSections = res.body;
-        console.log(res.body);
+        // console.log(res.body);
       });
-      console.log(this.courseSections);
+      // console.log(this.courseSections);
       const res = await this.courseSectionService.getAllSectionsAndSessions(this.courseId).toPromise();
       this.sectionsSessions = res.body;
       console.log(this.sectionsSessions);
-      console.log('#', Object.keys(this.sectionsSessions).length);
+      // console.log('#', Object.keys(this.sectionsSessions).length);
       // for(const entry of this.sectionsSessions.entries()){
       //   this.selectedSection = entry[0];
       //   this.selectedSession = entry[1][0];
@@ -151,10 +158,10 @@ export class UserCourseSectionsComponent implements OnInit {
         this.allSessions.push(value);
       }
       this.selectedSession = this.allSessions[0][0];
-      this.url = this.selectedSession.sessionVideo;
-      console.log(this.selectedSection);
-      console.log(this.selectedSection);
-      console.log(this.allSessions);
+      // this.url = this.selectedSession.sessionVideo;
+      // console.log(this.selectedSection);
+      // console.log(this.selectedSection);
+      // console.log(this.allSessions);
     }
   }
 }
