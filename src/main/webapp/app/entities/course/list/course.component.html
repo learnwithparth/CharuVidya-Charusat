@@ -155,15 +155,26 @@
           </td>
           <td class="text-right">
             <div class="btn-group">
-              <button
+              <!--<button
                 *ngIf="isCourseTypeApproval"
                 type="submit"
                 [routerLink]="['/assign', course.id]"
                 class="btn btn-warning btn-sm"
                 data-cy="entityDetailsButton"
+                [disabled]="true"
               >
                 <fa-icon [icon]="faCheck"></fa-icon>
                 <span class="d-none d-md-inline">Assign Reviewer</span>
+              </button>-->
+              <button
+                *ngIf="!course.isApproved"
+                type="submit"
+                class="btn btn-warning btn-sm"
+                data-cy="entityDetailsButton"
+                (click)="approveCourse(course.id!)"
+              >
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline">Approve</span>
               </button>
               <button
                 type="submit"

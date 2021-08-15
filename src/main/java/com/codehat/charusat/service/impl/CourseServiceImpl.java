@@ -164,7 +164,7 @@ public class CourseServiceImpl implements CourseService {
                 return courseRepository.findCourseByUserEqualsOrEnrolledUsersListsContaining(user.get(), user.get(), pageable);
             } else if (authority.contains(AuthoritiesConstants.STUDENT)) {
                 //                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
-                return courseRepository.findAll(pageable);
+                return courseRepository.findAllByIsApproved(true, pageable);
             } else {
                 return null;
             }

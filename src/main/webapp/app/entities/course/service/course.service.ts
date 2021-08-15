@@ -74,6 +74,10 @@ export class CourseService {
     return courseCollection;
   }
 
+  approveCourse(courseId: number): Observable<HttpResponse<ICourse>> {
+    return this.http.post<ICourse>(`/api/course/${courseId}/approve`, null, { observe: 'response' });
+  }
+
   protected convertDateFromClient(course: ICourse): ICourse {
     return Object.assign({}, course, {
       courseCreatedOn: course.courseCreatedOn?.isValid() ? course.courseCreatedOn.format(DATE_FORMAT) : undefined,

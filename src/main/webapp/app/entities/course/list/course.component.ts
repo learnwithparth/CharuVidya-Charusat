@@ -109,6 +109,20 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  approveCourse(courseId: number): void {
+    if (courseId) {
+      this.courseService.approveCourse(courseId).subscribe(
+        res => {
+          window.alert('Course approved successfully');
+          this.loadPage();
+        },
+        error => {
+          window.alert('Something went wrong');
+        }
+      );
+    }
+  }
+
   protected sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
