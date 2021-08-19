@@ -56,6 +56,7 @@ public class CacheConfiguration {
             createCache(cm, com.codehat.charusat.domain.CourseSection.class.getName());
             createCache(cm, com.codehat.charusat.domain.CourseSession.class.getName());
             createCache(cm, com.codehat.charusat.domain.CourseProgress.class.getName());
+            createCache(cm, com.codehat.charusat.domain.CourseReviewStatus.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

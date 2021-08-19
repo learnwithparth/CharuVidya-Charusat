@@ -102,6 +102,9 @@ public class Course implements Serializable {
     @ManyToOne
     private User reviewer;
 
+    @OneToOne
+    private CourseReviewStatus courseReviewStatus;
+
     public Integer getMinStudents() {
         return minStudents;
     }

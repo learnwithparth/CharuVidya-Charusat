@@ -1,6 +1,8 @@
 package com.codehat.charusat.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -37,6 +39,15 @@ public class CourseCategory implements Serializable {
     @NotNull
     @Column(name = "parent_id", nullable = false)
     private Integer parentId;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "rel_course_category__reviewers_list",
+        joinColumns = @JoinColumn(name = "course_category_id"),
+        inverseJoinColumns = @JoinColumn(name = "reviewer_id")
+    )
+    private Set<User> reviewersList = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
