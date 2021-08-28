@@ -210,4 +210,9 @@ public class CourseCategoryResource {
     public ResponseEntity<Map<Long, Integer>> getCourseCountByParentCategory() {
         return courseCategoryService.getCourseCountByParentCategory();
     }
+
+    @GetMapping("/course-category/sub-categories")
+    public ResponseEntity<List<CourseCategory>> getSubCourseCategories() {
+        return courseCategoryService.getCourseSubCategories();
+    }
 }
