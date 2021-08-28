@@ -7,6 +7,8 @@ import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.MailService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.AdminUserDTO;
+import com.codehat.charusat.service.dto.CategoryReviewerDTO;
+import com.codehat.charusat.service.impl.CourseCategoryServiceImpl;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import com.codehat.charusat.web.rest.errors.EmailAlreadyUsedException;
 import com.codehat.charusat.web.rest.errors.LoginAlreadyUsedException;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -75,10 +78,18 @@ public class UserResource {
 
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    private final CourseCategoryServiceImpl courseCategoryService;
+
+    public UserResource(
+        UserService userService,
+        UserRepository userRepository,
+        MailService mailService,
+        CourseCategoryServiceImpl courseCategoryService
+    ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.courseCategoryService = courseCategoryService;
     }
 
     /**
@@ -196,5 +207,13 @@ public class UserResource {
             .noContent()
             .headers(HeaderUtil.createAlert(applicationName, "A user is deleted with identifier " + login, login))
             .build();
+    }
+
+    @PostMapping("/reviewer/setReviewerCategory")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity setReviewerCategories(@RequestBody CategoryReviewerDTO categoryReviewerDTO) throws Exception {
+        log.debug("REST request to set reviewer in Categories:{}", categoryReviewerDTO.getReviewerCategories());
+        updateUser(categoryReviewerDTO.getUser());
+        return courseCategoryService.setReviewerInSubCategories(categoryReviewerDTO.getReviewerCategories(), categoryReviewerDTO.getUser());
     }
 }
