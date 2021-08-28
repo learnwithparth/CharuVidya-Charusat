@@ -216,4 +216,12 @@ public class UserResource {
         updateUser(categoryReviewerDTO.getUser());
         return courseCategoryService.setReviewerInSubCategories(categoryReviewerDTO.getReviewerCategories(), categoryReviewerDTO.getUser());
     }
+
+    @GetMapping("/users-by-authority")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<Set<User>> findAllUsersByAuthority(@RequestParam String authority) {
+        log.debug("REST request to get all users by Authority:{}", authority);
+        Set<User> users = userService.getAllUsersByAuthority(authority);
+        return ResponseEntity.ok().body(users);
+    }
 }

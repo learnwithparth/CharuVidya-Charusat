@@ -32,11 +32,26 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-          <th scope="col" jhiSortBy="id"><span>Id</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="courseCategoryTitle"><span>Course Category Title</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="logo"><span>Logo</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="isParent"><span>Is Parent</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="parentId"><span>Parent Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id">
+            <span>Id</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseCategoryTitle">
+            <span>Course Category Title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="logo">
+            <span>Logo</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="isParent">
+            <span>Is Parent</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="parentId">
+            <span>Parent Id</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -51,6 +66,17 @@
           <td>{{ courseCategory.parentId }}</td>
           <td class="text-right">
             <div class="btn-group">
+              <button
+                *ngIf="!courseCategory.isParent"
+                type="submit"
+                (click)="assignReviewers(courseCategory)"
+                title="Assign Reviewer(s)"
+                class="btn btn-success"
+                data-cy="entityDetailsBackButton"
+              >
+                <fa-icon icon="user"></fa-icon>
+                <span>Assign Reviewer(s)</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/course-category', courseCategory.id, 'view']"

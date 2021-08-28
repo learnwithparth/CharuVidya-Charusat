@@ -148,18 +148,44 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         Set<User> temp;
         Optional<User> userFromDB = userRepository.findOneByLogin(user.getLogin());
         if (userFromDB.isPresent()) {
-            for (CourseCategory courseCategory : reviewerCategories) {
-                temp = courseCategory.getReviewersList();
-                if (temp == null) {
-                    temp = new HashSet<>();
+            if (reviewerCategories != null) {
+                for (CourseCategory courseCategory : reviewerCategories) {
+                    temp = courseCategory.getReviewersList();
+                    if (temp == null) {
+                        temp = new HashSet<>();
+                    }
+                    temp.add(userFromDB.get());
+                    courseCategory.setReviewersList(temp);
+                    courseCategoryRepository.save(courseCategory);
                 }
-                temp.add(userFromDB.get());
-                courseCategory.setReviewersList(temp);
-                courseCategoryRepository.save(courseCategory);
             }
             return ResponseEntity.ok().build();
         } else {
             throw new Exception("User not found!");
+        }
+    }
+
+    @Override
+    public ResponseEntity<Set<User>> getReviewerByCourseCategoryId(Long courseCategoryId) throws Exception {
+        Optional<CourseCategory> courseCategory = courseCategoryRepository.findById(courseCategoryId);
+        if (courseCategory.isPresent()) {
+            Set<User> reviewers = courseCategory.get().getReviewersList();
+            return ResponseEntity.ok().body(reviewers);
+        } else {
+            throw new Exception("No course category found!");
+        }
+    }
+
+    @Override
+    public ResponseEntity setReviewerInSubCategories(Long courseCategoryId, Set<User> reviewers) throws Exception {
+        Optional<CourseCategory> courseCategory = courseCategoryRepository.findById(courseCategoryId);
+        if (courseCategory.isPresent()) {
+            if (reviewers != null) {
+                courseCategory.get().setReviewersList(reviewers);
+            }
+            return ResponseEntity.ok().build();
+        } else {
+            throw new Exception("No course category found!");
         }
     }
 }

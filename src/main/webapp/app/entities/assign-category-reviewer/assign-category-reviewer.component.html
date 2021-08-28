@@ -1,0 +1,19 @@
+<div>
+  <h4 class="modal-title">Instructors</h4>
+  <form #userInput="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <select class="form-control" multiple name="instructors">
+        <option *ngFor="let instructor of instructors" [value]="instructor">{{ instructor.login }}</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancel()"><fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span></button>
+        <button type="submit" class="btn btn-primary" ng-disabled="!ngForm" value="submit">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

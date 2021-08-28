@@ -1,15 +1,13 @@
 package com.codehat.charusat.web.rest;
 
 import com.codehat.charusat.domain.CourseCategory;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseCategoryRepository;
 import com.codehat.charusat.service.CourseCategoryService;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -214,5 +212,15 @@ public class CourseCategoryResource {
     @GetMapping("/course-category/sub-categories")
     public ResponseEntity<List<CourseCategory>> getSubCourseCategories() {
         return courseCategoryService.getCourseSubCategories();
+    }
+
+    @GetMapping("/course-category/{courseCategoryId}/get-reviewers")
+    public ResponseEntity<Set<User>> getReviewerByCategory(@PathVariable Long courseCategoryId) throws Exception {
+        return courseCategoryService.getReviewerByCourseCategoryId(courseCategoryId);
+    }
+
+    @PostMapping("/course-category/{courseCategoryId}/set-reviewers")
+    public ResponseEntity setReviewersByCategory(@PathVariable Long courseCategoryId, @RequestBody Set<User> reviewers) throws Exception {
+        return courseCategoryService.setReviewerInSubCategories(courseCategoryId, reviewers);
     }
 }
