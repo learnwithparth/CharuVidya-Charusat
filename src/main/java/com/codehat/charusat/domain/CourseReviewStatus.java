@@ -1,5 +1,6 @@
 package com.codehat.charusat.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -69,6 +70,7 @@ public class CourseReviewStatus implements Serializable {
         this.reviewer = reviewer;
     }
 
+    @JsonIgnore
     public Course getCourse() {
         return course;
     }

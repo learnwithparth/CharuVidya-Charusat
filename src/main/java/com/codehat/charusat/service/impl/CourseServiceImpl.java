@@ -1,8 +1,11 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.config.Constants;
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.CourseReviewStatus;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseRepository;
+import com.codehat.charusat.repository.CourseReviewStatusRepository;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.security.AuthoritiesConstants;
@@ -40,18 +43,22 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseSessionRepository courseSessionRepository;
 
+    private final CourseReviewStatusRepository courseReviewStatusRepository;
+
     public CourseServiceImpl(
         CourseRepository courseRepository,
         UserService userService,
         MailService mailService,
         CourseSectionRepository courseSectionRepository,
-        CourseSessionRepository courseSessionRepository
+        CourseSessionRepository courseSessionRepository,
+        CourseReviewStatusRepository courseReviewStatusRepository
     ) {
         this.courseRepository = courseRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.courseSectionRepository = courseSectionRepository;
         this.courseSessionRepository = courseSessionRepository;
+        this.courseReviewStatusRepository = courseReviewStatusRepository;
     }
 
     @Override
@@ -263,6 +270,13 @@ public class CourseServiceImpl implements CourseService {
         course.setMaxStudents(0);
         course.setMinStudents(0);
         course.setUser(userService.getUserWithAuthorities().get());
+
+        CourseReviewStatus courseReviewStatus = new CourseReviewStatus();
+        courseReviewStatus.setStatus(Constants.DRAFTING);
+        courseReviewStatus.setStatusUpdatedOn(LocalDate.now());
+        courseReviewStatus.setCourse(course);
+        CourseReviewStatus crs = courseReviewStatusRepository.save(courseReviewStatus);
+        course.setCourseReviewStatus(crs);
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         return courseRepository.save(course);
@@ -390,6 +404,11 @@ public class CourseServiceImpl implements CourseService {
         if (course.isPresent()) {
             course.get().isDraft(false);
             course.get().isApproved(false);
+            CourseReviewStatus crs = course.get().getCourseReviewStatus();
+            crs.setStatus(Constants.APPROVAL_PENDING);
+            crs.setStatusUpdatedOn(LocalDate.now());
+            courseReviewStatusRepository.save(crs);
+            course.get().setCourseReviewStatus(crs);
             courseRepository.save(course.get());
             return ResponseEntity.accepted().build();
         }
