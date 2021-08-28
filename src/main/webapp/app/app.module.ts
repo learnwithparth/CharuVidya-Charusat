@@ -53,6 +53,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-courses/user-enrolled-courses.component';
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
+import { AssignCategoryReviewerComponent } from './entities/assign-category-reviewer/assign-category-reviewer.component';
 
 @NgModule({
   imports: [
@@ -106,6 +107,7 @@ import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewe
     UserCouresSectionSessionComponent,
     UserEnrolledCoursesComponent,
     AssignReviewerComponent,
+    AssignCategoryReviewerComponent,
   ],
   bootstrap: [MainComponent],
 })

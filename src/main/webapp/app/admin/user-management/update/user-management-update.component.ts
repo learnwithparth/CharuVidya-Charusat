@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
+import { CourseCategory } from 'app/entities/course-category/course-category.model';
 
 @Component({
   selector: 'jhi-user-mgmt-update',
@@ -13,7 +14,8 @@ export class UserManagementUpdateComponent implements OnInit {
   user!: User;
   authorities: string[] = [];
   isSaving = false;
-
+  categories: CourseCategory[] = [];
+  reviewerCategories: CourseCategory[] = [];
   editForm = this.fb.group({
     id: [],
     login: [
@@ -31,6 +33,7 @@ export class UserManagementUpdateComponent implements OnInit {
     activated: [],
     langKey: [],
     authorities: [],
+    categories: [],
   });
 
   constructor(private userService: UserManagementService, private route: ActivatedRoute, private fb: FormBuilder) {}
@@ -45,6 +48,25 @@ export class UserManagementUpdateComponent implements OnInit {
         this.updateForm(user);
       }
     });
+
+    this.userService.getCategories().subscribe(
+      res => {
+        this.categories = res.body;
+      },
+      err => {
+        console.error(err);
+      }
+    );
+
+    this.userService.getCourseCategoryOfReviewer(this.user.id!.toString()).subscribe(
+      res => {
+        this.reviewerCategories = res.body;
+      },
+      err => {
+        console.error(err);
+      }
+    );
+    console.warn(this.categories);
     this.userService.authorities().subscribe(authorities => (this.authorities = authorities));
   }
 
@@ -54,19 +76,32 @@ export class UserManagementUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
+
     this.updateUser(this.user);
-    if (this.user.id !== undefined) {
-      this.userService.update(this.user).subscribe(
+    if (this.user.id !== undefined && this.checkIfUserIsReviewer(this.editForm.get(['authorities'])!.value.toString())) {
+      this.reviewerCategories = this.editForm.get(['categories'])!.value;
+      this.userService.setReviewerCategory(this.user, this.reviewerCategories).subscribe(
         () => this.onSaveSuccess(),
         () => this.onSaveError()
       );
     } else {
-      this.user.langKey = 'en';
-      this.userService.create(this.user).subscribe(
-        () => this.onSaveSuccess(),
-        () => this.onSaveError()
-      );
+      if (this.user.id !== undefined) {
+        this.userService.update(this.user).subscribe(
+          () => this.onSaveSuccess(),
+          () => this.onSaveError()
+        );
+      } else {
+        this.user.langKey = 'en';
+        this.userService.create(this.user).subscribe(
+          () => this.onSaveSuccess(),
+          () => this.onSaveError()
+        );
+      }
     }
+  }
+
+  checkIfUserIsReviewer(authority: string): boolean {
+    return authority.includes('REVIEWER');
   }
 
   private updateForm(user: User): void {

@@ -115,6 +115,22 @@ public class CourseCategory implements Serializable {
         this.parentId = parentId;
     }
 
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public Set<User> getReviewersList() {
+        return reviewersList;
+    }
+
+    public void setReviewersList(Set<User> reviewersList) {
+        this.reviewersList = reviewersList;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
