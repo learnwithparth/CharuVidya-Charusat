@@ -11,7 +11,7 @@ import { Validators } from '@angular/forms';
 export class AssignCategoryReviewerService {
   constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
-  getReviewerByCategory(courseCategoryId: number): Observable<HttpResponse<any>> {
+  getReviewerByCategory(courseCategoryId: string): Observable<HttpResponse<any>> {
     return this.http.get<IUser[]>(`/api/course-category/${courseCategoryId}/get-reviewers`, { observe: 'response' });
   }
 

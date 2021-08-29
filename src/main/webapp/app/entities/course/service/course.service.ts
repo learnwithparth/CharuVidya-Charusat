@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ICourse, getCourseIdentifier } from '../course.model';
+import { IUser } from 'app/entities/user/user.model';
 
 export type EntityResponseType = HttpResponse<ICourse>;
 export type EntityArrayResponseType = HttpResponse<ICourse[]>;
@@ -40,10 +41,8 @@ export class CourseService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<ICourse>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  find(id: string): Observable<EntityResponseType> {
+    return this.http.get<ICourse>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
@@ -76,6 +75,10 @@ export class CourseService {
 
   approveCourse(courseId: number): Observable<HttpResponse<ICourse>> {
     return this.http.post<ICourse>(`/api/course/${courseId}/approve`, null, { observe: 'response' });
+  }
+
+  assignReviewerToCourse(courseId: string, userId: string): Observable<HttpResponse<any>> {
+    return this.http.post(`/api/course/${courseId}/assignReviewer`, userId, { observe: 'response' });
   }
 
   protected convertDateFromClient(course: ICourse): ICourse {

@@ -279,4 +279,11 @@ public class CourseResource {
         log.debug("REST request received for course approval");
         return courseService.receivedForApproval(courseId);
     }
+
+    @PostMapping("/course/{courseId}/assignReviewer")
+    public ResponseEntity assignReviewerToCourse(@PathVariable Long courseId, @RequestBody String userId) throws Exception {
+        log.debug("REST request to assign reviewer to a course");
+        Long id = Long.parseLong(userId);
+        return courseService.assignReviewerToCourse(courseId, id);
+    }
 }
