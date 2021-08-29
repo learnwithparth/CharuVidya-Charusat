@@ -1,10 +1,10 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.config.Constants;
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.CourseReviewStatus;
 import com.codehat.charusat.domain.User;
-import com.codehat.charusat.repository.CourseRepository;
-import com.codehat.charusat.repository.CourseSectionRepository;
-import com.codehat.charusat.repository.CourseSessionRepository;
+import com.codehat.charusat.repository.*;
 import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.service.MailService;
@@ -40,18 +40,26 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseSessionRepository courseSessionRepository;
 
+    private final CourseReviewStatusRepository courseReviewStatusRepository;
+
+    private final UserRepository userRepository;
+
     public CourseServiceImpl(
         CourseRepository courseRepository,
         UserService userService,
         MailService mailService,
         CourseSectionRepository courseSectionRepository,
-        CourseSessionRepository courseSessionRepository
+        CourseSessionRepository courseSessionRepository,
+        CourseReviewStatusRepository courseReviewStatusRepository,
+        UserRepository userRepository
     ) {
         this.courseRepository = courseRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.courseSectionRepository = courseSectionRepository;
         this.courseSessionRepository = courseSessionRepository;
+        this.courseReviewStatusRepository = courseReviewStatusRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -263,6 +271,13 @@ public class CourseServiceImpl implements CourseService {
         course.setMaxStudents(0);
         course.setMinStudents(0);
         course.setUser(userService.getUserWithAuthorities().get());
+
+        CourseReviewStatus courseReviewStatus = new CourseReviewStatus();
+        courseReviewStatus.setStatus(Constants.DRAFTING);
+        courseReviewStatus.setStatusUpdatedOn(LocalDate.now());
+        courseReviewStatus.setCourse(course);
+        CourseReviewStatus crs = courseReviewStatusRepository.save(courseReviewStatus);
+        course.setCourseReviewStatus(crs);
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         return courseRepository.save(course);
@@ -279,6 +294,11 @@ public class CourseServiceImpl implements CourseService {
                 Optional<Course> course = courseRepository.findById(courseId);
                 if (course.isPresent()) {
                     course.get().setIsApproved(true);
+                    CourseReviewStatus crs = course.get().getCourseReviewStatus();
+                    crs.setStatus(Constants.APPROVED);
+                    crs.setStatusUpdatedOn(LocalDate.now());
+                    courseReviewStatusRepository.save(crs);
+                    course.get().setCourseReviewStatus(crs);
                     mailService.sendCourseApprovalMail(course.get());
                     return courseRepository.save(course.get());
                 } else {
@@ -342,7 +362,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity<List<CourseDTO>> getTop10LatestCourses() {
-        List<Course> result = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+        List<Course> result = courseRepository.coursesOrderedByUpdatedDate();
         List<CourseDTO> courses = new ArrayList<>();
         CourseDTO temp;
         for (Course course : result) {
@@ -385,11 +405,34 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public ResponseEntity assignReviewerToCourse(Long courseId, Long userId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        Optional<User> user = userRepository.findById(userId);
+        if (course.isPresent() && user.isPresent()) {
+            CourseReviewStatus crs = course.get().getCourseReviewStatus();
+            crs.setStatus(Constants.REVIEWER_ASSIGNED);
+            crs.setStatusUpdatedOn(LocalDate.now());
+            crs.setReviewer(user.get());
+            course.get().setCourseReviewStatus(crs);
+            courseRepository.save(course.get());
+            courseReviewStatusRepository.save(crs);
+            return ResponseEntity.accepted().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
     public ResponseEntity receivedForApproval(Long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isPresent()) {
             course.get().isDraft(false);
             course.get().isApproved(false);
+            CourseReviewStatus crs = course.get().getCourseReviewStatus();
+            crs.setStatus(Constants.APPROVAL_PENDING);
+            crs.setStatusUpdatedOn(LocalDate.now());
+            courseReviewStatusRepository.save(crs);
+            course.get().setCourseReviewStatus(crs);
             courseRepository.save(course.get());
             return ResponseEntity.accepted().build();
         }

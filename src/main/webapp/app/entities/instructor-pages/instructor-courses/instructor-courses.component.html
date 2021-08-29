@@ -129,6 +129,10 @@
                 <fa-icon [icon]="faPending"></fa-icon>
                 <span class="d-none d-md-inline">Approval Pending</span>
               </button>
+              <button *ngIf="course.isApproved && !course.isDraft" [disabled]="true" class="btn btn-success btn-sm">
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline"> Approved </span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/course', course.id, 'sections']"

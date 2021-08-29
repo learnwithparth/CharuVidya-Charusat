@@ -86,4 +86,6 @@ public interface CourseService {
     ResponseEntity<Map<String, String>> getOverview();
 
     ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId);
+
+    ResponseEntity assignReviewerToCourse(Long courseId, Long userId);
 }

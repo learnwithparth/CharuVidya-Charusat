@@ -29,6 +29,11 @@ public final class Constants {
     public static final String S3_BUCKET_NAME;
     public static final String OBJECT_PATH;
     public static final String userDir;
+    public static final String DRAFTING;
+    public static final String APPROVAL_PENDING;
+    public static final String REVIEWER_ASSIGNED;
+    public static final String APPROVED;
+    public static final String REJECTED;
 
     static {
         AWS_REGION = "ap-south-1";
@@ -45,6 +50,11 @@ public final class Constants {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(Regions.AP_SOUTH_1)
                 .build();
+        DRAFTING = "drafting";
+        APPROVAL_PENDING = " approval pending";
+        REVIEWER_ASSIGNED = " reviewer assigned";
+        APPROVED = " course approved";
+        REJECTED = " course rejected";
     }
 
     private Constants() {}
