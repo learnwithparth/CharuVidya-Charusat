@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
 import { HttpResponse } from '@angular/common/http';
 import { ICourseCategory } from 'app/entities/course-category/course-category.model';
+import { faUserTie, faCalendarCheck, faEye, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-user-courses',
@@ -12,6 +13,11 @@ import { ICourseCategory } from 'app/entities/course-category/course-category.mo
   styleUrls: ['./user-courses.component.scss'],
 })
 export class UserCoursesComponent implements OnInit {
+  faUserTie = faUserTie;
+  faCalendarCheck = faCalendarCheck;
+  faEye = faEye;
+  faUserFriends = faUserFriends;
+
   courses?: ICourse[] | null;
   categoryId!: string | null;
   studentCount: Map<ICourse, number> = new Map<ICourse, number>();

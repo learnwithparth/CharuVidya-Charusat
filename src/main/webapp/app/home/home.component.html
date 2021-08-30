@@ -1,13 +1,6 @@
 <div class="row">
-  <!--  <div class="col-md-3">-->
-  <!--    <span class="hipster img-fluid rounded"></span>-->
-  <!--  </div>-->
-
   <div class="col-md-12">
     <h1 class="display-4" style="color: black">Welcome to CHARUVIDYA!</h1>
-
-    <!--    <p class="lead">This is your homepage</p>-->
-
     <div [ngSwitch]="isAuthenticated()">
       <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
@@ -30,26 +23,22 @@
   <h1 style="text-align: center">Recently added Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <mdb-card style="height: 500px">
-        <mdb-card-header>
-          <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
+      <div class="mat-card">
+        <img src="{{ course.logo }}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <span class="mat-card-title">{{ course.courseTitle }}</span>
           <br />
-          <mdb-card-title *ngIf="course.user"><b>Instructor :</b> {{ course.user.firstName }}</mdb-card-title>
-          <br />
-          <mdb-card-title *ngIf="course.courseCreatedOn"><b>Created On :</b> {{ course.courseCreatedOn }}</mdb-card-title>
-          <br />
-          <mdb-card-title><b>Students Enrolled :</b> {{ course.minStudents }}</mdb-card-title>
-          <br />
-        </mdb-card-header>
-        <img mat-card-image src="{{ course.logo }}" style="object-fit: fill" />
-        <mdb-card-body>
-          <a (click)="login(course.id)">
-            <div class="register">
-              <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; ENROLL</button>
-            </div>
-          </a>
-        </mdb-card-body>
-      </mdb-card>
+          <p class="mat-card-content">
+            <fa-icon [icon]="faUserTie"></fa-icon>
+            Instructor : {{ course.user!.firstName }}
+          </p>
+          <h6><fa-icon [icon]="faCalendarCheck"></fa-icon> {{ course.courseCreatedOn }}</h6>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="login(course.id)">
+            <fa-icon [icon]="faEye"></fa-icon>
+            Enroll
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

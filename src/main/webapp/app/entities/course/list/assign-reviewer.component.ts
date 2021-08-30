@@ -19,13 +19,9 @@ export class AssignReviewerComponent implements OnInit {
   reviewers: IUser[] = [];
   reviewerSelected: IUser | undefined;
   reviewerSelectedId!: string;
-  editForm = this.fb.group({
-    reviewerSelected: null,
-  });
 
   constructor(
     protected courseService: CourseService,
-    protected fb: FormBuilder,
     protected assignCategoryReviewerService: AssignCategoryReviewerService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
@@ -69,8 +65,6 @@ export class AssignReviewerComponent implements OnInit {
   }
 
   onChange(event: any): void {
-    //window.alert(event)
-    console.warn(event);
     this.reviewerSelectedId = event;
     // for(const user of this.reviewers){
     //   if(user.id!.toString()===event){

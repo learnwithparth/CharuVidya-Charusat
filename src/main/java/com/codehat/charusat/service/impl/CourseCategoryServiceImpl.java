@@ -149,7 +149,8 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         Optional<User> userFromDB = userRepository.findOneByLogin(user.getLogin());
         if (userFromDB.isPresent()) {
             if (reviewerCategories != null) {
-                for (CourseCategory courseCategory : reviewerCategories) {
+                for (int i = 0; i < reviewerCategories.size(); i++) {
+                    CourseCategory courseCategory = courseCategoryRepository.findById(reviewerCategories.get(i).getId()).get();
                     temp = courseCategory.getReviewersList();
                     if (temp == null) {
                         temp = new HashSet<>();

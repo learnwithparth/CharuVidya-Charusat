@@ -6,7 +6,7 @@ import { UserCourseService } from 'app/entities/user-pages/user-courses/user-cou
 import { HttpResponse } from '@angular/common/http';
 import { ICourseCategory } from 'app/entities/course-category/course-category.model';
 import { Subscription } from 'rxjs';
-import { error } from '@angular/compiler/src/util';
+import { faUserTie, faUserFriends, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-user-enrolled-courses',
@@ -14,6 +14,10 @@ import { error } from '@angular/compiler/src/util';
   styleUrls: ['./user-enrolled-courses.component.scss'],
 })
 export class UserEnrolledCoursesComponent implements OnInit {
+  faUserTie = faUserTie;
+  faUserFriends = faUserFriends;
+  faCalendarCheck = faCalendarCheck;
+
   courses?: ICourse[] | null;
   eventSubscriber?: Subscription;
   studentCount: Map<ICourse, number> = new Map<ICourse, number>();
