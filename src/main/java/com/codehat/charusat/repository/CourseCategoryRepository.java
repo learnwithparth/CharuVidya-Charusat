@@ -48,4 +48,6 @@ public interface CourseCategoryRepository extends JpaRepository<CourseCategory, 
         ")"
     )
     Integer getCourseCountByParentCategory(@Param("categoryId") Integer categoryId);
+
+    List<CourseCategory> findCourseCategoryByIsParent(Boolean value);
 }

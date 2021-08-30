@@ -102,6 +102,9 @@ public class Course implements Serializable {
     @ManyToOne
     private User reviewer;
 
+    @OneToOne
+    private CourseReviewStatus courseReviewStatus;
+
     public Integer getMinStudents() {
         return minStudents;
     }
@@ -397,6 +400,14 @@ public class Course implements Serializable {
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public CourseReviewStatus getCourseReviewStatus() {
+        return courseReviewStatus;
+    }
+
+    public void setCourseReviewStatus(CourseReviewStatus courseReviewStatus) {
+        this.courseReviewStatus = courseReviewStatus;
+    }
 
     @Override
     public boolean equals(Object o) {

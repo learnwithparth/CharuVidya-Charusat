@@ -156,7 +156,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           component: InstructorUpdateCourseSessionComponent,
         },
         {
-          path: 'assign/:courseId',
+          path: 'assign/:courseId/:categoryId',
           data: {
             authorities: [Authority.ADMIN, Authority.REVIEWER],
           },

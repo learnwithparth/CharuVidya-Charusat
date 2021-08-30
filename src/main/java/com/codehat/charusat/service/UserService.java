@@ -355,6 +355,12 @@ public class UserService {
     }
 
     public Integer getTotalUsersByAuthority(String authority) {
-        return userRepository.findAllByAuthoritiesContains(authority);
+        return userRepository.countAllByAuthoritiesContains(authority);
+    }
+
+    public Set<User> getAllUsersByAuthority(String authority) {
+        Authority authorityFromDB = new Authority();
+        authorityFromDB.setName(authority);
+        return userRepository.findAllByAuthoritiesContaining(authorityFromDB);
     }
 }

@@ -26,6 +26,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
+        <addForeignKeyConstraint baseTableName="course"
+                                 baseColumnNames="course_review_status_id"
+                                 constraintName="fk_course__course_review_status_id"
+                                 referencedTableName="course_review_status"
+                                 referencedColumnNames="id"/>
+
         <addForeignKeyConstraint baseColumnNames="reviewer_id"
                                  baseTableName="course"
                                  constraintName="fk_course__reviewer_id"

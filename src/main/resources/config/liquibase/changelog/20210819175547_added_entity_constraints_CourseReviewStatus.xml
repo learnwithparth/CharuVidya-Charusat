@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity CourseProgress.
+    -->
+    <changeSet id="20210819175547-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="reviewer_id"
+                                 baseTableName="course_review_status"
+                                 constraintName="fk_course_review_status__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+                                 baseTableName="course_review_status"
+                                 constraintName="fk_course_review_status___course_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="course"/>
+
+        <addForeignKeyConstraint baseColumnNames="reviewer_id"
+                                 baseTableName="rel_course_category__reviewers_list"
+                                 constraintName="fk_rel_course_category__reviewers_list__reviewer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

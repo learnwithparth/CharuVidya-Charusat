@@ -28,6 +28,7 @@ public class CourseDTO {
     LocalDate courseUpdatedOn;
     Integer minStudents;
     Integer maxStudents;
+    CourseReviewStatus courseReviewStatus;
 
     public CourseDTO() {}
 
@@ -229,5 +230,13 @@ public class CourseDTO {
 
     public void setReviewer(User reviewer) {
         this.reviewer = reviewer;
+    }
+
+    public CourseReviewStatus getCourseReviewStatus() {
+        return courseReviewStatus;
+    }
+
+    public void setCourseReviewStatus(CourseReviewStatus courseReviewStatus) {
+        this.courseReviewStatus = courseReviewStatus;
     }
 }

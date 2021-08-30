@@ -1,15 +1,17 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.CourseCategory;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseCategoryRepository;
 import com.codehat.charusat.repository.CourseRepository;
+import com.codehat.charusat.repository.UserRepository;
 import com.codehat.charusat.service.CourseCategoryService;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.codehat.charusat.service.UserService;
+import com.codehat.charusat.service.dto.AdminUserDTO;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,16 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
 
     private final CourseRepository courseRepository;
 
-    public CourseCategoryServiceImpl(CourseCategoryRepository courseCategoryRepository, CourseRepository courseRepository) {
+    private final UserRepository userRepository;
+
+    public CourseCategoryServiceImpl(
+        CourseCategoryRepository courseCategoryRepository,
+        CourseRepository courseRepository,
+        UserRepository userRepository
+    ) {
         this.courseCategoryRepository = courseCategoryRepository;
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -126,5 +135,58 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
             map.put(category.getId(), courseCategoryRepository.getCourseCountByParentCategory(category.getId().intValue()));
         }
         return ResponseEntity.ok().body(map);
+    }
+
+    @Override
+    public ResponseEntity<List<CourseCategory>> getCourseSubCategories() {
+        List<CourseCategory> courseSubCategories = courseCategoryRepository.findCourseCategoryByIsParent(false);
+        return ResponseEntity.ok().body(courseSubCategories);
+    }
+
+    @Override
+    public ResponseEntity setReviewerInSubCategories(List<CourseCategory> reviewerCategories, AdminUserDTO user) throws Exception {
+        Set<User> temp;
+        Optional<User> userFromDB = userRepository.findOneByLogin(user.getLogin());
+        if (userFromDB.isPresent()) {
+            if (reviewerCategories != null) {
+                for (int i = 0; i < reviewerCategories.size(); i++) {
+                    CourseCategory courseCategory = courseCategoryRepository.findById(reviewerCategories.get(i).getId()).get();
+                    temp = courseCategory.getReviewersList();
+                    if (temp == null) {
+                        temp = new HashSet<>();
+                    }
+                    temp.add(userFromDB.get());
+                    courseCategory.setReviewersList(temp);
+                    courseCategoryRepository.save(courseCategory);
+                }
+            }
+            return ResponseEntity.ok().build();
+        } else {
+            throw new Exception("User not found!");
+        }
+    }
+
+    @Override
+    public ResponseEntity<Set<User>> getReviewerByCourseCategoryId(Long courseCategoryId) throws Exception {
+        Optional<CourseCategory> courseCategory = courseCategoryRepository.findById(courseCategoryId);
+        if (courseCategory.isPresent()) {
+            Set<User> reviewers = courseCategory.get().getReviewersList();
+            return ResponseEntity.ok().body(reviewers);
+        } else {
+            throw new Exception("No course category found!");
+        }
+    }
+
+    @Override
+    public ResponseEntity setReviewerInSubCategories(Long courseCategoryId, Set<User> reviewers) throws Exception {
+        Optional<CourseCategory> courseCategory = courseCategoryRepository.findById(courseCategoryId);
+        if (courseCategory.isPresent()) {
+            if (reviewers != null) {
+                courseCategory.get().setReviewersList(reviewers);
+            }
+            return ResponseEntity.ok().build();
+        } else {
+            throw new Exception("No course category found!");
+        }
     }
 }

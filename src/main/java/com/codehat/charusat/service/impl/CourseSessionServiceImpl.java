@@ -155,7 +155,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                 if (course.isPresent()) {
                     Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
                     if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
-                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                        return courseSessionRepository.findAllByCourseSection_IdAndIsApproved(courseSectionId, true, pageable);
                     } else {
                         return null;
                     }

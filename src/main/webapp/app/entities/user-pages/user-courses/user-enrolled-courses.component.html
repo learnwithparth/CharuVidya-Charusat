@@ -2,25 +2,30 @@
   <h1>Your Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <mdb-card style="height: 500px">
-        <mdb-card-header>
-          <mdb-card-title>{{ course.courseTitle }}</mdb-card-title>
+      <div class="mat-card">
+        <img src="{{ course.logo }}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <span class="mat-card-title">{{ course.courseTitle }}</span>
           <br />
-          <mdb-card-title *ngIf="course.user"><b>Instructor :</b> {{ course.user.firstName }}</mdb-card-title>
-          <br />
-          <mdb-card-title *ngIf="course.courseCreatedOn"><b>Created On :</b> {{ course.courseCreatedOn }}</mdb-card-title>
-          <br />
-        </mdb-card-header>
-        <img mat-card-image src="{{ course.logo }}" style="object-fit: fill" />
-        <mdb-card-body>
+          <p class="mat-card-content">
+            <fa-icon [icon]="faUserTie"></fa-icon>
+            Instructor : {{ course.user!.firstName }}
+          </p>
+          <p>
+            <fa-icon [icon]="faUserFriends"></fa-icon>
+            {{ course.minStudents }}
+          </p>
+          <h6>
+            <fa-icon [icon]="faCalendarCheck"></fa-icon>
+            {{ course.courseCreatedOn }}
+          </h6>
           <a routerLink="/course/{{ course.id }}/user/sections">
-            <div class="register">
+            <div *ngIf="course.enrolled">
               <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
             </div>
           </a>
-          <!--          <button mat-button (click)="onEnroll(course)">ENROLL</button>-->
-        </mdb-card-body>
-      </mdb-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>
