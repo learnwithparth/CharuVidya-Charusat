@@ -46,7 +46,7 @@
             <a [routerLink]="['/course-progress', courseProgress.id, 'view']">{{ courseProgress.id }}</a>
           </td>
           <td>{{ courseProgress.completed }}</td>
-          <td>{{ courseProgress.watchSeconds | formatMediumDatetime }}</td>
+          <td>{{ courseProgress.watchSeconds }}</td>
           <td>
             {{ courseProgress.user?.id }}
           </td>

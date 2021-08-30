@@ -103,7 +103,7 @@
 
           <vg-fullscreen></vg-fullscreen>
         </vg-controls>
-        <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+        <video #media [vgMedia]="media" id="singleVideo" preload="auto" (ended)="playNext()" crossorigin>
           <source [src]="selectedSession.sessionVideo" type="video/mp4" />
         </video>
       </vg-player>
@@ -120,9 +120,9 @@
       <br /><br />
       <div class="accordion" id="accordionExample">
         <div class="card" *ngFor="let fruit of courseSections; let i = index">
-          <div class="card-header" id="headingOne">
+          <div class="card-header" id="headingOne" *ngIf="allSessions[i].length !== 0">
             <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleOne(fruit, i)">
+              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleSection(fruit, i)">
                 {{ fruit.sectionTitle }}
               </button>
             </h2>
