@@ -1,10 +1,15 @@
+ALTER TABLE `codehat_charusat`.`course` 
+ADD COLUMN `min_students` BIGINT NULL DEFAULT 100 AFTER `course_review_status_id`,
+ADD COLUMN `max_students` BIGINT NULL DEFAULT 100 AFTER `min_students`;
+
 DROP TABLE IF EXISTS `course_review_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `course_review_status` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `status` varchar(255) DEFAULT NULL,
-  `status_updated_on` date DEFAULT NULL,
+  `statu
+    s_updated_on` date DEFAULT NULL,
   `feedback` varchar(255) DEFAULT NULL,
   `reviewer_id` bigint DEFAULT NULL,
   `course_id` bigint DEFAULT NULL,
