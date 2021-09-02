@@ -76,74 +76,77 @@
     <span>No Sections added</span>
   </div>
   <hr />
-  <div class="container" *ngIf="courseSections !== null && courseSections !== undefined && courseSections.length > 0">
-    <div class="content">
-      <h4 *ngIf="selectedSection !== undefined && selectedSession !== undefined">
-        <b>{{ selectedSection.sectionTitle }} | {{ selectedSession.sessionTitle }}</b>
-      </h4>
-      <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 900px">
-        <vg-overlay-play></vg-overlay-play>
-        <vg-buffering></vg-buffering>
+  <!--  ////////////////////////////////////////-->
+  <!--  <div class="container" *ngIf="courseSections !== null && courseSections !== undefined && courseSections.length > 0">-->
+  <!--    <div class="content">-->
+  <!--      <h4 *ngIf="selectedSection !== undefined && selectedSession !== undefined">-->
+  <!--        <b>{{ selectedSection.sectionTitle }} | {{ selectedSession.sessionTitle }}</b>-->
+  <!--      </h4>-->
+  <!--      <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 900px">-->
+  <!--        <vg-overlay-play></vg-overlay-play>-->
+  <!--        <vg-buffering></vg-buffering>-->
 
-        <vg-scrub-bar>
-          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-        </vg-scrub-bar>
+  <!--        <vg-scrub-bar>-->
+  <!--          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>-->
+  <!--          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>-->
+  <!--        </vg-scrub-bar>-->
 
-        <vg-controls>
-          <vg-play-pause></vg-play-pause>
-          <vg-playback-button></vg-playback-button>
+  <!--        <vg-controls>-->
+  <!--          <vg-play-pause></vg-play-pause>-->
+  <!--          <vg-playback-button></vg-playback-button>-->
 
-          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+  <!--          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>-->
 
-          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+  <!--          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>-->
 
-          <vg-mute></vg-mute>
-          <vg-volume></vg-volume>
+  <!--          <vg-mute></vg-mute>-->
+  <!--          <vg-volume></vg-volume>-->
 
-          <vg-fullscreen></vg-fullscreen>
-        </vg-controls>
-        <video #media [vgMedia]="media" id="singleVideo" preload="auto" (ended)="playNext()" crossorigin>
-          <source [src]="selectedSession.sessionVideo" type="video/mp4" />
-        </video>
-      </vg-player>
-      <hr />
-      <h4><b>Description</b></h4>
-      <p *ngIf="selectedSession !== undefined">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>
-      <h4><b>Resource</b></h4>
-      <p *ngIf="selectedSession !== undefined">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{{ selectedSession.sessionResource }}" target="_blank">{{ selectedSession.sessionResource }}</a>
-      </p>
-    </div>
-    <div class="ml-3">
-      <br /><br />
-      <div class="accordion" id="accordionExample">
-        <div class="card" *ngFor="let fruit of courseSections; let i = index">
-          <div class="card-header" id="headingOne" *ngIf="allSessions[i].length !== 0">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleSection(fruit, i)">
-                {{ fruit.sectionTitle }}
-              </button>
-            </h2>
-          </div>
-          <div
-            id="collapseOne"
-            class="collapse show"
-            *ngIf="selectedSection !== undefined && selectedSession !== undefined && selectedSection.id == fruit.id"
-          >
-            <div class="card-body">
-              <ul class="list-group">
-                <li class="list-group-item" (click)="displayVideo(session)" *ngFor="let session of allSessions[sectionIndex]">
-                  <a>{{ session.sessionTitle }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--          <vg-fullscreen></vg-fullscreen>-->
+  <!--        </vg-controls>-->
+  <!--        <video #media [vgMedia]="media" id="singleVideo" preload="auto" (ended)="playNext()" crossorigin>-->
+  <!--          <source [src]="selectedSession.sessionVideo" type="video/mp4" />-->
+  <!--        </video>-->
+  <!--      </vg-player>-->
+  <!--      <hr />-->
+  <!--      <h4><b>Description</b></h4>-->
+  <!--      <p *ngIf="selectedSession !== undefined">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedSession.sessionDescription }}</p>-->
+  <!--      <h4><b>Resource</b></h4>-->
+  <!--      <p *ngIf="selectedSession !== undefined">-->
+  <!--        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+  <!--        <a href="{{ selectedSession.sessionResource }}" target="_blank">{{ selectedSession.sessionResource }}</a>-->
+  <!--      </p>-->
+  <!--    </div>-->
+  <!--    <div class="ml-3">-->
+  <!--      <br /><br />-->
+  <!--      <div class="accordion" id="accordionExample">-->
+  <!--        <div class="card" *ngFor="let fruit of courseSections; let i = index">-->
+  <!--          <div class="card-header" id="headingOne" *ngIf="allSessions[i].length !== 0">-->
+  <!--            <h2 class="mb-0">-->
+  <!--              <button class="btn btn-link btn-block text-left" type="button" (click)="toggleSection(fruit, i)">-->
+  <!--                {{ fruit.sectionTitle }}-->
+  <!--              </button>-->
+  <!--            </h2>-->
+  <!--          </div>-->
+  <!--          <div-->
+  <!--            id="collapseOne"-->
+  <!--            class="collapse show"-->
+  <!--            *ngIf="selectedSection !== undefined && selectedSession !== undefined && selectedSection.id == fruit.id"-->
+  <!--          >-->
+  <!--            <div class="card-body">-->
+  <!--              <ul class="list-group">-->
+  <!--                <li class="list-group-item" (click)="displayVideo(session)" *ngFor="let session of allSessions[sectionIndex]">-->
+  <!--                  <a>{{ session.sessionTitle }}</a>-->
+  <!--                </li>-->
+  <!--              </ul>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <!--  ///////////////////////////////////////-->
   <!--  TABLE-->
   <!--  <div id="entities" *ngIf="courseSections && courseSections.length > 0">-->
   <!--    <table class="table table-striped" aria-describedby="page-heading">-->
@@ -176,4 +179,65 @@
   <!--    </table>-->
   <!--  </div>-->
   <!--</div>-->
+  <!--  TESTING-->
+  <section>
+    <h2 class="title">{{ selectedSession.sessionTitle }}</h2>
+    <div class="container1">
+      <div id="video_player">
+        <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 900px">
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            -
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <video #media [vgMedia]="media" id="singleVideo" preload="auto" (ended)="playNext()" crossorigin>
+            <source [src]="selectedSession.sessionVideo" type="video/mp4" />
+          </video>
+        </vg-player>
+      </div>
+      <div class="playlistBx">
+        <div class="header">
+          <div class="header">
+            <span class="AllLessons">{{ allSession1.length }} Lessons</span>
+          </div>
+          <ul class="playlist" id="playlist">
+            <li
+              *ngFor="let x of allSession1; let i = index"
+              (click)="displayVideo(x, i)"
+              [ngClass]="{ playing: selectedSession.id == x.id }"
+            >
+              <div class="row">
+                <fa-icon [ngClass]="{ playButtonIcon: selectedSession.id == x.id }" [icon]="faPlayCircle"></fa-icon>
+                <span>&nbsp;&nbsp;&nbsp;{{ x.sessionTitle }} ( {{ x.sessionDuration }} sec )</span>
+              </div>
+              <span class="duration"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br />
+  <h2 class="title">Description</h2>
+  <p style="margin-left: 10px">{{ selectedSession.sessionDescription }}</p>
+  <h2 class="title">Resources</h2>
+  <p style="margin-left: 10px">
+    <a href="{{ selectedSession.sessionResource }}"> {{ selectedSession.sessionResource }}</a>
+  </p>
 </div>

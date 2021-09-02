@@ -8,7 +8,7 @@ import { InstructorCourseSessionService } from 'app/entities/instructor-pages/in
 import { ICourseSession } from 'app/entities/course-session/course-session.model';
 import { CourseProgressService } from 'app/entities/course-progress/service/course-progress.service';
 import { CourseProgress, ICourseProgress } from 'app/entities/course-progress/course-progress.model';
-
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'jhi-user-course-sections',
   templateUrl: './user-course-sections.component.html',
@@ -23,10 +23,12 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
   selectedSection: any;
   selectedSession: any;
   allSessions: any[][] = [];
+  allSession1: any = [];
   sectionIndex = 0;
   sessionIndex = 0;
   video: any = null;
   courseProgress!: ICourseProgress;
+  faPlayCircle = faPlayCircle;
   constructor(
     protected courseSectionService: InstructorCourseSectionService,
     protected courseSessionService: InstructorCourseSessionService,
@@ -70,7 +72,7 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
         // this.courseProgressService.updateUserWatchTime(new CourseProgress(undefined,false,this.video.currentTime,null,this.selectedSession));
         this.courseProgressService.updateUserWatchTime(this.courseProgress);
       }
-    }, 1500000);
+    }, 150000000);
   }
 
   trackId(index: number, item: ICourseSection): number {
@@ -83,8 +85,9 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
     this.selectedSection = sections;
     this.sectionIndex = index;
   }
-  displayVideo(data: any): void {
+  displayVideo(data: any, index: number): void {
     this.selectedSession = data;
+    this.sessionIndex = index;
     // this.url = this.selectedSection.sessionVideo;
     const video = document.getElementById('singleVideo');
     console.log(video);
@@ -94,19 +97,25 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
     this.updateVideoTime();
   }
   playNext(): void {
+    // this.sessionIndex++;
+    // if (this.allSessions[this.sectionIndex].length === this.sessionIndex && this.allSessions.length === this.sectionIndex + 1) {
+    //   alert('Congrats🎉🎉 \nYou have completed the course.');
+    //   return;
+    // }
+    // if (this.allSessions[this.sectionIndex].length === this.sessionIndex) {
+    //   this.sessionIndex = 0;
+    //   this.sectionIndex++;
+    //   if (this.courseSections) {
+    //     this.selectedSection = this.courseSections[this.sectionIndex];
+    //   }
+    // }
+    // this.selectedSession = this.allSessions[this.sectionIndex][this.sessionIndex];
     this.sessionIndex++;
-    if (this.allSessions[this.sectionIndex].length === this.sessionIndex && this.allSessions.length === this.sectionIndex + 1) {
+    if (this.allSession1.length === this.sessionIndex) {
       alert('Congrats🎉🎉 \nYou have completed the course.');
       return;
     }
-    if (this.allSessions[this.sectionIndex].length === this.sessionIndex) {
-      this.sessionIndex = 0;
-      this.sectionIndex++;
-      if (this.courseSections) {
-        this.selectedSection = this.courseSections[this.sectionIndex];
-      }
-    }
-    this.selectedSession = this.allSessions[this.sectionIndex][this.sessionIndex];
+    this.selectedSession = this.allSession1[this.sessionIndex];
     this.updateVideoTime();
   }
   loadPage(): void {
@@ -144,6 +153,7 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
       }
       for (const value of Object.values(this.sectionsSessions)) {
         this.allSessions.push(value);
+        this.allSession1 = this.allSession1.concat(value);
       }
       this.selectedSession = this.allSessions[0][0];
     }
