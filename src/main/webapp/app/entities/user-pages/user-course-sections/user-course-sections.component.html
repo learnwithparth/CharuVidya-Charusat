@@ -184,7 +184,7 @@
     <h2 class="title">{{ selectedSession.sessionTitle }}</h2>
     <div class="container1">
       <div id="video_player">
-        <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 900px">
+        <vg-player *ngIf="selectedSession !== undefined" style="height: 400px; width: 100%">
           <vg-overlay-play></vg-overlay-play>
           <vg-buffering></vg-buffering>
 
@@ -213,9 +213,6 @@
       </div>
       <div class="playlistBx">
         <div class="header">
-          <div class="header">
-            <span class="AllLessons">{{ allSession1.length }} Lessons</span>
-          </div>
           <ul class="playlist" id="playlist">
             <li
               *ngFor="let x of allSession1; let i = index"
@@ -224,7 +221,7 @@
             >
               <div class="row">
                 <fa-icon [ngClass]="{ playButtonIcon: selectedSession.id == x.id }" [icon]="faPlayCircle"></fa-icon>
-                <span>&nbsp;&nbsp;&nbsp;{{ x.sessionTitle }} ( {{ x.sessionDuration }} sec )</span>
+                <span>&nbsp;&nbsp;&nbsp;{{ x.sessionTitle }} </span>
               </div>
               <span class="duration"></span>
             </li>
@@ -234,10 +231,18 @@
     </div>
   </section>
   <br />
-  <h2 class="title">Description</h2>
-  <p style="margin-left: 10px">{{ selectedSession.sessionDescription }}</p>
-  <h2 class="title">Resources</h2>
-  <p style="margin-left: 10px">
-    <a href="{{ selectedSession.sessionResource }}"> {{ selectedSession.sessionResource }}</a>
-  </p>
+  <div *ngIf="selectedSession.sessionDescription !== null && selectedSession.sessionDescription !== ''">
+    <h2 class="title">Description</h2>
+    <p style="margin-left: 10px">{{ selectedSession.sessionDescription }}</p>
+  </div>
+  <div *ngIf="selectedSession.sessionResource !== null && selectedSession.sessionResource !== ''">
+    <h2 class="title">Resources</h2>
+    <p style="margin-left: 10px">
+      <a href="{{ selectedSession.sessionResource }}"> {{ selectedSession.sessionResource }}</a>
+    </p>
+  </div>
+  <div *ngIf="selectedSession.quizLink !== null && selectedSession.quizLink !== ''">
+    <h2 class="title">Quiz</h2>
+    <p style="margin-left: 10px">{{ selectedSession.quizLink }}</p>
+  </div>
 </div>

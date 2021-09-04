@@ -63,7 +63,7 @@ section {
 .title {
   font-size: 20px;
   font-weight: 600;
-  color: blue;
+  color: black;
   text-align: left;
   width: 100%;
   margin-bottom: 10px;
@@ -105,9 +105,9 @@ section {
 .playlist {
   position: absolute;
   width: 100%;
-  height: calc(100% - 40px);
+  height: calc(100% - 10px);
   overflow-y: scroll;
-  border-top: 1px solid black;
+  margin-left: -40px;
 }
 .playlist::-webkit-scrollbar {
   width: 0px;

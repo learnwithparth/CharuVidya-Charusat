@@ -72,7 +72,7 @@ export class UserCourseSectionsComponent implements OnInit, AfterViewInit {
         // this.courseProgressService.updateUserWatchTime(new CourseProgress(undefined,false,this.video.currentTime,null,this.selectedSession));
         this.courseProgressService.updateUserWatchTime(this.courseProgress);
       }
-    }, 150000000);
+    }, 15000);
   }
 
   trackId(index: number, item: ICourseSection): number {
