@@ -1,6 +1,7 @@
 package com.codehat.charusat.service;
 
 import com.codehat.charusat.domain.CourseProgress;
+import com.codehat.charusat.domain.CourseSession;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +48,8 @@ public interface CourseProgressService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    boolean updateTime(CourseProgress courseProgress);
+
+    CourseProgress getUserProgress(CourseSession courseSession);
 }

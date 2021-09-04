@@ -99,7 +99,7 @@ export class CourseProgressUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: courseProgress.id,
       completed: courseProgress.completed,
-      watchSeconds: courseProgress.watchSeconds ? courseProgress.watchSeconds.format(DATE_TIME_FORMAT) : null,
+      watchSeconds: courseProgress.watchSeconds,
       user: courseProgress.user,
       courseSession: courseProgress.courseSession,
     });
@@ -134,9 +134,7 @@ export class CourseProgressUpdateComponent implements OnInit {
       ...new CourseProgress(),
       id: this.editForm.get(['id'])!.value,
       completed: this.editForm.get(['completed'])!.value,
-      watchSeconds: this.editForm.get(['watchSeconds'])!.value
-        ? dayjs(this.editForm.get(['watchSeconds'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      watchSeconds: this.editForm.get(['watchSeconds'])!.value,
       user: this.editForm.get(['user'])!.value,
       courseSession: this.editForm.get(['courseSession'])!.value,
     };
