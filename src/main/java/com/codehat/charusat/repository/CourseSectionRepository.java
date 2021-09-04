@@ -21,7 +21,7 @@ public interface CourseSectionRepository extends JpaRepository<CourseSection, Lo
      * */
     Page<CourseSection> findCourseSectionByCourse_Id(Long courseId, Pageable pageable);
 
-    Page<CourseSection> findCourseSectionByCourse_IdAndIsDraft(Long courseId, Boolean value, Pageable pageable);
+    Page<CourseSection> findCourseSectionByCourse_IdAndIsApproved(Long courseId, Boolean value, Pageable pageable);
 
     List<CourseSection> findCourseSectionByCourse_Id(Long courseId);
 

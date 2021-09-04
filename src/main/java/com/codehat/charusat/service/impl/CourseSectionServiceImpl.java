@@ -126,7 +126,7 @@ public class CourseSectionServiceImpl implements CourseSectionService {
                 //                    user.get(),
                 //                    pageable
                 //                );
-                return courseSectionRepository.findCourseSectionByCourse_IdAndIsDraft(courseId, true, pageable);
+                return courseSectionRepository.findCourseSectionByCourse_IdAndIsApproved(courseId, true, pageable);
             } else {
                 return null;
             }
