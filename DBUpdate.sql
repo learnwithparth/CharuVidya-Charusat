@@ -8,8 +8,7 @@ DROP TABLE IF EXISTS `course_review_status`;
 CREATE TABLE `course_review_status` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `status` varchar(255) DEFAULT NULL,
-  `statu
-    s_updated_on` date DEFAULT NULL,
+  `status_updated_on` date DEFAULT NULL,
   `feedback` varchar(255) DEFAULT NULL,
   `reviewer_id` bigint DEFAULT NULL,
   `course_id` bigint DEFAULT NULL,
