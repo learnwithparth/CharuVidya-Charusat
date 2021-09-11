@@ -20,6 +20,7 @@ import { UserCourseSectionsComponent } from 'app/entities/user-pages/user-course
 import { UserCouresSectionSessionComponent } from 'app/entities/user-pages/user-coures-section-session/user-coures-section-session.component';
 import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-courses/user-enrolled-courses.component';
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
+import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -82,6 +83,14 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           },
           canActivate: [UserRouteAccessService],
           component: InstructorUpdateCoursesComponent,
+        },
+        {
+          path: 'review-courses',
+          data: {
+            authorities: [Authority.ADMIN, Authority.REVIEWER],
+          },
+          canActivate: [UserRouteAccessService],
+          component: ReviewCourseComponent,
         },
         {
           path: 'enrolled-courses',

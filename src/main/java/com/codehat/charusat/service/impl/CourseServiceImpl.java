@@ -423,6 +423,21 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public ResponseEntity<List<Course>> coursesForReview() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        List<Course> courseList = new ArrayList<>();
+        if (user.isPresent()) {
+            List<CourseReviewStatus> list = courseReviewStatusRepository.findCourseReviewStatusByReviewer(user.get());
+            for (CourseReviewStatus crs : list) {
+                courseList.add(crs.getCourse());
+            }
+            return ResponseEntity.ok().body(courseList);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
     public ResponseEntity receivedForApproval(Long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isPresent()) {

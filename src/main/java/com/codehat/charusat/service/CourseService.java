@@ -88,4 +88,6 @@ public interface CourseService {
     ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId);
 
     ResponseEntity assignReviewerToCourse(Long courseId, Long userId);
+
+    ResponseEntity<List<Course>> coursesForReview();
 }

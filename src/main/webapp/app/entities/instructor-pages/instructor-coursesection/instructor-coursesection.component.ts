@@ -8,6 +8,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { CourseSectionDeleteDialogComponent } from 'app/entities/course-section/delete/course-section-delete-dialog.component';
 import { combineLatest } from 'rxjs';
 import { InstructorCourseSectionService } from 'app/entities/instructor-pages/instructor-coursesection/instructor-coursesection.service';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-instructor-coursesection',
@@ -18,6 +19,7 @@ export class InstructorCoursesectionComponent implements OnInit {
   courseSections?: ICourseSection[] | null;
   isLoading = false;
   courseId!: string | null;
+  faCheck = faCheckCircle;
 
   constructor(
     protected courseSectionService: InstructorCourseSectionService,

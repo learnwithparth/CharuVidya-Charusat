@@ -45,6 +45,7 @@ export class InstructorSessionViewComponent implements OnInit {
       this.courseSessionService.approveSession(courseSession).subscribe(
         res => {
           window.alert('Session approved');
+          this.previousState();
         },
         error => {
           console.error(error);

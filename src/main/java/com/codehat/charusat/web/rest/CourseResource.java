@@ -286,4 +286,10 @@ public class CourseResource {
         Long id = Long.parseLong(userId);
         return courseService.assignReviewerToCourse(courseId, id);
     }
+
+    @GetMapping("/coursesForReview")
+    public ResponseEntity<List<Course>> coursesForReview() throws Exception {
+        log.debug("REST request to return courses for review by user id");
+        return courseService.coursesForReview();
+    }
 }

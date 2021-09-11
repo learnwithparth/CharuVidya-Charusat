@@ -77,6 +77,14 @@
           </span>
         </a>
       </li>
+      <li>
+        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/review-courses" (click)="collapseNavbar()">
+          <span>
+            <fa-icon [icon]="faBookmark"></fa-icon>
+            <span>Review Courses</span>
+          </span>
+        </a>
+      </li>
       <li
         *jhiHasAnyAuthority="'ROLE_ADMIN'"
         ngbDropdown

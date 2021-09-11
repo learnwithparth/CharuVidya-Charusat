@@ -150,12 +150,15 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         log.debug("Request to get CourseSession by CourseSection: {}", courseSectionId);
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
-            if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
+            if (
+                user.get().getAuthorities().toString().contains("ROLE_ADMIN") ||
+                user.get().getAuthorities().toString().contains("ROLE_REVIEWER")
+            ) {
                 Optional<Course> course = courseService.findOne(courseId);
                 if (course.isPresent()) {
                     Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
                     if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
-                        return courseSessionRepository.findAllByCourseSection_IdAndIsApproved(courseSectionId, true, pageable);
+                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
                     } else {
                         return null;
                     }
