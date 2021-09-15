@@ -14,6 +14,7 @@ export class InstructorSessionViewComponent implements OnInit {
   sessionId!: string | null;
   courseSectionId!: string | null;
   isLoading = false;
+  isUserCourse = false;
   constructor(protected activatedRoute: ActivatedRoute, protected courseSessionService: InstructorCourseSessionService) {}
 
   ngOnInit(): void {
@@ -24,6 +25,7 @@ export class InstructorSessionViewComponent implements OnInit {
     }
 
     this.loadSessions();
+
     this.activatedRoute.data.subscribe(({ courseSession }) => {
       this.courseSession = courseSession;
     });
@@ -36,6 +38,11 @@ export class InstructorSessionViewComponent implements OnInit {
     if (this.sessionId !== null) {
       this.courseSessionService.find(this.sessionId).subscribe(data => {
         this.courseSession = data.body;
+        if (this.courseSession) {
+          this.courseSessionService.isCurrentCourseOfCurrentUser(this.courseSession).subscribe(res => {
+            this.isUserCourse = res.body;
+          });
+        }
       });
     }
   }

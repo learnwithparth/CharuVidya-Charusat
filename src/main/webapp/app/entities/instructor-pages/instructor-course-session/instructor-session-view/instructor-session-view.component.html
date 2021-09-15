@@ -82,30 +82,33 @@
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
-      <div *jhiHasAnyAuthority="'ROLE_REVIEWER'" style="padding-top: 5px">
-        <div *ngIf="!courseSession!.isApproved; else elseBlock">
-          <button
-            type="submit"
-            (click)="approve(courseSession)"
-            class="btn btn-success"
-            data-cy="entityDetailsBackButton"
-            [disabled]="courseSession!.isDraft"
-          >
-            <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
-          </button>
+      <div *ngIf="!isUserCourse">
+        <div *jhiHasAnyAuthority="'ROLE_REVIEWER'" style="padding-top: 5px">
+          <div *ngIf="!courseSession!.isApproved; else elseBlock">
+            <button
+              type="submit"
+              (click)="approve(courseSession)"
+              class="btn btn-success"
+              data-cy="entityDetailsBackButton"
+              [disabled]="courseSession!.isDraft"
+            >
+              <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
+            </button>
+          </div>
+          <ng-template #elseBlock class="btn btn-success">
+            <button
+              type="submit"
+              (click)="approve(courseSession)"
+              class="btn btn-success"
+              data-cy="entityDetailsBackButton"
+              [disabled]="true"
+            >
+              <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
+            </button>
+          </ng-template>
         </div>
-        <ng-template #elseBlock class="btn btn-success">
-          <button
-            type="submit"
-            (click)="approve(courseSession)"
-            class="btn btn-success"
-            data-cy="entityDetailsBackButton"
-            [disabled]="true"
-          >
-            <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
-          </button>
-        </ng-template>
       </div>
+
       <div *jhiHasAnyAuthority="'ROLE_ADMIN'" style="padding-top: 5px">
         <div *ngIf="!courseSession!.isApproved; else elseBlock">
           <button
