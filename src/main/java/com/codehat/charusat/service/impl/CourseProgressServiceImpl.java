@@ -1,8 +1,13 @@
 package com.codehat.charusat.service.impl;
 
 import com.codehat.charusat.domain.CourseProgress;
+import com.codehat.charusat.domain.CourseSession;
+import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseProgressRepository;
 import com.codehat.charusat.service.CourseProgressService;
+import com.codehat.charusat.service.UserService;
+import io.undertow.util.BadRequestException;
+import java.net.URISyntaxException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +26,11 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     private final Logger log = LoggerFactory.getLogger(CourseProgressServiceImpl.class);
 
     private final CourseProgressRepository courseProgressRepository;
+    private final UserService userService;
 
-    public CourseProgressServiceImpl(CourseProgressRepository courseProgressRepository) {
+    public CourseProgressServiceImpl(CourseProgressRepository courseProgressRepository, UserService userService) {
         this.courseProgressRepository = courseProgressRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -71,5 +78,44 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     public void delete(Long id) {
         log.debug("Request to delete CourseProgress : {}", id);
         courseProgressRepository.deleteById(id);
+    }
+
+    @Override
+    public CourseProgress getUserProgress(CourseSession courseSession) {
+        User user = userService.getUserWithAuthorities().get();
+        Optional<CourseProgress> courseProgress = courseProgressRepository.findByCourseSessionAndUser(courseSession, user);
+        if (courseProgress.isPresent()) {
+            return courseProgress.get();
+        } else {
+            CourseProgress newCourseProgress = new CourseProgress();
+            newCourseProgress.setUser(user);
+            newCourseProgress.setCourseSession(courseSession);
+            newCourseProgress.setWatchSeconds(0L);
+            newCourseProgress.setCompleted(false);
+            return courseProgressRepository.save(newCourseProgress);
+        }
+    }
+
+    @Override
+    public boolean updateTime(CourseProgress courseProgress) {
+        //        if(courseProgress.getId()!=null){
+        CourseSession courseSession = courseProgress.getCourseSession();
+        User user = userService.getUserWithAuthorities().get();
+        Optional<CourseProgress> existing = courseProgressRepository.findByCourseSessionAndUser(courseSession, user);
+        if (existing.isPresent()) {
+            CourseProgress existingCourseProgress = existing.get();
+            existingCourseProgress.setWatchSeconds(courseProgress.getWatchSeconds());
+            courseProgressRepository.save(existingCourseProgress);
+            return true;
+        } else {
+            courseProgress.setUser(userService.getUserWithAuthorities().get());
+            courseProgressRepository.save(courseProgress);
+        }
+        //        }
+        //        else{
+        //            courseProgress.setUser(userService.getUserWithAuthorities().get());
+        //            courseProgressRepository.save(courseProgress);
+        //        }
+        return false;
     }
 }
