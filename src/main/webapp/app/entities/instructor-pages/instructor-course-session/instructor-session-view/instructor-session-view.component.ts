@@ -14,6 +14,7 @@ export class InstructorSessionViewComponent implements OnInit, AfterViewInit {
   sessionId!: string | null;
   courseSectionId!: string | null;
   isLoading = false;
+  isUserCourse = false;
   video: any = null;
   constructor(protected activatedRoute: ActivatedRoute, protected courseSessionService: InstructorCourseSessionService) {}
 
@@ -25,6 +26,7 @@ export class InstructorSessionViewComponent implements OnInit, AfterViewInit {
     }
 
     this.loadSessions();
+
     this.activatedRoute.data.subscribe(({ courseSession }) => {
       this.courseSession = courseSession;
     });
@@ -51,6 +53,11 @@ export class InstructorSessionViewComponent implements OnInit, AfterViewInit {
     if (this.sessionId !== null) {
       this.courseSessionService.find(this.sessionId).subscribe(data => {
         this.courseSession = data.body;
+        if (this.courseSession) {
+          this.courseSessionService.isCurrentCourseOfCurrentUser(this.courseSession).subscribe(res => {
+            this.isUserCourse = res.body;
+          });
+        }
       });
     }
   }
@@ -60,6 +67,7 @@ export class InstructorSessionViewComponent implements OnInit, AfterViewInit {
       this.courseSessionService.approveSession(courseSession).subscribe(
         res => {
           window.alert('Session approved');
+          this.previousState();
         },
         error => {
           console.error(error);

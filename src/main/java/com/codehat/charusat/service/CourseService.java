@@ -5,7 +5,9 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.service.dto.CourseDTO;
 import io.swagger.models.Response;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -77,5 +79,15 @@ public interface CourseService {
 
     List<Course> getEnrolledCourses() throws Exception;
 
-    ResponseEntity<List<Course>> getTop10LatestCourses();
+    ResponseEntity receivedForApproval(Long courseId);
+
+    ResponseEntity<List<CourseDTO>> getTop10LatestCourses();
+
+    ResponseEntity<Map<String, String>> getOverview();
+
+    ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId);
+
+    ResponseEntity assignReviewerToCourse(Long courseId, Long userId);
+
+    ResponseEntity<List<Course>> coursesForReview();
 }

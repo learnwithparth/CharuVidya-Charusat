@@ -9,6 +9,7 @@ import { ICourse } from '../course.model';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { CourseService } from '../service/course.service';
 import { CourseDeleteDialogComponent } from '../delete/course-delete-dialog.component';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 
 @Component({
   selector: 'jhi-course',
@@ -19,6 +20,7 @@ export class CourseComponent implements OnInit {
   coursesToBeDisplayed: ICourse[] = [];
   approvedCourses: ICourse[] = [];
   unApprovedCourses: ICourse[] = [];
+  approvalPendingCourses: ICourse[] = [];
   isLoading = false;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -26,6 +28,8 @@ export class CourseComponent implements OnInit {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  isCourseTypeApproval = false;
+  faCheck = faCheckCircle;
 
   constructor(
     protected courseService: CourseService,
@@ -91,11 +95,31 @@ export class CourseComponent implements OnInit {
   onFilter(event: any): void {
     const filter = event.target.value;
     if (filter === 'approved') {
+      this.isCourseTypeApproval = false;
       this.coursesToBeDisplayed = this.approvedCourses;
     } else if (filter === 'unApproved') {
+      this.isCourseTypeApproval = false;
       this.coursesToBeDisplayed = this.unApprovedCourses;
     } else if (filter === 'all') {
+      this.isCourseTypeApproval = false;
       this.coursesToBeDisplayed = this.courses!;
+    } else if (filter === 'approvalPending') {
+      this.isCourseTypeApproval = true;
+      this.coursesToBeDisplayed = this.approvalPendingCourses;
+    }
+  }
+
+  approveCourse(courseId: number): void {
+    if (courseId) {
+      this.courseService.approveCourse(courseId).subscribe(
+        res => {
+          window.alert('Course approved successfully');
+          this.loadPage();
+        },
+        error => {
+          window.alert('Something went wrong');
+        }
+      );
     }
   }
 
@@ -147,10 +171,12 @@ export class CourseComponent implements OnInit {
     this.approvedCourses.length = 0;
     this.unApprovedCourses.length = 0;
     courses?.forEach(course => {
-      if (course.isApproved) {
+      if (course.isApproved && !course.isDraft) {
         this.approvedCourses.push(course);
-      } else {
+      } else if (!course.isApproved && course.isDraft) {
         this.unApprovedCourses.push(course);
+      } else if (!course.isApproved && !course.isDraft) {
+        this.approvalPendingCourses.push(course);
       }
     });
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { observable, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
@@ -72,6 +72,10 @@ export class InstructorCoursesService {
 
   public getCourses(): Observable<EntityArrayResponseType> {
     return this.http.get<ICourse[]>(this.resourceUrl, { observe: 'response' });
+  }
+
+  public approveCourse(courseId: string): Observable<HttpResponse<{}>> {
+    return this.http.get(`${this.resourceUrl}/${courseId}/forApproval`, { observe: 'response' });
   }
 
   protected convertDateFromClient(course: ICourse): ICourse {

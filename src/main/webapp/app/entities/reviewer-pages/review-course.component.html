@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="CourseHeading">
+    <span>Courses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <select class="btn btn-outline-secondary dropdown-toggle" (change)="onFilter($event)">
+        <option value="all" class="dropdown-item">All</option>
+        <option value="approved" class="dropdown-item">Approved</option>
+        <option value="approvalPending" class="dropdown-item">Approval Pending</option>
+        <option value="unApproved" class="dropdown-item">Not Approved</option>
+      </select>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
+    <span>No courses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <!--        <th scope="col" jhiSortBy="id">-->
+          <!--          <span>Id</span>-->
+          <!--          <fa-icon icon="sort"></fa-icon>-->
+          <!--        </th>-->
+          <th scope="col" jhiSortBy="courseTitle">
+            <span>Course Title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseDescription">
+            <span>Course Description</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseObjectives">
+            <span>Course Objectives</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="courseSubTitle">
+            <span>Course Sub Title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of coursesToBeDisplayed; trackBy: trackId" data-cy="entityTable">
+          <!--        <td>-->
+          <!--          <a [routerLink]="['/course', course.id, 'sections']">{{ course.id }}</a>-->
+          <!--        </td>-->
+          <td>
+            <a [routerLink]="['/course', course.id, 'sections']">{{ course.courseTitle }}</a>
+          </td>
+          <td>{{ course.courseDescription }}</td>
+          <td>{{ course.courseObjectives }}</td>
+          <td>{{ course.courseSubTitle }}</td>
+          <!--        <td>{{ course.previewVideourl }}</td>-->
+          <!--        <td>{{ course.courseLength }}</td>-->
+          <!--        <td>{{ course.logo }}</td>-->
+          <!--        <td>{{ course.courseCreatedOn | formatMediumDate }}</td>-->
+          <!--        <td>{{ course.courseUpdatedOn | formatMediumDate }}</td>-->
+          <!--        <td>{{ course.courseRootDir }}</td>-->
+          <!--        <td>{{ course.amount }}</td>-->
+          <!--        <td>{{ course.isDraft }}</td>-->
+          <!--        <td>{{ course.isApproved }}</td>-->
+          <!--        <td>{{ course.courseApprovalDate | formatMediumDate }}</td>-->
+          <!--        <td>-->
+          <!--          <div *ngIf="course.courseLevel">-->
+          <!--            <a [routerLink]="['/course-level', course.courseLevel?.id, 'view']">{{ course.courseLevel?.id }}</a>-->
+          <!--          </div>-->
+          <!--        </td>-->
+          <!--        <td>-->
+          <!--          <div *ngIf="course.courseCategory">-->
+          <!--            <a [routerLink]="['/course-category', course.courseCategory?.id, 'view']">{{ course.courseCategory?.courseCategoryTitle }}</a>-->
+          <!--          </div>-->
+          <!--        </td>-->
+          <!--        <td>-->
+          <!--          {{ course.user?.id }}-->
+          <!--        </td>-->
+          <!--        <td>-->
+          <!--          {{ course.reviewer?.id }}-->
+          <!--        </td>-->
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                *ngIf="!course.isApproved"
+                type="submit"
+                class="btn btn-warning btn-sm"
+                data-cy="entityDetailsButton"
+                (click)="approveCourse(course.id!)"
+              >
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline">Approve</span>
+              </button>
+              <button *ngIf="course.isApproved" [disabled]="true" class="btn btn-success btn-sm" data-cy="entityDetailsButton">
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline">Approved</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/course', course.id, 'sections']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(course)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courses && courses.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+  </div>
+</div>

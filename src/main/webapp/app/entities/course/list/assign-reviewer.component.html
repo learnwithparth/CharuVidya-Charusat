@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div>
+      <h2 id="jhi-course-section-heading" data-cy="CourseSectionCreateUpdateHeading">Assign Reviewer</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group">
+          <label>Course Title</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            name="sectionTitle"
+            id="field_sectionTitle"
+            data-cy="sectionTitle"
+            formControlName="sectionTitle"
+            maxlength="255"
+            [value]="course!.courseTitle"
+          />
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--          <label class="form-control-label" for="field_courseCategory">Course Category</label>-->
+        <!--          <input-->
+        <!--            readonly-->
+        <!--            type="text"-->
+        <!--            class="form-control"-->
+        <!--            name="sectionDescription"-->
+        <!--            id="field_courseCategory"-->
+        <!--            data-cy="sectionDescription"-->
+        <!--            formControlName="sectionDescription"-->
+        <!--            maxlength="255"-->
+        <!--            [value]=course.courseCategory.parentId-->
+        <!--          />-->
+        <!--          <div-->
+        <!--            *ngIf="-->
+        <!--              editForm.get('sectionDescription')!.invalid &&-->
+        <!--              (editForm.get('sectionDescription')!.dirty || editForm.get('sectionDescription')!.touched)-->
+        <!--            "-->
+        <!--          >-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('sectionDescription')?.errors?.maxlength">-->
+        <!--              This field cannot be longer than 255 characters.-->
+        <!--            </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="form-group">
+          <label>Course Sub-Category</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            name="sectionDescription"
+            id="field_courseSubCategory"
+            data-cy="sectionDescription"
+            formControlName="sectionDescription"
+            maxlength="255"
+            [value]="course!.courseCategory!.courseCategoryTitle"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="reviewers">
+          <label>Choose Reviewer</label>
+          <select class="form-control" [ngModel]="reviewerSelected" (ngModelChange)="onChange($event)" name="reviewerSelected">
+            <option [value]="reviewer.id" *ngFor="let reviewer of reviewers">{{ reviewer.login }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button type="submit" (click)="save()" class="btn btn-primary"><fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span></button>
+      </div>
+    </div>
+  </div>
+</div>

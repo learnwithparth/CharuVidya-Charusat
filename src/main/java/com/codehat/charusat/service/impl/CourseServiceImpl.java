@@ -1,10 +1,10 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.config.Constants;
 import com.codehat.charusat.domain.Course;
+import com.codehat.charusat.domain.CourseReviewStatus;
 import com.codehat.charusat.domain.User;
-import com.codehat.charusat.repository.CourseRepository;
-import com.codehat.charusat.repository.CourseSectionRepository;
-import com.codehat.charusat.repository.CourseSessionRepository;
+import com.codehat.charusat.repository.*;
 import com.codehat.charusat.security.AuthoritiesConstants;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.service.MailService;
@@ -12,6 +12,7 @@ import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseDTO;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,18 +40,26 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseSessionRepository courseSessionRepository;
 
+    private final CourseReviewStatusRepository courseReviewStatusRepository;
+
+    private final UserRepository userRepository;
+
     public CourseServiceImpl(
         CourseRepository courseRepository,
         UserService userService,
         MailService mailService,
         CourseSectionRepository courseSectionRepository,
-        CourseSessionRepository courseSessionRepository
+        CourseSessionRepository courseSessionRepository,
+        CourseReviewStatusRepository courseReviewStatusRepository,
+        UserRepository userRepository
     ) {
         this.courseRepository = courseRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.courseSectionRepository = courseSectionRepository;
         this.courseSessionRepository = courseSessionRepository;
+        this.courseReviewStatusRepository = courseReviewStatusRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -62,6 +71,7 @@ public class CourseServiceImpl implements CourseService {
          * */
         course.setCourseCreatedOn(LocalDate.now());
         course.setIsApproved(false);
+        course.setIsDraft(true);
         course.setCourseUpdatedOn(LocalDate.now());
         course.setUser(userService.getUserWithAuthorities().get());
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -162,7 +172,7 @@ public class CourseServiceImpl implements CourseService {
                 return courseRepository.findCourseByUserEqualsOrEnrolledUsersListsContaining(user.get(), user.get(), pageable);
             } else if (authority.contains(AuthoritiesConstants.STUDENT)) {
                 //                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
-                return courseRepository.findAll(pageable);
+                return courseRepository.findAllByIsApproved(true, pageable);
             } else {
                 return null;
             }
@@ -208,6 +218,7 @@ public class CourseServiceImpl implements CourseService {
                 } else {
                     courseDTO.setEnrolled(false);
                 }
+                courseDTO.setMinStudents(course.getMinStudents() + getStudentEnrolledCountByCourse(course.getId()).getBody());
                 list.add(courseDTO);
             }
             return list;
@@ -218,20 +229,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public ResponseEntity enrollInCourse(String courseId) {
+        AtomicBoolean flag = new AtomicBoolean(false);
         try {
             courseRepository
                 .findById(Long.parseLong(courseId))
                 .map(
                     existingCourse -> {
                         Set<User> alreadyEnrolledUsers = existingCourse.getEnrolledUsersLists();
-                        if (userService.getUserWithAuthorities().isPresent()) {
+                        if (
+                            userService.getUserWithAuthorities().isPresent() &&
+                            !alreadyEnrolledUsers.contains(userService.getUserWithAuthorities().get())
+                        ) {
                             alreadyEnrolledUsers.add(userService.getUserWithAuthorities().get());
+                            flag.set(true);
                         }
                         return existingCourse;
                     }
                 )
                 .map(courseRepository::save);
-            return ResponseEntity.accepted().build();
+            if (flag.get()) return ResponseEntity.accepted().build(); else {
+                return ResponseEntity.badRequest().body("Already enrolled");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
@@ -248,11 +266,18 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseCreatedOn(LocalDate.now());
         course.setCourseUpdatedOn(LocalDate.now());
         course.setIsApproved(false);
-        course.setIsDraft(false);
+        course.setIsDraft(true);
         course.setAmount(0.0);
         course.setMaxStudents(0);
         course.setMinStudents(0);
         course.setUser(userService.getUserWithAuthorities().get());
+
+        CourseReviewStatus courseReviewStatus = new CourseReviewStatus();
+        courseReviewStatus.setStatus(Constants.DRAFTING);
+        courseReviewStatus.setStatusUpdatedOn(LocalDate.now());
+        courseReviewStatus.setCourse(course);
+        CourseReviewStatus crs = courseReviewStatusRepository.save(courseReviewStatus);
+        course.setCourseReviewStatus(crs);
         /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         return courseRepository.save(course);
@@ -269,6 +294,11 @@ public class CourseServiceImpl implements CourseService {
                 Optional<Course> course = courseRepository.findById(courseId);
                 if (course.isPresent()) {
                     course.get().setIsApproved(true);
+                    CourseReviewStatus crs = course.get().getCourseReviewStatus();
+                    crs.setStatus(Constants.APPROVED);
+                    crs.setStatusUpdatedOn(LocalDate.now());
+                    courseReviewStatusRepository.save(crs);
+                    course.get().setCourseReviewStatus(crs);
                     mailService.sendCourseApprovalMail(course.get());
                     return courseRepository.save(course.get());
                 } else {
@@ -331,8 +361,96 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity<List<Course>> getTop10LatestCourses() {
-        List<Course> courses = courseRepository.coursesOrderedByUpdatedDate().subList(0, 9);
+    public ResponseEntity<List<CourseDTO>> getTop10LatestCourses() {
+        List<Course> result = courseRepository.coursesOrderedByUpdatedDate();
+        List<CourseDTO> courses = new ArrayList<>();
+        CourseDTO temp;
+        for (Course course : result) {
+            temp = new CourseDTO(course);
+            temp.setMinStudents(temp.getMinStudents() + getStudentEnrolledCountByCourse(temp.getId()).getBody());
+            courses.add(temp);
+        }
         return ResponseEntity.ok().body(courses);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> getOverview() {
+        Map<String, String> map = new HashMap<>();
+
+        Integer data = courseRepository.findAll().size();
+        map.put("totalCourses", data.toString());
+
+        data = courseRepository.findTotalEnrollment();
+        List<Course> courses = courseRepository.findAll();
+        for (Course course : courses) {
+            data += course.getMinStudents();
+        }
+        map.put("totalEnrollments", data.toString());
+
+        data = userService.getTotalUsersByAuthority(AuthoritiesConstants.FACULTY);
+        map.put("totalInstructors", data.toString());
+
+        return ResponseEntity.ok().body(map);
+    }
+
+    @Override
+    public ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            Set<User> users = course.get().getEnrolledUsersLists();
+            return ResponseEntity.ok().body(users);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity assignReviewerToCourse(Long courseId, Long userId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        Optional<User> user = userRepository.findById(userId);
+        if (course.isPresent() && user.isPresent()) {
+            CourseReviewStatus crs = course.get().getCourseReviewStatus();
+            crs.setStatus(Constants.REVIEWER_ASSIGNED);
+            crs.setStatusUpdatedOn(LocalDate.now());
+            crs.setReviewer(user.get());
+            course.get().setCourseReviewStatus(crs);
+            courseRepository.save(course.get());
+            courseReviewStatusRepository.save(crs);
+            return ResponseEntity.accepted().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Course>> coursesForReview() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        List<Course> courseList = new ArrayList<>();
+        if (user.isPresent()) {
+            List<CourseReviewStatus> list = courseReviewStatusRepository.findCourseReviewStatusByReviewer(user.get());
+            for (CourseReviewStatus crs : list) {
+                courseList.add(crs.getCourse());
+            }
+            return ResponseEntity.ok().body(courseList);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity receivedForApproval(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isPresent()) {
+            course.get().isDraft(false);
+            course.get().isApproved(false);
+            CourseReviewStatus crs = course.get().getCourseReviewStatus();
+            crs.setStatus(Constants.APPROVAL_PENDING);
+            crs.setStatusUpdatedOn(LocalDate.now());
+            courseReviewStatusRepository.save(crs);
+            course.get().setCourseReviewStatus(crs);
+            courseRepository.save(course.get());
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

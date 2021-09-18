@@ -67,4 +67,6 @@ public interface CourseSessionService {
     String compressAndUpload(MultipartFile file) throws Exception;
 
     ResponseEntity<CourseSession> approveCourseSession(CourseSession courseSession) throws Exception;
+
+    ResponseEntity<Boolean> isCurrentCourseByCurrentLoggedInUser(CourseSession courseSession) throws Exception;
 }

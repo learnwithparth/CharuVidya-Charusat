@@ -36,3 +36,51 @@ Main page styles
   position: absolute;
   bottom: 10px;
 }
+
+.overview {
+  text-align: center;
+}
+
+@import url(https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css);
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+.container-fluid {
+  display: flex;
+}
+.card {
+  width: 20rem;
+  margin: 25px;
+}
+.card span {
+  font-size: 18px;
+  font-weight: bold;
+  justify-content: space-around;
+}
+.card p {
+  margin-top: 7px;
+}
+.card h6 {
+  font-size: 15px;
+}
+.card h6 i {
+  content: '\f274';
+}
+.card p i {
+  content: '\f508';
+}
+
+.card button i {
+  content: '\f06e';
+}
+
+.card-img-top {
+  width: 320px;
+  height: 149px;
+}
+
+.mat-card-title {
+  font-size: medium;
+}

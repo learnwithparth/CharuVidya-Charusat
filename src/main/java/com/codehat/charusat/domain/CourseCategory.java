@@ -1,6 +1,8 @@
 package com.codehat.charusat.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -37,6 +39,15 @@ public class CourseCategory implements Serializable {
     @NotNull
     @Column(name = "parent_id", nullable = false)
     private Integer parentId;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "rel_course_category__reviewers_list",
+        joinColumns = @JoinColumn(name = "course_category_id"),
+        inverseJoinColumns = @JoinColumn(name = "reviewer_id")
+    )
+    private Set<User> reviewersList = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -102,6 +113,22 @@ public class CourseCategory implements Serializable {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public Set<User> getReviewersList() {
+        return reviewersList;
+    }
+
+    public void setReviewersList(Set<User> reviewersList) {
+        this.reviewersList = reviewersList;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

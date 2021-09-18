@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,7 +151,10 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         log.debug("Request to get CourseSession by CourseSection: {}", courseSectionId);
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
-            if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
+            if (
+                user.get().getAuthorities().toString().contains("ROLE_ADMIN") ||
+                user.get().getAuthorities().toString().contains("ROLE_REVIEWER")
+            ) {
                 Optional<Course> course = courseService.findOne(courseId);
                 if (course.isPresent()) {
                     Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
@@ -188,7 +192,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     }*/
                     Optional<CourseSection> courseSection = courseSectionService.findOne(courseSectionId);
                     if (courseSection.isPresent() && courseSection.get().getCourse().equals(course.get())) {
-                        return courseSessionRepository.findAllByCourseSection_Id(courseSectionId, pageable);
+                        return courseSessionRepository.findAllByCourseSection_IdAndIsApproved(courseSectionId, true, pageable);
                     } else {
                         return null;
                     }
@@ -351,5 +355,28 @@ public class CourseSessionServiceImpl implements CourseSessionService {
             throw new Exception("No such course-session found");
         }
         return ResponseEntity.accepted().body(courseSession.get());
+    }
+
+    @Override
+    public ResponseEntity<Boolean> isCurrentCourseByCurrentLoggedInUser(CourseSession courseSession) throws Exception {
+        Optional<CourseSession> courseSession1 = courseSessionRepository.findById(courseSession.getId());
+        String error = "";
+        if (courseSession1.isPresent()) {
+            CourseSection courseSection = courseSession1.get().getCourseSection();
+            if (courseSection != null) {
+                Course course = courseSection.getCourse();
+                if (course != null) {
+                    User user = course.getUser();
+                    return ResponseEntity.ok().body(user.equals(userService.getUserWithAuthorities().get()));
+                } else {
+                    log.debug("Course not found");
+                }
+            } else {
+                log.debug("Course section not found");
+            }
+        } else {
+            log.debug("Course session not found");
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

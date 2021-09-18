@@ -7,7 +7,7 @@ import { Account } from 'app/core/auth/account.model';
 import { ICourse } from 'app/entities/course/course.model';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
 import { HttpResponse } from '@angular/common/http';
-import { LocalStorage } from 'ngx-webstorage';
+import { faUserTie, faCalendarCheck, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-home',
@@ -15,15 +15,21 @@ import { LocalStorage } from 'ngx-webstorage';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  faUserTie = faUserTie;
+  faCalendarCheck = faCalendarCheck;
+  faEye = faEye;
+
   account: Account | null = null;
   authSubscription?: Subscription;
   courses?: ICourse[] | null;
+  overview = new Map<string, string>();
 
   constructor(protected userCourseService: UserCourseService, private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.loadAllCourses();
+    this.getOverview();
   }
 
   isAuthenticated(): boolean {
@@ -41,6 +47,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  private getOverview(): void {
+    this.userCourseService.getOverview().subscribe(
+      res => {
+        if (res.body) {
+          this.overview = new Map(Object.entries(res.body));
+        }
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
   private loadAllCourses(): void {

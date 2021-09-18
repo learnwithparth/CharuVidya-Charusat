@@ -48,4 +48,8 @@ export class InstructorCourseSessionService {
   approveSession(session: ICourseSession): Observable<HttpResponse<any>> {
     return this.http.post(`${this.resourceUrl}/approve`, session, { observe: 'response' });
   }
+
+  isCurrentCourseOfCurrentUser(session: ICourseSession): Observable<HttpResponse<any>> {
+    return this.http.post(`${this.resourceUrl}/isCurrentCourseOfCurrentUser`, session, { observe: 'response' });
+  }
 }

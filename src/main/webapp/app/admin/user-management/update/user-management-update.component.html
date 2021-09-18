@@ -91,6 +91,21 @@
         </div>
       </div>
 
+      <div
+        *ngIf="
+          checkIfUserIsReviewer(user.authorities!.toString()) || checkIfUserIsReviewer(this.editForm.get(['authorities'])!.value.toString())
+        "
+      >
+        <div class="form-group">
+          <label>Categories</label>
+          <select class="form-control" multiple name="category" formControlName="categories">
+            <option *ngFor="let category of categories" [value]="category">
+              {{ category.courseCategoryTitle }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div *ngIf="user">
         <button type="button" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>

@@ -18,11 +18,11 @@
       <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
       <!--    <span class="navbar-version">{{ version }}</span>-->
     </a>
-    <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
-      <span class="logo-img"></span>
-      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
-      <!--    <span class="navbar-version">{{ version }}</span>-->
-    </a>
+    <!--    <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">-->
+    <!--      <span class="logo-img"></span>-->
+    <!--      &lt;!&ndash;    <span class="navbar-title text-white">CHARUVIDYA</span>&ndash;&gt;-->
+    <!--      &lt;!&ndash;    <span class="navbar-version">{{ version }}</span>&ndash;&gt;-->
+    <!--    </a>-->
   </ng-template>
 
   <a
@@ -61,12 +61,12 @@
           </span>
         </a>
 
-        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
-          <span>
-            <fa-icon icon="home"></fa-icon>
-            <span>Home</span>
-          </span>
-        </a>
+        <!--        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">-->
+        <!--          <span>-->
+        <!--            <fa-icon icon="home"></fa-icon>-->
+        <!--            <span>Home</span>-->
+        <!--          </span>-->
+        <!--        </a>-->
       </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
       <li>
@@ -74,6 +74,14 @@
           <span>
             <fa-icon [icon]="faBookmark"></fa-icon>
             <span>My Courses</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/review-courses" (click)="collapseNavbar()">
+          <span>
+            <fa-icon [icon]="faBookmark"></fa-icon>
+            <span>Review Courses</span>
           </span>
         </a>
       </li>

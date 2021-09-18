@@ -116,7 +116,10 @@ public class CourseSectionServiceImpl implements CourseSectionService {
         log.debug("Request to get CourseSection by CourseId : {}", courseId);
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
-            if (user.get().getAuthorities().toString().contains("ROLE_ADMIN")) {
+            if (
+                user.get().getAuthorities().toString().contains("ROLE_ADMIN") ||
+                user.get().getAuthorities().toString().contains("ROLE_REVIEWER")
+            ) {
                 return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
             } else if (user.get().getAuthorities().toString().contains("ROLE_FACULTY")) {
                 return courseSectionRepository.findCourseSectionByCourse_User_IdAndCourse_Id(user.get().getId(), courseId, pageable);
@@ -126,7 +129,7 @@ public class CourseSectionServiceImpl implements CourseSectionService {
                 //                    user.get(),
                 //                    pageable
                 //                );
-                return courseSectionRepository.findCourseSectionByCourse_Id(courseId, pageable);
+                return courseSectionRepository.findCourseSectionByCourse_IdAndIsApproved(courseId, true, pageable);
             } else {
                 return null;
             }

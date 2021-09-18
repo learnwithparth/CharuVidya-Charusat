@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ICourseCategory } from '../course-category.model';
+import { CourseCategory, ICourseCategory } from '../course-category.model';
 
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { CourseCategoryService } from '../service/course-category.service';
 import { CourseCategoryDeleteDialogComponent } from '../delete/course-category-delete-dialog.component';
+import { AssignCategoryReviewerComponent } from 'app/entities/assign-category-reviewer/assign-category-reviewer.component';
 
 @Component({
   selector: 'jhi-course-category',
@@ -70,6 +71,11 @@ export class CourseCategoryComponent implements OnInit {
         this.loadPage();
       }
     });
+  }
+
+  assignReviewers(courseCategory: CourseCategory): void {
+    const modalRef = this.modalService.open(AssignCategoryReviewerComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.courseCategory = courseCategory;
   }
 
   protected sort(): string[] {

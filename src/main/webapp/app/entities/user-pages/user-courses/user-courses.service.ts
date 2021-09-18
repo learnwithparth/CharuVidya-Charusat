@@ -31,4 +31,8 @@ export class UserCourseService {
   getLatestCourses(): Observable<EntityArrayResponseType> {
     return this.http.get<ICourse[]>(`${this.resourceUrl}/top-10`, { observe: 'response' });
   }
+
+  getOverview(): Observable<HttpResponse<any>> {
+    return this.http.get(`${this.resourceUrl}/get-overview`, { observe: 'response' });
+  }
 }
