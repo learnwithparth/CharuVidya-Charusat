@@ -2,7 +2,7 @@
   <h1>Available Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <div class="mat-card">
+      <div class="mat-card mat-card-according-to-image">
         <img src="{{ course.logo }}" class="card-img-top" alt="..." />
         <div class="card-body">
           <span class="mat-card-title">{{ course.courseTitle }}</span>

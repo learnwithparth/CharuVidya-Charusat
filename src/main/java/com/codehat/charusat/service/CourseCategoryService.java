@@ -1,5 +1,6 @@
 package com.codehat.charusat.service;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.service.dto.AdminUserDTO;
@@ -80,4 +81,8 @@ public interface CourseCategoryService {
     ResponseEntity<Set<User>> getReviewerByCourseCategoryId(Long courseCategoryId) throws Exception;
 
     ResponseEntity setReviewerInSubCategories(Long courseCategoryId, Set<User> reviewers) throws Exception;
+
+    Map<String, List<Course>> getCoursesBySubCategories();
+
+    Map<String, List<CourseCategory>> getCourseSubCategoriesByParentCategories();
 }

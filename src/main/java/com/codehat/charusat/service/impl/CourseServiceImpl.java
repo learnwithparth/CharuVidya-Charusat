@@ -183,6 +183,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Course> findAll() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            String authority = user.get().getAuthorities().toString();
+            if (authority.contains(AuthoritiesConstants.ADMIN)) {
+                return courseRepository.findAll();
+            } else if (authority.contains(AuthoritiesConstants.FACULTY)) {
+                return courseRepository.findCourseByUserEqualsOrEnrolledUsersListsContaining(user.get(), user.get());
+            } else if (authority.contains(AuthoritiesConstants.STUDENT)) {
+                //                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
+                return courseRepository.findAllByIsApproved(true);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Course> findOne(Long id) {
         log.debug("Request to get Course : {}", id);
         return courseRepository.findById(id);

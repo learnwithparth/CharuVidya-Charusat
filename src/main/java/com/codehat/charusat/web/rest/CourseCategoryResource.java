@@ -1,5 +1,6 @@
 package com.codehat.charusat.web.rest;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseCategoryRepository;
@@ -172,15 +173,27 @@ public class CourseCategoryResource {
 
     @GetMapping("/course-category/parent-categories")
     public ResponseEntity<List<CourseCategory>> getParentCourseCategories() {
-        log.debug("REST request ot get course category by isParent");
+        log.debug("REST request to get course category by isParent");
         List<CourseCategory> list = courseCategoryService.listParentCategory();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/course-category/sub-categories/{id}")
     public ResponseEntity<List<CourseCategory>> getSubCourseCategories(@PathVariable Long id) {
-        log.debug("REST request ot get course category by parentId");
+        log.debug("REST request to get course category by parentId");
         return ResponseEntity.ok().body(courseCategoryService.listByParentId(id));
+    }
+
+    @GetMapping("/course-category/sub-categories/courses")
+    public ResponseEntity<Map<String, List<Course>>> getCoursesBySubCategories() {
+        log.debug("REST request to get courses by sub categories");
+        return ResponseEntity.ok().body(courseCategoryService.getCoursesBySubCategories());
+    }
+
+    @GetMapping("/course-category/parent-categories/sub-categories")
+    public ResponseEntity<Map<String, List<CourseCategory>>> getCourseSubCategoriesByParentCategories() {
+        log.debug("REST request to get map of course parent categories and course sub categories");
+        return ResponseEntity.ok().body(courseCategoryService.getCourseSubCategoriesByParentCategories());
     }
 
     /**
