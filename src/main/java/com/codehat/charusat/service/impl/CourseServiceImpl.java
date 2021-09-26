@@ -219,6 +219,7 @@ public class CourseServiceImpl implements CourseService {
          * */
         courseSessionRepository.deleteCourseSessionByCourseId(id);
         courseSectionRepository.deleteCourseSectionByCourseId(id);
+        courseReviewStatusRepository.deleteCourseReviewStatusByCourseId(id);
         courseRepository.deleteById(id);
     }
 
