@@ -81,6 +81,7 @@ export class AssignReviewerComponent implements OnInit {
       this.courseService.assignReviewerToCourse(this.courseId, this.reviewerSelectedId).subscribe(
         res => {
           window.alert('Reviewer assigned to course successfully');
+          this.previousState();
         },
         err => {
           window.alert('Reviewer assignment failed');

@@ -28,6 +28,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * */
     Page<Course> findCourseByUserEqualsOrEnrolledUsersListsContaining(User author, User user, Pageable pageable);
 
+    List<Course> findCourseByUserEqualsOrEnrolledUsersListsContaining(User author, User user);
+
     @Query(
         value = "select course from Course course where course.courseCategory.id = :id and course.isApproved = true order by course.courseTitle"
     )
@@ -36,6 +38,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findCourseByEnrolledUsersListsContaining(User user);
 
     Page<Course> findAllByIsApproved(Boolean value, Pageable pageable);
+
+    List<Course> findAllByIsApproved(Boolean value);
 
     @Query(value = "SELECT * FROM Codehat_Charusat.course order by course_updated_on desc limit 10", nativeQuery = true)
     List<Course> coursesOrderedByUpdatedDate();

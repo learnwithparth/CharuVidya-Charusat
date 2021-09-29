@@ -254,4 +254,9 @@ public class CourseSessionResource {
     public ResponseEntity<CourseSession> approveCourseSession(@RequestBody CourseSession courseSession) throws Exception {
         return courseSessionService.approveCourseSession(courseSession);
     }
+
+    @PostMapping("/course-sessions/isCurrentCourseOfCurrentUser")
+    public ResponseEntity<Boolean> isCurrentCourseByCurrentLoggedInUser(@RequestBody CourseSession courseSession) throws Exception {
+        return courseSessionService.isCurrentCourseByCurrentLoggedInUser(courseSession);
+    }
 }

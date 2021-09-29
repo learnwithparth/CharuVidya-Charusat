@@ -52,6 +52,10 @@
           <td>{{ courseSection.sectionDescription }}</td>
           <td class="text-right">
             <div class="btn-group">
+              <button *ngIf="courseSection.isApproved" [disabled]="true" class="btn btn-success btn-sm" data-cy="entityDetailsButton">
+                <fa-icon [icon]="faCheck"></fa-icon>
+                <span class="d-none d-md-inline">Approved</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['section', courseSection.id, 'sessions']"

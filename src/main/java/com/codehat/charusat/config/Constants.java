@@ -37,8 +37,8 @@ public final class Constants {
 
     static {
         AWS_REGION = "ap-south-1";
-        AWS_ACCESS_KEY = System.getenv("AWS_ACCESS_KEY_ID");
-        AWS_SECRET_KEY = System.getenv("AWS_SECRET_ACCESS_KEY");
+        AWS_ACCESS_KEY = "";
+        AWS_SECRET_KEY = "";
         S3_BUCKET_NAME = "charuvidya-charusat";
         userDir = System.getProperty("user.dir");
         OBJECT_PATH = userDir + "/src/main/resources/objects/";

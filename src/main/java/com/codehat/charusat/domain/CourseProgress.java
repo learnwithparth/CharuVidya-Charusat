@@ -28,7 +28,7 @@ public class CourseProgress implements Serializable {
 
     @NotNull
     @Column(name = "watch_seconds", nullable = false)
-    private Instant watchSeconds;
+    private Long watchSeconds;
 
     @ManyToOne
     private User user;
@@ -64,16 +64,16 @@ public class CourseProgress implements Serializable {
         this.completed = completed;
     }
 
-    public Instant getWatchSeconds() {
+    public Long getWatchSeconds() {
         return this.watchSeconds;
     }
 
-    public CourseProgress watchSeconds(Instant watchSeconds) {
+    public CourseProgress watchSeconds(Long watchSeconds) {
         this.watchSeconds = watchSeconds;
         return this;
     }
 
-    public void setWatchSeconds(Instant watchSeconds) {
+    public void setWatchSeconds(Long watchSeconds) {
         this.watchSeconds = watchSeconds;
     }
 

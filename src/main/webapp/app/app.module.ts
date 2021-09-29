@@ -54,6 +54,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-courses/user-enrolled-courses.component';
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
 import { AssignCategoryReviewerComponent } from './entities/assign-category-reviewer/assign-category-reviewer.component';
+import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
 
 @NgModule({
   imports: [
@@ -108,6 +109,7 @@ import { AssignCategoryReviewerComponent } from './entities/assign-category-revi
     UserEnrolledCoursesComponent,
     AssignReviewerComponent,
     AssignCategoryReviewerComponent,
+    ReviewCourseComponent,
   ],
   bootstrap: [MainComponent],
 })

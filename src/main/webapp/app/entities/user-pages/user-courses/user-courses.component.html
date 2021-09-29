@@ -2,7 +2,7 @@
   <h1>Available Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <div class="mat-card">
+      <div class="mat-card mat-card-according-to-image">
         <img src="{{ course.logo }}" class="card-img-top" alt="..." />
         <div class="card-body">
           <span class="mat-card-title">{{ course.courseTitle }}</span>
@@ -21,12 +21,14 @@
           </h6>
           <a routerLink="/course/{{ course.id }}/user/sections">
             <div *ngIf="course.enrolled">
-              <button mat-button class="btn btn-info btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
+              <button mat-button class="btn btn-outline-primary btn-sm"><fa-icon icon="eye"></fa-icon> &nbsp; VIEW</button>
             </div>
           </a>
           <a routerLink="/course/{{ course.id }}/user/sections">
             <div *ngIf="!course.enrolled">
-              <button mat-button class="btn btn-info btn-sm" (click)="onEnroll(course.id)"><fa-icon icon="eye"></fa-icon> ENROLL</button>
+              <button mat-button class="btn btn-outline-primary btn-sm" (click)="onEnroll(course.id)">
+                <fa-icon icon="eye"></fa-icon> ENROLL
+              </button>
             </div>
           </a>
         </div>

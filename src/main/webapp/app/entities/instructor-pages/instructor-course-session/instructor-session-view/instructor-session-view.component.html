@@ -39,7 +39,7 @@
 
               <vg-fullscreen></vg-fullscreen>
             </vg-controls>
-            <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+            <video #media name="video" [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
               <source [src]="courseSession.sessionVideo" type="video/mp4" />
             </video>
           </vg-player>
@@ -78,32 +78,61 @@
         </div>
       </dl>
     </div>
-    <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-      <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-    </button>
-    <div *ngIf="!courseSession!.isApproved; else elseBlock">
-      <button
-        *jhiHasAnyAuthority="'ROLE_ADMIN' || 'ROLE_REVIEWER'"
-        type="submit"
-        (click)="approve(courseSession)"
-        class="btn btn-success"
-        data-cy="entityDetailsBackButton"
-        [disabled]="courseSession!.isDraft"
-      >
-        <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
+    <div>
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
+      <div *ngIf="!isUserCourse">
+        <div *jhiHasAnyAuthority="'ROLE_REVIEWER'" style="padding-top: 5px">
+          <div *ngIf="!courseSession!.isApproved; else elseBlock">
+            <button
+              type="submit"
+              (click)="approve(courseSession)"
+              class="btn btn-success"
+              data-cy="entityDetailsBackButton"
+              [disabled]="courseSession!.isDraft"
+            >
+              <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
+            </button>
+          </div>
+          <ng-template #elseBlock class="btn btn-success">
+            <button
+              type="submit"
+              (click)="approve(courseSession)"
+              class="btn btn-success"
+              data-cy="entityDetailsBackButton"
+              [disabled]="true"
+            >
+              <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+
+      <div *jhiHasAnyAuthority="'ROLE_ADMIN'" style="padding-top: 5px">
+        <div *ngIf="!courseSession!.isApproved; else elseBlock">
+          <button
+            type="submit"
+            (click)="approve(courseSession)"
+            class="btn btn-success"
+            data-cy="entityDetailsBackButton"
+            [disabled]="courseSession!.isDraft"
+          >
+            <fa-icon icon="check"></fa-icon>&nbsp;<span>Approve</span>
+          </button>
+        </div>
+        <ng-template #elseBlock class="btn btn-success">
+          <button
+            type="submit"
+            (click)="approve(courseSession)"
+            class="btn btn-success"
+            data-cy="entityDetailsBackButton"
+            [disabled]="true"
+          >
+            <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
+          </button>
+        </ng-template>
+      </div>
     </div>
-    <ng-template #elseBlock class="btn btn-success">
-      <button
-        *jhiHasAnyAuthority="'ROLE_ADMIN' || 'ROLE_REVIEWER'"
-        type="submit"
-        (click)="approve(courseSession)"
-        class="btn btn-success"
-        data-cy="entityDetailsBackButton"
-        [disabled]="true"
-      >
-        <fa-icon icon="check"></fa-icon>&nbsp;<span>Approved</span>
-      </button>
-    </ng-template>
   </div>
 </div>

@@ -1,11 +1,17 @@
 package com.codehat.charusat.web.rest;
 
+import static com.amazonaws.services.cognitoidp.model.AttributeDataType.DateTime;
+
 import com.codehat.charusat.domain.CourseProgress;
+import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.repository.CourseProgressRepository;
+import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseProgressService;
 import com.codehat.charusat.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,9 +49,16 @@ public class CourseProgressResource {
 
     private final CourseProgressRepository courseProgressRepository;
 
-    public CourseProgressResource(CourseProgressService courseProgressService, CourseProgressRepository courseProgressRepository) {
+    private final CourseSessionRepository courseSessionRepository;
+
+    public CourseProgressResource(
+        CourseProgressService courseProgressService,
+        CourseProgressRepository courseProgressRepository,
+        CourseSessionRepository courseSessionRepository
+    ) {
         this.courseProgressService = courseProgressService;
         this.courseProgressRepository = courseProgressRepository;
+        this.courseSessionRepository = courseSessionRepository;
     }
 
     /**
@@ -180,5 +193,24 @@ public class CourseProgressResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/course-progresses/currentUserWatchTime/{sessionId}")
+    public ResponseEntity<CourseProgress> getUserCourseProgress(@PathVariable Long sessionId) throws URISyntaxException {
+        Optional<CourseSession> session = courseSessionRepository.findById(sessionId);
+        if (session.isPresent()) return ResponseEntity
+            .ok()
+            .body(courseProgressService.getUserProgress(session.get())); else throw new BadRequestAlertException(
+            "Invalid session",
+            ENTITY_NAME,
+            "idnotfound"
+        );
+    }
+
+    @PostMapping("/course-progresses/updateUserWatchTime")
+    public ResponseEntity<Boolean> updateCourseProgressWatchTime(@RequestBody CourseProgress courseProgress) {
+        log.debug("Update watch time called", courseProgress.getId());
+        courseProgressService.updateTime(courseProgress);
+        return ResponseEntity.ok().body(true);
     }
 }

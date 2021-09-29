@@ -40,6 +40,8 @@ public interface CourseService {
      */
     Page<Course> findAll(Pageable pageable);
 
+    List<Course> findAll();
+
     /**
      * Get the "id" course.
      *
@@ -88,4 +90,6 @@ public interface CourseService {
     ResponseEntity<Set<User>> getEnrolledUsersByCourseId(Long courseId);
 
     ResponseEntity assignReviewerToCourse(Long courseId, Long userId);
+
+    ResponseEntity<List<Course>> coursesForReview();
 }

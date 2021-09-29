@@ -183,6 +183,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Course> findAll() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (user.isPresent()) {
+            String authority = user.get().getAuthorities().toString();
+            if (authority.contains(AuthoritiesConstants.ADMIN)) {
+                return courseRepository.findAll();
+            } else if (authority.contains(AuthoritiesConstants.FACULTY)) {
+                return courseRepository.findCourseByUserEqualsOrEnrolledUsersListsContaining(user.get(), user.get());
+            } else if (authority.contains(AuthoritiesConstants.STUDENT)) {
+                //                return courseRepository.findCourseByEnrolledUsersListsContaining(user.get(), pageable);
+                return courseRepository.findAllByIsApproved(true);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Course> findOne(Long id) {
         log.debug("Request to get Course : {}", id);
         return courseRepository.findById(id);
@@ -198,6 +219,7 @@ public class CourseServiceImpl implements CourseService {
          * */
         courseSessionRepository.deleteCourseSessionByCourseId(id);
         courseSectionRepository.deleteCourseSectionByCourseId(id);
+        courseReviewStatusRepository.deleteCourseReviewStatusByCourseId(id);
         courseRepository.deleteById(id);
     }
 
@@ -417,6 +439,21 @@ public class CourseServiceImpl implements CourseService {
             courseRepository.save(course.get());
             courseReviewStatusRepository.save(crs);
             return ResponseEntity.accepted().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Course>> coursesForReview() {
+        Optional<User> user = userService.getUserWithAuthorities();
+        List<Course> courseList = new ArrayList<>();
+        if (user.isPresent()) {
+            List<CourseReviewStatus> list = courseReviewStatusRepository.findCourseReviewStatusByReviewer(user.get());
+            for (CourseReviewStatus crs : list) {
+                courseList.add(crs.getCourse());
+            }
+            return ResponseEntity.ok().body(courseList);
         } else {
             return ResponseEntity.badRequest().build();
         }

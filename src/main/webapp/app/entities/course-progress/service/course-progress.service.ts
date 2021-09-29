@@ -77,16 +77,36 @@ export class CourseProgressService {
     }
     return courseProgressCollection;
   }
+  findBySessionId(id: number): Observable<EntityResponseType> {
+    return this.http
+      .get<ICourseProgress>(`${this.resourceUrl}/currentUserWatchTime/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+  updateUserWatchTime(courseProgress: ICourseProgress): void {
+    // courseProgress.id=1;
+    // console.log(courseProgress);
+    this.http
+      .post<ICourseProgress>(this.resourceUrl + '/updateUserWatchTime', courseProgress, { observe: 'response' })
+      .subscribe(
+        res => {
+          // console.log(res);
+        },
+        err => {
+          // console.log(err);
+        }
+      );
+    // console.log(x);
+  }
 
   protected convertDateFromClient(courseProgress: ICourseProgress): ICourseProgress {
     return Object.assign({}, courseProgress, {
-      watchSeconds: courseProgress.watchSeconds?.isValid() ? courseProgress.watchSeconds.toJSON() : undefined,
+      watchSeconds: courseProgress.watchSeconds ? courseProgress.watchSeconds : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.watchSeconds = res.body.watchSeconds ? dayjs(res.body.watchSeconds) : undefined;
+      res.body.watchSeconds = res.body.watchSeconds ? res.body.watchSeconds : undefined;
     }
     return res;
   }
@@ -94,7 +114,7 @@ export class CourseProgressService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((courseProgress: ICourseProgress) => {
-        courseProgress.watchSeconds = courseProgress.watchSeconds ? dayjs(courseProgress.watchSeconds) : undefined;
+        courseProgress.watchSeconds = courseProgress.watchSeconds ? courseProgress.watchSeconds : undefined;
       });
     }
     return res;
