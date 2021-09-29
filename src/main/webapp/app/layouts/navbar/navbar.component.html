@@ -2,13 +2,91 @@
   <div *ngIf="!authority; else elseBlock">
     <span class="logo-img"></span>
   </div>
+
+  <ul id="menu">
+    <li class="parent"><a href="#">Catagories</a>
+      <ul class="child">
+        <li class="parent"><a href="#">Catagories 1 <span class="expand">»</span></a>
+          <ul class="child">
+            <li><a href="#">Menu 1</a></li>
+            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
+              <ul class="child">
+                <li><a href="#">Sub Menu 1</a></li>
+                <li><a href="#">Sub Menu 2</a></li>
+                <li><a href="#">Sub Menu 3</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Menu 3</a></li>
+            <li><a href="#">Menu 4</a></li>
+            <li><a href="#">Menu 5</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Catagories 2</a></li>
+        <li class="parent"><a href="#">Catagories 3 <span class="expand">»</span></a>
+          <ul class="child">
+            <li><a href="#">Menu 1</a></li>
+            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
+              <ul class="child">
+                <li><a href="#">Sub Menu 1</a></li>
+                <li><a href="#">Sub Menu 2</a></li>
+                <li><a href="#">Sub Menu 3</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Menu 3</a></li>
+            <li><a href="#">Menu 4</a></li>
+            <li><a href="#">Menu 5</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Catagories 4</a></li>
+        <li><a href="#">Catagories 5</a></li>
+        <li class="parent"><a href="#">Catagories 6 <span class="expand">»</span></a>
+          <ul class="child">
+            <li><a href="#">Menu 1</a></li>
+            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
+              <ul class="child">
+                <li><a href="#">Sub Menu 1</a></li>
+                <li><a href="#">Sub Menu 2</a></li>
+                <li><a href="#">Sub Menu 3</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Menu 3</a></li>
+            <li><a href="#">Menu 4</a></li>
+            <li><a href="#">Menu 5</a></li>
+          </ul>
+        </li>
+
+        <li class="parent"><a href="#">Catagories 7 <span class="expand">»</span></a>
+          <ul class="child">
+            <li><a href="#">Menu 1</a></li>
+            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
+              <ul class="child">
+                <li><a href="#">Sub Menu 1</a></li>
+                <li><a href="#">Sub Menu 2</a></li>
+                <li><a href="#">Sub Menu 3</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Menu 3</a></li>
+            <li><a href="#">Menu 4</a></li>
+            <li><a href="#">Menu 5</a></li>
+          </ul></li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="search">
+      <fa-icon icon="search"></fa-icon>
+    <input type="search" id="query"  placeholder="Search for anything" aria-label="Search through site content">
+
+  </div>
+
   <ng-template #elseBlock>
     <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
       <span class="logo-img"></span>
       <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
       <!--    <span class="navbar-version">{{ version }}</span>-->
     </a>
-    <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
+    <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/enrolled-courses" (click)="collapseNavbar()">
       <span class="logo-img"></span>
       <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
       <!--    <span class="navbar-version">{{ version }}</span>-->
@@ -233,7 +311,7 @@
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
         </ul>
       </li>
-      <li
+      <li.
         ngbDropdown
         class="nav-item dropdown pointer"
         display="dynamic"
@@ -241,14 +319,27 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+
+          <span *ngIf="!getImageUrl()">
+            <fa-icon icon="user-plus"></fa-icon>
+            <span>Register&nbsp;&nbsp;</span>
+          </span>
+
+          <span *ngIf="!getImageUrl()">
+            <fa-icon icon="sign-in-alt"></fa-icon>
+            <span>Login&nbsp;&nbsp;</span>
+          </span>
+
           <span *ngIf="!getImageUrl()">
             <fa-icon icon="user"></fa-icon>
             <span>Account</span>
           </span>
+
           <span *ngIf="getImageUrl()">
             <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
           </span>
         </a>
+
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
           <li *ngSwitchCase="true">
             <a class="dropdown-item" routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
@@ -287,7 +378,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li.>
     </ul>
   </div>
 </nav>
