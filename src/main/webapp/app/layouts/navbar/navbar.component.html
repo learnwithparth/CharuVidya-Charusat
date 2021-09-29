@@ -4,80 +4,29 @@
   </div>
 
   <ul id="menu">
-    <li class="parent"><a href="#">Catagories</a>
+    <li class="parent">
+      <a href="#">Categories</a>
       <ul class="child">
-        <li class="parent"><a href="#">Catagories 1 <span class="expand">»</span></a>
+        <li class="parent" *ngFor="let parentCategory of parentCategoriesAndSubCategories!.keys()">
+          <a href="#">{{ parentCategory }}<span class="expand">»</span></a>
           <ul class="child">
-            <li><a href="#">Menu 1</a></li>
-            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
+            <li class="parent" *ngFor="let subCategory of parentCategoriesAndSubCategories!.get(parentCategory.trim())">
+              <a href="#">{{ subCategory.courseCategoryTitle }}<span class="expand">»</span></a>
               <ul class="child">
-                <li><a href="#">Sub Menu 1</a></li>
-                <li><a href="#">Sub Menu 2</a></li>
-                <li><a href="#">Sub Menu 3</a></li>
+                <li *ngFor="let course of subCategoriesAndCourses!.get(subCategory.courseCategoryTitle!.trim())">
+                  {{ course.courseTitle }}
+                </li>
               </ul>
             </li>
-            <li><a href="#">Menu 3</a></li>
-            <li><a href="#">Menu 4</a></li>
-            <li><a href="#">Menu 5</a></li>
           </ul>
         </li>
-        <li><a href="#">Catagories 2</a></li>
-        <li class="parent"><a href="#">Catagories 3 <span class="expand">»</span></a>
-          <ul class="child">
-            <li><a href="#">Menu 1</a></li>
-            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
-              <ul class="child">
-                <li><a href="#">Sub Menu 1</a></li>
-                <li><a href="#">Sub Menu 2</a></li>
-                <li><a href="#">Sub Menu 3</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Menu 3</a></li>
-            <li><a href="#">Menu 4</a></li>
-            <li><a href="#">Menu 5</a></li>
-          </ul>
-        </li>
-
-        <li><a href="#">Catagories 4</a></li>
-        <li><a href="#">Catagories 5</a></li>
-        <li class="parent"><a href="#">Catagories 6 <span class="expand">»</span></a>
-          <ul class="child">
-            <li><a href="#">Menu 1</a></li>
-            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
-              <ul class="child">
-                <li><a href="#">Sub Menu 1</a></li>
-                <li><a href="#">Sub Menu 2</a></li>
-                <li><a href="#">Sub Menu 3</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Menu 3</a></li>
-            <li><a href="#">Menu 4</a></li>
-            <li><a href="#">Menu 5</a></li>
-          </ul>
-        </li>
-
-        <li class="parent"><a href="#">Catagories 7 <span class="expand">»</span></a>
-          <ul class="child">
-            <li><a href="#">Menu 1</a></li>
-            <li  class="parent"><a href="#">Menu 2 <span class="expand">»</span></a>
-              <ul class="child">
-                <li><a href="#">Sub Menu 1</a></li>
-                <li><a href="#">Sub Menu 2</a></li>
-                <li><a href="#">Sub Menu 3</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Menu 3</a></li>
-            <li><a href="#">Menu 4</a></li>
-            <li><a href="#">Menu 5</a></li>
-          </ul></li>
       </ul>
     </li>
   </ul>
 
   <div class="search">
-      <fa-icon icon="search"></fa-icon>
-    <input type="search" id="query"  placeholder="Search for anything" aria-label="Search through site content">
-
+    <fa-icon icon="search"></fa-icon>
+    <input type="search" id="query" placeholder="Search for anything" aria-label="Search through site content" />
   </div>
 
   <ng-template #elseBlock>
@@ -327,7 +276,6 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
-
           <span *ngIf="!getImageUrl()">
             <fa-icon icon="user-plus"></fa-icon>
             <span>Register&nbsp;&nbsp;</span>
