@@ -86,7 +86,7 @@ Logo styles
 }
 
 #menu{
-  font-size: 16px;
+  font-size: 12px;
   font-family: 'Josefin Sans', sans-serif;
   margin-left: 20px;
 }
@@ -95,6 +95,7 @@ Logo styles
   position: relative;
   float: left;
   line-height: 30px;
+
   /* background-color: #4fa0d8; */
   /* border-right: rgb(196, 44, 44) 1px solid; */
 }
@@ -102,17 +103,30 @@ Logo styles
   margin: 10px;
   color: #fff;
   text-decoration: none;
+
 }
 .parent:hover > ul {
   display: block;
   position: absolute;
   z-index: 1;
 }
+#menu .child{
+  margin-top:9px;
+}
+
 .child {
   display: none;
-  border: #111 0.5px solid;
-  width: 200px;
+  width: 300px;
   margin-left: 5px;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 15px 0;
+  -webkit-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -ms-box-shadow:  0 0 20px rgba(0,0,0,.15);
+  -o-box-shadow:  0 0 20px rgba(0,0,0,.15);
+  box-shadow:  0 0 20px rgba(0,0,0,.15);
+  z-index: 99;
   //padding: 5px;
 }
 .child li {
@@ -121,6 +135,7 @@ Logo styles
   /* border-left: #111 1px solid;
   border-right: #111 1px solid; */
   width: 100%;
+
 }
 .child li a {
   color: #000000;
@@ -145,5 +160,5 @@ ul ul ul {
 .expand {
   font-size: 12px;
   float: right;
-  margin-right: 5px;
+  margin-right: 25px;
 }
