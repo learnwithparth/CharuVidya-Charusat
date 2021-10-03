@@ -112,9 +112,9 @@ public class CourseServiceImpl implements CourseService {
                     /**
                      * Not needed to update this attribute.
                      * */
-                    if (course.getCourseCreatedOn() != null) {
+                    /*if (course.getCourseCreatedOn() != null) {
                         existingCourse.setCourseCreatedOn(course.getCourseCreatedOn());
-                    }
+                    }*/
 
                     /**
                      * Updated the courseUpdatedOn back to current time.

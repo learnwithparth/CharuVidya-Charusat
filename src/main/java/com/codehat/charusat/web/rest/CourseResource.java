@@ -96,7 +96,7 @@ public class CourseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Course result = courseService.save(course);
+        Course result = courseService.partialUpdate(course).get();
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, course.getId().toString()))
