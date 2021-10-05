@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4" style="color: black">Welcome to CHARUVIDYA!</h1>
+    <h1 class="display-4 mt-5" style="color: black">Welcome to CHARUVIDYA!</h1>
     <div [ngSwitch]="isAuthenticated()">
       <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
@@ -21,21 +21,21 @@
     </div>
   </div>
   <h1 style="text-align: center">Recently added Courses</h1>
-  <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <div class="mat-card mat-card-according-to-image">
+  <div class="container-fluid grid">
+    <div class="row courses-card-width">
+      <div class="card" *ngFor="let course of courses">
         <img src="{{ course.logo }}" class="card-img-top" alt="..." />
         <div class="card-body">
           <span class="mat-card-title">
-            <span *ngIf="course.courseTitle!.length > 27; else elseBlock" matTooltip="{{ course.courseTitle }}">
-              {{ course.courseTitle!.slice(0, 27) }}...
+            <span *ngIf="course.courseTitle!.length > 20; else elseBlock" matTooltip="{{ course.courseTitle }}">
+              {{ course.courseTitle!.slice(0, 20) }}...
             </span>
             <ng-template #elseBlock>
               {{ course.courseTitle }}
             </ng-template>
           </span>
           <br />
-          <p class="mat-card-content">
+          <p class="card-text">
             <fa-icon [icon]="faUserTie"></fa-icon>
             Instructor : {{ course.user!.firstName }}
           </p>

@@ -53,7 +53,6 @@ Main page styles
 .card {
   width: 20rem;
   margin: 25px;
-
 }
 .card span {
   font-size: 18px;
@@ -82,14 +81,14 @@ Main page styles
   height: 149px;
 }
 
-.mat-card-title {
-  font-size: medium;
-  //text-overflow: ellipsis;
-  //white-space: nowrap;
-  //overflow: hidden;
-  //max-width: 20rem;
-  //display: -webkit-box!important;
-}
+// .mat-card-title {
+//   font-size: medium;
+//   //text-overflow: ellipsis;
+//   //white-space: nowrap;
+//   //overflow: hidden;
+//   //max-width: 20rem;
+//   //display: -webkit-box!important;
+// }
 
 //.mat-card-title:hover{
 //  overflow: visible;
@@ -97,4 +96,14 @@ Main page styles
 
 .mat-card-according-to-image {
   width: 320px;
+}
+
+// ------------------------
+.truncate {
+  font-size: medium;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 20rem;
+  display: -webkit-box;
 }
