@@ -268,64 +268,107 @@
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
         </ul>
       </li>
-      <li.
-        ngbDropdown
-        class="nav-item"
-        display="dynamic"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <li. ngbDropdown class="nav-item" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <div class="row">
-        <a class="nav-link"  routerLink="account/register" routerLinkActive="active" (click)="collapseNavbar()"  data-cy="register">
-          <span *ngIf="!getImageUrl()">
-            <fa-icon icon="user-plus"></fa-icon>
-            <span>Register&nbsp;&nbsp;</span>
-          </span>
-          <span *ngIf="getImageUrl()">
-            <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
-          </span>
-        </a>
+          <a
+            class="nav-link"
+            *ngSwitchCase="false"
+            routerLink="account/register"
+            routerLinkActive="active"
+            (click)="collapseNavbar()"
+            data-cy="register"
+          >
+            <span *ngIf="!getImageUrl()">
+              <fa-icon icon="user-plus"></fa-icon>
+              <span>Register&nbsp;&nbsp;</span>
+            </span>
+            <span *ngIf="getImageUrl()">
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+            </span>
+          </a>
 
-          <a class="nav-link" (click)="login()" id="login" data-cy="login">
-          <span *ngIf="!getImageUrl()">
-            <fa-icon icon="sign-in-alt"></fa-icon>
-            <span>Login&nbsp;&nbsp;</span>
-          </span>
+          <a class="nav-link" *ngSwitchCase="false" (click)="login()" id="login" data-cy="login">
+            <span *ngIf="!getImageUrl()">
+              <fa-icon icon="sign-in-alt"></fa-icon>
+              <span>Login&nbsp;&nbsp;</span>
+            </span>
 
             <span *ngIf="getImageUrl()">
-            <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
-          </span>
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+            </span>
           </a>
         </div>
 
-        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
-          <li *ngSwitchCase="true">
-            <a class="dropdown-item" routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
-              <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
-              <span>Settings</span>
-            </a>
-          </li>
-          <li *ngSwitchCase="true">
-            <a
-              class="dropdown-item"
-              routerLink="account/password"
-              routerLinkActive="active"
-              (click)="collapseNavbar()"
-              data-cy="passwordItem"
-            >
-              <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
-              <span>Password</span>
-            </a>
-          </li>
-          <li *ngSwitchCase="true">
-            <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
-              <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
-              <span>Sign out</span>
-            </a>
-          </li>
-
-        </ul>
+        <li
+          *ngSwitchCase="true"
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+            <span *ngIf="!getImageUrl()">
+              <fa-icon icon="user"></fa-icon>
+              <span>Account</span>
+            </span>
+            <span *ngIf="getImageUrl()">
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+            </span>
+          </a>
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+            <li *ngSwitchCase="true">
+              <a
+                class="dropdown-item"
+                routerLink="account/settings"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
+                <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="true">
+              <a
+                class="dropdown-item"
+                routerLink="account/password"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="passwordItem"
+              >
+                <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
+                <span>Password</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="true">
+              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+                <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+                <span>Sign out</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="false">
+              <a class="dropdown-item" (click)="login()"  data-cy="login">
+                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                <span>Sign in</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="false">
+              <a
+                class="dropdown-item"
+                routerLink="account/register"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="register"
+              >
+                <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
+                <span>Register</span>
+              </a>
+            </li>
+          </ul>
+        </li>
       </li.>
+
     </ul>
   </div>
 </nav>
