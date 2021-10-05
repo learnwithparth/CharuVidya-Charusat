@@ -7,7 +7,7 @@ import { Account } from 'app/core/auth/account.model';
 import { ICourse } from 'app/entities/course/course.model';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
 import { HttpResponse } from '@angular/common/http';
-import { faUserTie, faCalendarCheck, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie, faCalendarCheck, faEye, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-home',
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   faUserTie = faUserTie;
   faCalendarCheck = faCalendarCheck;
   faEye = faEye;
+  faUserFriends = faUserFriends;
 
   account: Account | null = null;
   authSubscription?: Subscription;

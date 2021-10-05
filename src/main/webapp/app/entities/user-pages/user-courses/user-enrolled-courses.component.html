@@ -5,7 +5,12 @@
       <div class="mat-card mat-card-according-to-image">
         <img src="{{ course.logo }}" class="card-img-top" alt="..." />
         <div class="card-body">
-          <span class="mat-card-title">{{ course.courseTitle }}</span>
+          <span *ngIf="course.courseTitle!.length > 27; else elseBlock" matTooltip="{{ course.courseTitle }}">
+            {{ course.courseTitle!.slice(0, 27) }}...
+          </span>
+          <ng-template #elseBlock>
+            {{ course.courseTitle }}
+          </ng-template>
           <br />
           <p class="mat-card-content">
             <fa-icon [icon]="faUserTie"></fa-icon>
