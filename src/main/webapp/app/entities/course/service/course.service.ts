@@ -87,9 +87,9 @@ export class CourseService {
 
   protected convertDateFromClient(course: ICourse): ICourse {
     return Object.assign({}, course, {
-      courseCreatedOn: course.courseCreatedOn?.isValid() ? course.courseCreatedOn.format(DATE_FORMAT) : undefined,
-      courseUpdatedOn: course.courseUpdatedOn?.isValid() ? course.courseUpdatedOn.format(DATE_FORMAT) : undefined,
-      courseApprovalDate: course.courseApprovalDate?.isValid() ? course.courseApprovalDate.format(DATE_FORMAT) : undefined,
+      // courseCreatedOn: course.courseCreatedOn?.isValid() ? course.courseCreatedOn.format(DATE_FORMAT) : undefined,
+      // courseUpdatedOn: course.courseUpdatedOn?.isValid() ? course.courseUpdatedOn.format(DATE_FORMAT) : undefined,
+      // courseApprovalDate: course.courseApprovalDate?.isValid() ? course.courseApprovalDate.format(DATE_FORMAT) : undefined,
     });
   }
 

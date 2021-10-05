@@ -23,14 +23,25 @@
   <h1 style="text-align: center">Recently added Courses</h1>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let course of courses">
-      <div class="mat-card">
+      <div class="mat-card mat-card-according-to-image">
         <img src="{{ course.logo }}" class="card-img-top" alt="..." />
         <div class="card-body">
-          <span class="mat-card-title">{{ course.courseTitle }}</span>
+          <span class="mat-card-title">
+            <span *ngIf="course.courseTitle!.length > 27; else elseBlock" matTooltip="{{ course.courseTitle }}">
+              {{ course.courseTitle!.slice(0, 27) }}...
+            </span>
+            <ng-template #elseBlock>
+              {{ course.courseTitle }}
+            </ng-template>
+          </span>
           <br />
           <p class="mat-card-content">
             <fa-icon [icon]="faUserTie"></fa-icon>
             Instructor : {{ course.user!.firstName }}
+          </p>
+          <p>
+            <fa-icon [icon]="faUserFriends"></fa-icon>
+            {{ course.minStudents }}
           </p>
           <h6><fa-icon [icon]="faCalendarCheck"></fa-icon> {{ course.courseCreatedOn }}</h6>
           <button type="button" class="btn btn-outline-primary btn-sm" (click)="login(course.id)">

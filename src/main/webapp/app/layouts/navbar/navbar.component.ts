@@ -7,6 +7,9 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { ICourse } from 'app/entities/course/course.model';
+import { ICourseCategory } from 'app/entities/course-category/course-category.model';
+import { NavbarService } from 'app/layouts/navbar/navbar.service';
 
 @Component({
   selector: 'jhi-navbar',
@@ -19,14 +22,19 @@ export class NavbarComponent implements OnInit {
   openAPIEnabled?: boolean;
   authority = false;
   version = '';
+  parentCategoriesAndSubCategories: Map<string, ICourseCategory[]> | undefined;
+  subCategoriesAndCourses: Map<string, ICourse[]> | undefined;
   faBookmark = faBookmark;
+  subCategories: ICourseCategory[] | undefined;
+  courses: ICourse[] | undefined;
 
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private navbarService: NavbarService
   ) {
     console.warn('Constructor called');
     if (VERSION) {
@@ -50,6 +58,14 @@ export class NavbarComponent implements OnInit {
       if (account) {
         this.authority = true;
       }
+    });
+
+    this.navbarService.getParentCategoryAndSubCategoryMap().subscribe(res => {
+      this.parentCategoriesAndSubCategories = new Map(Object.entries(res.body));
+    });
+
+    this.navbarService.getSubCategoriesAndCourses().subscribe(res => {
+      this.subCategoriesAndCourses = new Map(Object.entries(res.body));
     });
   }
 
@@ -78,5 +94,15 @@ export class NavbarComponent implements OnInit {
 
   getImageUrl(): string {
     return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
+  }
+
+  onParentCategoryClick(parent: string): void {
+    this.subCategories = this.parentCategoriesAndSubCategories?.get(parent);
+  }
+
+  onSubCategoryClick(sub: string): void {
+    console.warn(sub);
+    this.courses = this.subCategoriesAndCourses?.get(sub.trim());
+    console.warn(this.courses);
   }
 }

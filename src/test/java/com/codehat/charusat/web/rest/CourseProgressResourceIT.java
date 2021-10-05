@@ -34,8 +34,8 @@ class CourseProgressResourceIT {
     private static final Boolean DEFAULT_COMPLETED = false;
     private static final Boolean UPDATED_COMPLETED = true;
 
-    private static final Instant DEFAULT_WATCH_SECONDS = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_WATCH_SECONDS = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Long DEFAULT_WATCH_SECONDS = 0L;
+    private static final Long UPDATED_WATCH_SECONDS = 0L;
 
     private static final String ENTITY_API_URL = "/api/course-progresses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

@@ -40,6 +40,8 @@ public interface CourseService {
      */
     Page<Course> findAll(Pageable pageable);
 
+    List<Course> findAll();
+
     /**
      * Get the "id" course.
      *

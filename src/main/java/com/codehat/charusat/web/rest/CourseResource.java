@@ -40,11 +40,11 @@ public class CourseResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final CourseService courseService;
+    private final CourseServiceImpl courseService;
 
     private final CourseRepository courseRepository;
 
-    public CourseResource(CourseService courseService, CourseRepository courseRepository) {
+    public CourseResource(CourseServiceImpl courseService, CourseRepository courseRepository) {
         this.courseService = courseService;
         this.courseRepository = courseRepository;
     }
@@ -96,7 +96,7 @@ public class CourseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Course result = courseService.save(course);
+        Course result = courseService.partialUpdate(course).get();
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, course.getId().toString()))
@@ -142,15 +142,13 @@ public class CourseResource {
     /**
      * {@code GET  /courses} : get all the courses.
      *
-     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
      */
     @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getAllCourses(Pageable pageable) {
+    public ResponseEntity<List<Course>> getAllCourses() {
         log.debug("REST request to get a page of Courses");
-        Page<Course> page = courseService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<Course> list = courseService.findAll();
+        return ResponseEntity.ok().body(list);
     }
 
     /**

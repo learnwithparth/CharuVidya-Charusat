@@ -1,5 +1,6 @@
 package com.codehat.charusat.service.impl;
 
+import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseCategory;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseCategoryRepository;
@@ -188,5 +189,27 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         } else {
             throw new Exception("No course category found!");
         }
+    }
+
+    @Override
+    public Map<String, List<Course>> getCoursesBySubCategories() {
+        List<CourseCategory> courseCategories = courseCategoryRepository.findCourseCategoryByIsParent(false);
+        Map<String, List<Course>> map = new HashMap<>();
+        for (CourseCategory category : courseCategories) {
+            List<Course> courses = courseRepository.findByCategoryId(category.getId());
+            map.put(category.getCourseCategoryTitle().strip(), courses);
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, List<CourseCategory>> getCourseSubCategoriesByParentCategories() {
+        List<CourseCategory> courseCategories = courseCategoryRepository.findCourseCategoryByIsParent(true);
+        Map<String, List<CourseCategory>> map = new HashMap<>();
+        for (CourseCategory category : courseCategories) {
+            List<CourseCategory> subCategories = courseCategoryRepository.findByParentId(category.getParentId());
+            map.put(category.getCourseCategoryTitle().strip(), subCategories);
+        }
+        return map;
     }
 }

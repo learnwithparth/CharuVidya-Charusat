@@ -55,6 +55,7 @@ import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-cours
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
 import { AssignCategoryReviewerComponent } from './entities/assign-category-reviewer/assign-category-reviewer.component';
 import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -80,6 +81,7 @@ import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course
     VgBufferingModule,
     MatProgressBarModule,
     BrowserAnimationsModule,
+    MatTooltipModule,
   ],
   providers: [
     Title,

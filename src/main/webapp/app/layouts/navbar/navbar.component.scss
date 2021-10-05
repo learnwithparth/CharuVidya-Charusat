@@ -57,3 +57,108 @@ Logo styles
   background: url('../../../content/images/CharuVidya.png') no-repeat center center;
   background-size: contain;
 }
+
+.search{
+  background-color: #ffffff;
+  width: 600px;
+  height: 35px;
+  border-radius: 20px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  margin-left: 100px;
+}
+.search input{
+  all: unset;
+  font: 16px system-ui;
+  color: rgb(0, 0, 0);
+  height: 100%;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.search fa-icon{
+  padding-left: 20px;
+}
+.search input::placeholder {
+  color: rgb(0, 0, 0);
+  opacity: 0.7;
+}
+
+#menu{
+  font-size: 12px;
+  font-family: 'Josefin Sans', sans-serif;
+  margin-left: 20px;
+}
+.parent {
+  display: block;
+  position: relative;
+  float: left;
+  line-height: 30px;
+
+  /* background-color: #4fa0d8; */
+  /* border-right: rgb(196, 44, 44) 1px solid; */
+}
+.parent a {
+  margin: 10px;
+  color: #fff;
+  text-decoration: none;
+
+}
+.parent:hover > ul {
+  display: block;
+  position: absolute;
+  z-index: 1;
+}
+#menu .child{
+  margin-top:9px;
+}
+
+.child {
+  display: none;
+  width: 300px;
+  margin-left: 5px;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 15px 0;
+  -webkit-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -ms-box-shadow:  0 0 20px rgba(0,0,0,.15);
+  -o-box-shadow:  0 0 20px rgba(0,0,0,.15);
+  box-shadow:  0 0 20px rgba(0,0,0,.15);
+  z-index: 99;
+  //padding: 5px;
+}
+.child li {
+  background-color: #fff;
+  line-height: 40px;
+  /* border-left: #111 1px solid;
+  border-right: #111 1px solid; */
+  width: 100%;
+
+}
+.child li a {
+  color: #000000;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0px;
+  min-width: 10em;
+}
+ul ul ul {
+  left: 100%;
+  top: 0;
+  margin-left: 1px;
+}
+/* li:hover {
+  background-color: #95b4ca;
+} */
+.parent li a:hover {
+  color: #2780e3;
+}
+.expand {
+  font-size: 12px;
+  float: right;
+  margin-right: 25px;
+}
