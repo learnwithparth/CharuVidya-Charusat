@@ -40,7 +40,7 @@ public class CourseSession implements Serializable {
 
     @NotNull
     @Column(name = "session_duration", nullable = false)
-    private Instant sessionDuration;
+    private Long sessionDuration;
 
     @NotNull
     @Column(name = "session_order", nullable = false)
@@ -143,16 +143,16 @@ public class CourseSession implements Serializable {
         this.sessionVideo = sessionVideo;
     }
 
-    public Instant getSessionDuration() {
+    public Long getSessionDuration() {
         return this.sessionDuration;
     }
 
-    public CourseSession sessionDuration(Instant sessionDuration) {
+    public CourseSession sessionDuration(Long sessionDuration) {
         this.sessionDuration = sessionDuration;
         return this;
     }
 
-    public void setSessionDuration(Instant sessionDuration) {
+    public void setSessionDuration(Long sessionDuration) {
         this.sessionDuration = sessionDuration;
     }
 

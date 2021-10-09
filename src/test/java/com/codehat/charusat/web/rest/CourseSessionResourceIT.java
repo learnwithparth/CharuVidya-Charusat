@@ -40,8 +40,8 @@ class CourseSessionResourceIT {
     private static final String DEFAULT_SESSION_VIDEO = "AAAAAAAAAA";
     private static final String UPDATED_SESSION_VIDEO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_SESSION_DURATION = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_SESSION_DURATION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Long DEFAULT_SESSION_DURATION = 0l;
+    private static final Long UPDATED_SESSION_DURATION = 0l;
 
     private static final Integer DEFAULT_SESSION_ORDER = 1;
     private static final Integer UPDATED_SESSION_ORDER = 2;

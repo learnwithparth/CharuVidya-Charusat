@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       elemDefault = {
         id: 0,
         completed: false,
-        watchSeconds: currentDate,
+        watchSeconds: 0,
       };
     });
 

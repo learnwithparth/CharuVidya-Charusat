@@ -18,8 +18,8 @@
 
   <jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="courseSections?.length === 0">
-    <span>No course sections found</span>
+  <div class="alert alert-warning" id="no-result" *ngIf="allSession1?.length === 0">
+    <span>No course sections found </span>
   </div>
 </div>
 <!--<div>-->
@@ -68,13 +68,6 @@
 <!--</div>-->
 <div>
   <!--  PLAYLIST-->
-  <div
-    class="alert alert-warning"
-    id="no-result"
-    *ngIf="courseSections === null || courseSections === undefined || courseSections.length === 0"
-  >
-    <span>No Sections added</span>
-  </div>
   <hr />
   <!--  ////////////////////////////////////////-->
   <!--  <div class="container" *ngIf="courseSections !== null && courseSections !== undefined && courseSections.length > 0">-->

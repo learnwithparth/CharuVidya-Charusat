@@ -23,7 +23,7 @@
             <column name="session_video" type="varchar(300)">
                 <constraints nullable="false" />
             </column>
-            <column name="session_duration" type="${datetimeType}">
+            <column name="session_duration" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="session_order" type="integer">

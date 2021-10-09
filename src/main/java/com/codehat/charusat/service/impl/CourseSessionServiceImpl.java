@@ -225,7 +225,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     courseSession.setSessionVideo(courseSessionDTO.getSessionVideo());
                     courseSession.setCourseSection(courseSection.get());
                     courseSession.isApproved(false);
-                    courseSession.setSessionDuration(Instant.now());
+                    courseSession.setSessionDuration(0L); //(need to be done) using url calculate video length
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);
                     if (courseSessionDTO.getIsDraft() == null) {

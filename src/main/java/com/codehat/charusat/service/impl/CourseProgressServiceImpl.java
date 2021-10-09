@@ -4,10 +4,12 @@ import com.codehat.charusat.domain.CourseProgress;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseProgressRepository;
+import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseProgressService;
 import com.codehat.charusat.service.UserService;
 import io.undertow.util.BadRequestException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +28,17 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     private final Logger log = LoggerFactory.getLogger(CourseProgressServiceImpl.class);
 
     private final CourseProgressRepository courseProgressRepository;
+    private final CourseSessionRepository courseSessionRepository;
     private final UserService userService;
 
-    public CourseProgressServiceImpl(CourseProgressRepository courseProgressRepository, UserService userService) {
+    public CourseProgressServiceImpl(
+        CourseProgressRepository courseProgressRepository,
+        UserService userService,
+        CourseSessionRepository courseSessionRepository
+    ) {
         this.courseProgressRepository = courseProgressRepository;
         this.userService = userService;
+        this.courseSessionRepository = courseSessionRepository;
     }
 
     @Override
@@ -99,23 +107,22 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     @Override
     public boolean updateTime(CourseProgress courseProgress) {
         //        if(courseProgress.getId()!=null){
+        courseProgressRepository.findAll().stream().peek(courseProgress1 -> System.out.println(courseProgress1.getWatchSeconds()));
         CourseSession courseSession = courseProgress.getCourseSession();
+        if (!this.courseSessionRepository.findById(courseSession.getId()).isPresent()) return false; //no such session
         User user = userService.getUserWithAuthorities().get();
         Optional<CourseProgress> existing = courseProgressRepository.findByCourseSessionAndUser(courseSession, user);
         if (existing.isPresent()) {
             CourseProgress existingCourseProgress = existing.get();
             existingCourseProgress.setWatchSeconds(courseProgress.getWatchSeconds());
             courseProgressRepository.save(existingCourseProgress);
+            courseProgressRepository.findAll().stream().peek(courseProgress1 -> System.out.println(courseProgress1.getWatchSeconds()));
             return true;
         } else {
             courseProgress.setUser(userService.getUserWithAuthorities().get());
             courseProgressRepository.save(courseProgress);
+            courseProgressRepository.findAll().stream().peek(courseProgress1 -> System.out.println(courseProgress1.getWatchSeconds()));
+            return false;
         }
-        //        }
-        //        else{
-        //            courseProgress.setUser(userService.getUserWithAuthorities().get());
-        //            courseProgressRepository.save(courseProgress);
-        //        }
-        return false;
     }
 }
