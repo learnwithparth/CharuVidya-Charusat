@@ -55,6 +55,10 @@ import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-cours
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
 import { AssignCategoryReviewerComponent } from './entities/assign-category-reviewer/assign-category-reviewer.component';
 import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
+import { UserCourseProgressComponent } from './entities/user-course-progress/list/user-course-progress/user-course-progress.component';
+import { UserCourseProgressDeleteDialogComponent } from './entities/user-course-progress/delete/user-course-progress-delete-dialog.component';
+import { UserCourseProgressDetailComponent } from './entities/user-course-progress/detail/user-course-progress-detail.component';
+import { UserCourseProgressUpdateComponent } from './entities/user-course-progress/update/user-course-progress-update.component';
 
 @NgModule({
   imports: [
@@ -110,6 +114,10 @@ import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course
     AssignReviewerComponent,
     AssignCategoryReviewerComponent,
     ReviewCourseComponent,
+    UserCourseProgressComponent,
+    UserCourseProgressDeleteDialogComponent,
+    UserCourseProgressDetailComponent,
+    UserCourseProgressUpdateComponent,
   ],
   bootstrap: [MainComponent],
 })

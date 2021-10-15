@@ -21,6 +21,9 @@ import { UserCouresSectionSessionComponent } from 'app/entities/user-pages/user-
 import { UserEnrolledCoursesComponent } from 'app/entities/user-pages/user-courses/user-enrolled-courses.component';
 import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewer.component';
 import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
+import { UserCourseProgressComponent } from 'app/entities/user-course-progress/list/user-course-progress/user-course-progress.component';
+import { UserCourseProgressDetailComponent } from 'app/entities/user-course-progress/detail/user-course-progress-detail.component';
+import { UserCourseProgressUpdateComponent } from 'app/entities/user-course-progress/update/user-course-progress-update.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -93,12 +96,37 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           component: ReviewCourseComponent,
         },
         {
+          path: 'user-course-progress',
+          data: {
+            authorities: [Authority.ADMIN],
+            defaultSort: 'id,asc',
+          },
+          canActivate: [UserRouteAccessService],
+          component: UserCourseProgressComponent,
+        },
+        {
           path: 'enrolled-courses',
           data: {
             authorities: [Authority.ADMIN, Authority.STUDENT],
           },
           canActivate: [UserRouteAccessService],
           component: UserEnrolledCoursesComponent,
+        },
+        {
+          path: 'user-course-progress/:id/view',
+          data: {
+            authorities: [Authority.ADMIN],
+          },
+          canActivate: [UserRouteAccessService],
+          component: UserCourseProgressDetailComponent,
+        },
+        {
+          path: 'user-course-progress/:id/edit',
+          data: {
+            authorities: [Authority.ADMIN],
+          },
+          canActivate: [UserRouteAccessService],
+          component: UserCourseProgressUpdateComponent,
         },
         {
           path: 'course/:courseId/sections',

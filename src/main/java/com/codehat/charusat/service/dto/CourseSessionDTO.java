@@ -10,8 +10,18 @@ public class CourseSessionDTO {
     String sessionDescription;
     String sessionVideo;
     String sessionResource;
+    Long sessionDuration;
     Boolean isPreview;
     Boolean isDraft;
+
+    public Long getSessionDuration() {
+        return sessionDuration;
+    }
+
+    public void setSessionDuration(Long sessionDuration) {
+        this.sessionDuration = sessionDuration;
+    }
+
     String quizLink;
 
     //CourseSection courseSection;

@@ -30,7 +30,8 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
   private courseId!: string | null;
   private courseSectionId!: string | null;
   private selectedFiles!: File;
-
+  private selectedFileDuration!: number;
+  private videoElement: any;
   constructor(
     protected courseSessionService: InstructorCourseSessionService,
     protected activatedRoute: ActivatedRoute,
@@ -87,6 +88,13 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     if (target.files !== null) {
       this.selectedFiles = target.files[0];
+      this.videoElement = document.createElement('video');
+      let duration: number;
+      this.videoElement.preload = 'metadata';
+      this.videoElement.onloadedmetadata = function () {
+        window.URL.revokeObjectURL(this.videoElement.src);
+      };
+      this.videoElement.src = URL.createObjectURL(this.selectedFiles);
     }
   }
 
@@ -96,6 +104,7 @@ export class InstructorUpdateCourseSessionComponent implements OnInit {
       const file = this.selectedFiles;
       const ans = await this.uploadService.uploadFile(file);
       data.sessionVideo = ans;
+      data.sessionDuration = this.videoElement.duration;
       this.courseSessionService.create(this.courseId, this.courseSectionId, data).subscribe(
         res => {
           this.loading = false;

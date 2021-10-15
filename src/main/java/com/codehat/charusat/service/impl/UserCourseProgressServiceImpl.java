@@ -15,6 +15,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -110,5 +112,10 @@ public class UserCourseProgressServiceImpl implements UserCourseProgressService 
         if (!findOne(id).isPresent()) return false;
         userCourseProgressRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public Page<UserCourseProgress> findAll(Pageable pageable) {
+        return userCourseProgressRepository.findAll(pageable);
     }
 }

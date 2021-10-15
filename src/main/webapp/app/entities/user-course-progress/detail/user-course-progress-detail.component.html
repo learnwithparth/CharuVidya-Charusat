@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div>
+      <h2 data-cy="userCourseProgressDetailsHeading"><span>User Course Progress</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ userCourseProgress?.id }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ userCourseProgress?.user?.id }}</span>
+        </dd>
+        <dt><span>Course</span></dt>
+        <dd>
+          <span>{{ userCourseProgress?.course?.id }}</span>
+        </dd>
+        <dt><span>Course Progress</span></dt>
+        <dd>
+          <span>{{ userCourseProgress?.courseProgress?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-course-progress', userCourseProgress?.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
