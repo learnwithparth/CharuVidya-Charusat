@@ -5,11 +5,9 @@ import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseProgressRepository;
 import com.codehat.charusat.repository.CourseSessionRepository;
+import com.codehat.charusat.repository.UserCourseProgressRepository;
 import com.codehat.charusat.service.CourseProgressService;
 import com.codehat.charusat.service.UserService;
-import io.undertow.util.BadRequestException;
-import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +28,18 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     private final CourseProgressRepository courseProgressRepository;
     private final CourseSessionRepository courseSessionRepository;
     private final UserService userService;
+    private final UserCourseProgressRepository userCourseProgressRepository;
 
     public CourseProgressServiceImpl(
         CourseProgressRepository courseProgressRepository,
         UserService userService,
-        CourseSessionRepository courseSessionRepository
+        CourseSessionRepository courseSessionRepository,
+        UserCourseProgressRepository userCourseProgressRepository
     ) {
         this.courseProgressRepository = courseProgressRepository;
         this.userService = userService;
         this.courseSessionRepository = courseSessionRepository;
+        this.userCourseProgressRepository = userCourseProgressRepository;
     }
 
     @Override
@@ -85,6 +86,7 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete CourseProgress : {}", id);
+        userCourseProgressRepository.deleteUserCourseProgressByCourseProgressId(id);
         courseProgressRepository.deleteById(id);
     }
 

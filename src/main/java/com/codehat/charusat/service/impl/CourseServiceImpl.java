@@ -44,6 +44,10 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserRepository userRepository;
 
+    private final CourseProgressRepository courseProgressRepository;
+
+    private final UserCourseProgressRepository userCourseProgressRepository;
+
     public CourseServiceImpl(
         CourseRepository courseRepository,
         UserService userService,
@@ -51,7 +55,9 @@ public class CourseServiceImpl implements CourseService {
         CourseSectionRepository courseSectionRepository,
         CourseSessionRepository courseSessionRepository,
         CourseReviewStatusRepository courseReviewStatusRepository,
-        UserRepository userRepository
+        UserRepository userRepository,
+        CourseProgressRepository courseProgressRepository,
+        UserCourseProgressRepository userCourseProgressRepository
     ) {
         this.courseRepository = courseRepository;
         this.userService = userService;
@@ -60,6 +66,8 @@ public class CourseServiceImpl implements CourseService {
         this.courseSessionRepository = courseSessionRepository;
         this.courseReviewStatusRepository = courseReviewStatusRepository;
         this.userRepository = userRepository;
+        this.courseProgressRepository = courseProgressRepository;
+        this.userCourseProgressRepository = userCourseProgressRepository;
     }
 
     @Override
@@ -196,8 +204,17 @@ public class CourseServiceImpl implements CourseService {
         /**
          * CUSTOM
          * */
+        Course course = courseRepository.findById(id).get();
+        CourseReviewStatus courseReviewStatus = courseReviewStatusRepository.findByCourse(course);
+        course.setCourseReviewStatus(null);
+        courseReviewStatus.setCourse(null);
+        courseRepository.save(course);
+        courseReviewStatusRepository.save(courseReviewStatus);
+        userCourseProgressRepository.deleteUserCourseProgressByCourseId(id);
+        courseProgressRepository.deleteCourseProgressByCourseId(id);
         courseSessionRepository.deleteCourseSessionByCourseId(id);
         courseSectionRepository.deleteCourseSectionByCourseId(id);
+        courseReviewStatusRepository.deleteById(courseReviewStatus.getId());
         courseRepository.deleteById(id);
     }
 
