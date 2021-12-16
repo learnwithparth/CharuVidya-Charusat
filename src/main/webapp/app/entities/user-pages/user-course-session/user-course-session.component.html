@@ -46,7 +46,7 @@
 
           <vg-fullscreen></vg-fullscreen>
         </vg-controls>
-        <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+        <video #media [vgMedia]="$any(media)" id="singleVideo" preload="auto" crossorigin>
           <source [src]="selectedSession.sessionVideo" type="video/mp4" />
         </video>
       </vg-player>

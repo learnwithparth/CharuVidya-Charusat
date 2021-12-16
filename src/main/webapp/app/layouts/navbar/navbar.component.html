@@ -3,27 +3,6 @@
     <span class="logo-img"></span>
   </div>
 
-  <ul id="menu">
-    <li class="parent">
-      <a href="#">Categories</a>
-      <ul class="child">
-        <li class="parent" *ngFor="let parentCategory of parentCategoriesAndSubCategories!.keys()">
-          <a href="#">{{ parentCategory }}<span class="expand">></span></a>
-          <ul class="child">
-            <li class="parent" *ngFor="let subCategory of parentCategoriesAndSubCategories!.get(parentCategory.trim())">
-              <a href="#">{{ subCategory.courseCategoryTitle }}<span class="expand">»</span></a>
-              <ul class="child">
-                <li *ngFor="let course of subCategoriesAndCourses!.get(subCategory.courseCategoryTitle!.trim())">
-                  {{ course.courseTitle }}
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-
   <div class="search">
     <fa-icon icon="search"></fa-icon>
     <input type="search" id="query" placeholder="Search for anything" aria-label="Search through site content" />
@@ -348,7 +327,7 @@
               </a>
             </li>
             <li *ngSwitchCase="false">
-              <a class="dropdown-item" (click)="login()"  data-cy="login">
+              <a class="dropdown-item" (click)="login()" data-cy="login">
                 <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                 <span>Sign in</span>
               </a>
@@ -368,7 +347,6 @@
           </ul>
         </li>
       </li.>
-
     </ul>
   </div>
 </nav>
