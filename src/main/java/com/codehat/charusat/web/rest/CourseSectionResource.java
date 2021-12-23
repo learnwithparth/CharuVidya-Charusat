@@ -1,6 +1,5 @@
 package com.codehat.charusat.web.rest;
 
-import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.repository.CourseSectionRepository;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -203,7 +201,8 @@ public class CourseSectionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the courseSection, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/course/{courseId}/course-sections")
-    public ResponseEntity<List<CourseSection>> getAllCourseSectionByCourse(@PathVariable Long courseId, Pageable pageable) {
+    public ResponseEntity<List<CourseSection>> getAllCourseSectionByCourse(@PathVariable Long courseId, Pageable pageable)
+        throws Exception {
         log.debug("REST request to get Course-Section based on CourseId: {}", courseId);
         Page<CourseSection> page = courseSectionService.findCourseSectionByCourse(courseId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

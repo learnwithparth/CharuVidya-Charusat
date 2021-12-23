@@ -7,12 +7,13 @@ import com.codehat.charusat.domain.User;
 import com.codehat.charusat.repository.CourseSectionRepository;
 import com.codehat.charusat.repository.CourseSessionRepository;
 import com.codehat.charusat.service.CourseSectionService;
+import com.codehat.charusat.service.CourseVisitService;
 import com.codehat.charusat.service.UserService;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
-import java.util.*;
-import javax.swing.text.html.Option;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -36,17 +37,21 @@ public class CourseSectionServiceImpl implements CourseSectionService {
 
     private final CourseServiceImpl courseService;
 
+    private final CourseVisitService courseVisitService;
+
     private final CourseSessionRepository courseSessionRepository;
 
     public CourseSectionServiceImpl(
         CourseSectionRepository courseSectionRepository,
         UserService userService,
+        CourseVisitService courseVisitService,
         CourseServiceImpl courseService,
         CourseSessionRepository courseSessionRepository
     ) {
         this.courseSectionRepository = courseSectionRepository;
         this.userService = userService;
         this.courseService = courseService;
+        this.courseVisitService = courseVisitService;
         this.courseSessionRepository = courseSessionRepository;
     }
 
@@ -112,10 +117,11 @@ public class CourseSectionServiceImpl implements CourseSectionService {
      * CUSTOM
      * */
     @Override
-    public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) {
+    public Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) throws Exception {
         log.debug("Request to get CourseSection by CourseId : {}", courseId);
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
+            courseVisitService.updateCourseCount(courseId, user.get());
             if (
                 user.get().getAuthorities().toString().contains("ROLE_ADMIN") ||
                 user.get().getAuthorities().toString().contains("ROLE_REVIEWER")
