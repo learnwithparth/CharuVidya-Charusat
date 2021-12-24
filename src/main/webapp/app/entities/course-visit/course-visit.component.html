@@ -1,0 +1,27 @@
+<div>
+  <div class="table-responsive" *ngIf="courseVisitCounts">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col" jhiSort="user"><span>User</span></th>
+          <th scope="col" jhiSort="courseTitle"><span>Course</span></th>
+          <th scope="col" jhiSort="lastVisitedDate"><span>Last Visited Date</span></th>
+          <th scope="col" jhiSort="courseVisitedCount"><span>Total Count</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="courseVisitCounts">
+        <tr *ngFor="let courseVisitCount of courseVisitCounts">
+          <td>
+            {{ courseVisitCount.id }}
+          </td>
+          <td>{{ courseVisitCount.user!.firstName }}</td>
+          <td>{{ courseVisitCount.course!.courseTitle }}</td>
+          <td>{{ courseVisitCount.lastVisitedDate! | date: 'dd/MM/yy HH:mm' }}</td>
+          <td>{{ courseVisitCount.courseVisitedCount! }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import locale from '@angular/common/locales/en';
@@ -56,6 +56,7 @@ import { AssignReviewerComponent } from 'app/entities/course/list/assign-reviewe
 import { AssignCategoryReviewerComponent } from './entities/assign-category-reviewer/assign-category-reviewer.component';
 import { ReviewCourseComponent } from 'app/entities/reviewer-pages/review-course.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CourseVisitComponent } from './entities/course-visit/course-visit.component';
 
 @NgModule({
   imports: [
@@ -112,6 +113,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AssignReviewerComponent,
     AssignCategoryReviewerComponent,
     ReviewCourseComponent,
+    CourseVisitComponent,
   ],
   bootstrap: [MainComponent],
 })

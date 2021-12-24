@@ -7,6 +7,7 @@ import com.codehat.charusat.repository.CourseVisitRepository;
 import com.codehat.charusat.service.CourseService;
 import com.codehat.charusat.service.CourseVisitService;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,10 @@ public class CourseVisitServiceImpl implements CourseVisitService {
         } else {
             throw new Exception("Course does not exists");
         }
+    }
+
+    @Override
+    public List<CourseVisit> findAll() {
+        return courseVisitRepository.findAll();
     }
 }

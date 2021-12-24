@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { VERSION } from 'app/app.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
-import { ActivatedRoute } from '@angular/router';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { ICourse } from 'app/entities/course/course.model';
 import { ICourseCategory } from 'app/entities/course-category/course-category.model';
 import { NavbarService } from 'app/layouts/navbar/navbar.service';
@@ -25,6 +24,7 @@ export class NavbarComponent implements OnInit {
   parentCategoriesAndSubCategories: Map<string, ICourseCategory[]> | undefined;
   subCategoriesAndCourses: Map<string, ICourse[]> | undefined;
   faBookmark = faBookmark;
+  faClipboardList = faClipboardList;
   subCategories: ICourseCategory[] | undefined;
   courses: ICourse[] | undefined;
 
