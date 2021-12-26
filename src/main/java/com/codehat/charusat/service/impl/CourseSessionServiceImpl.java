@@ -22,9 +22,10 @@ import io.github.techgnious.IVCompressor;
 import io.github.techgnious.dto.ResizeResolution;
 import io.github.techgnious.dto.VideoFormats;
 import io.github.techgnious.exception.VideoException;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -225,7 +226,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
                     courseSession.setSessionVideo(courseSessionDTO.getSessionVideo());
                     courseSession.setCourseSection(courseSection.get());
                     courseSession.isApproved(false);
-                    courseSession.setSessionDuration(Instant.now());
+                    courseSession.setSessionDuration(0L);
                     courseSession.setSessionLocation("");
                     courseSession.isPublished(false);
                     if (courseSessionDTO.getIsDraft() == null) {

@@ -238,6 +238,12 @@
               <span>Logs</span>
             </a>
           </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/course-visits-log" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon [icon]="faClipboardList" [fixedWidth]="true"></fa-icon>
+              <span>Course Visited Logs</span>
+            </a>
+          </li>
           <li *ngIf="openAPIEnabled">
             <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
               <fa-icon icon="book" [fixedWidth]="true"></fa-icon>

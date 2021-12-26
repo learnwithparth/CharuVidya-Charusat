@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="2021122391995-1" author="Radhey">
+        <createTable tableName="course_visit">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="course_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_visited_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="course_visited_count" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021122391995-1-data" author="Radhey">
+        <loadData
+            file="config/liquibase/fake-data/course_visit.csv"
+            separator=";"
+            tableName="course_visit">
+            <column name="id" type="numeric" />
+            <column name="course_id" type="numeric" />
+            <column name="user_id" type="numeric" />
+            <column name="last_visited_date" type="timestamp" />
+            <column name="course_visited_count" type="numeric" />
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -8,8 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.codehat.charusat.IntegrationTest;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.repository.CourseSessionRepository;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,8 +38,8 @@ class CourseSessionResourceIT {
     private static final String DEFAULT_SESSION_VIDEO = "AAAAAAAAAA";
     private static final String UPDATED_SESSION_VIDEO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_SESSION_DURATION = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_SESSION_DURATION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Long DEFAULT_SESSION_DURATION = 0L;
+    private static final Long UPDATED_SESSION_DURATION = 0L;
 
     private static final Integer DEFAULT_SESSION_ORDER = 1;
     private static final Integer UPDATED_SESSION_ORDER = 2;

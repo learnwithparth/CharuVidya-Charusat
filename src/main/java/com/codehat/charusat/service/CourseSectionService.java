@@ -1,6 +1,5 @@
 package com.codehat.charusat.service;
 
-import com.codehat.charusat.domain.Course;
 import com.codehat.charusat.domain.CourseSection;
 import com.codehat.charusat.domain.CourseSession;
 import com.codehat.charusat.service.dto.CourseSectionDTO;
@@ -58,7 +57,7 @@ public interface CourseSectionService {
      * CUSTOM:
      * Get the CourseSection based on course.
      * */
-    Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable);
+    Page<CourseSection> findCourseSectionByCourse(Long courseId, Pageable pageable) throws Exception;
 
     CourseSection save(Long courseId, CourseSectionDTO courseSectionDTO);
 
