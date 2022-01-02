@@ -1,224 +1,156 @@
-# CodehatCharusat
+<div id="top"></div>
 
-This application was generated using JHipster 7.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.0.0](https://www.jhipster.tech/documentation-archive/v7.0.0).
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <p>
+    <img src="images/logo.png" alt="Logo" width="300" height="80">
+  </p>
 
-## Development
+  <h3 align="center">CharuVidya</h3>
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+  <p align="center">
+    An E-learning application for Charotar University of Science and Technology
+    <br />
+  </p>
+</div>
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
-After installing Node, you should be able to run the following command to install development tools.
-You will only need to run this command when dependencies change in [package.json](package.json).
 
-```
-npm install
-```
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#problem">Problem statement</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
+  </ol>
+</details>
 
-We use npm scripts and [Angular CLI][] with [Webpack][] as our build system.
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
 
-```
-./mvnw
-npm start
-```
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-If you want to use [HMR](https://webpack.js.org/guides/hot-module-replacement) for instant page updates and data + scroll position preservation on file changes then instead of `npm start` run
+CharuVidya is an e-learning application developed to aid online education and provide students with content that can be accessed anywhere anytime.
 
-```
-npm run start-hmr
-```
+The application is developed for Charotar University of Science and Technology and is used by 5+ departments and at the moment has around 50 courses.
 
-Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
-Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-The `npm run` command will list all of the scripts available to run for this project.
 
-### PWA Support
 
-JHipster ships with PWA (Progressive Web App) support, and it's turned off by default. One of the main components of a PWA is a service worker.
+### Built With
 
-The service worker initialization code is disabled by default. To enable it, uncomment the following code in `src/main/webapp/app/app.module.ts`:
+The following technologies and tools have been equipped to develop this project -
 
-```typescript
-ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
-```
+* [Spring Boot]
+* [Angular]
+* [MySQL]
+* [JHipster]
+* [AWS S3]
 
-### Managing dependencies
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
 
-```
-npm install --save --save-exact leaflet
-```
 
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
+<!-- GETTING STARTED -->
+## Getting Started
 
-```
-npm install --save-dev --save-exact @types/leaflet
-```
+To get a local copy up and running follow these simple example steps.
 
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-Edit [src/main/webapp/app/app.module.ts](src/main/webapp/app/app.module.ts) file:
+### Prerequisites
 
-```
-import 'leaflet/dist/leaflet.js';
-```
+* java - jdk 8 and above
+* npm 
+  ```sh
+  npm install npm@latest -g
+  ```
+* node.js
+* MySQL
+### Installation
 
-Edit [src/main/webapp/content/scss/vendor.scss](src/main/webapp/content/scss/vendor.scss) file:
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-```
-@import '~leaflet/dist/leaflet.css';
-```
+1. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Change username and password in application-dev.yml to connect your MySQL instance.
+4. Run mvnw command to run the application
+   ```sh
+   ./mvnw
+   ```
 
-Note: There are still a few other things remaining to do for Leaflet that we won't detail here.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
-### Using Angular CLI
 
-You can also use [Angular CLI][] to generate some custom client code.
+<!-- Problem statement -->
+## Problem
+In recent times, most of the universities and colleges were forced to operate behind closed doors due to corona virus outbreak.
+The online mode of education was challenging to adapt for both students as well as faculties. Prior to development of this application, faculties had to upload lecture recordings on google drive and share the drive link with students on a daily basis.
+On part of the students, they had to download the videos to watch lectures. It was difficult to maintain proper sequence and flow of lectures and also uploading and downloading everyday was a cubersome task and required a lot of time to be invested.
 
-For example, the following command:
+Hence, CharuVidya provided a platform for faculties and students for easy access to the lecture materials.
 
-```
-ng generate component my-component
-```
 
-will generate few files:
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-```
-create src/main/webapp/app/my-component/my-component.component.html
-create src/main/webapp/app/my-component/my-component.component.ts
-update src/main/webapp/app/app.module.ts
-```
 
-## Building for production
 
-### Packaging as jar
+<!-- ROADMAP -->
+## Features
 
-To build the final jar and optimize the CodehatCharusat application for production, run:
+* User friendly UI with easy navigations.
+* Courses are divided into categories and sub-categories.
+* An embedded video player to watch lectures in the browser itself.
+* Allows faculties to attach quizzes and lecture materials for each video lecture.
+* Each course goes through a thorough review process before it is available on the portal.
+* Admin allocates a reviewer to each course and only after approval from the reviewer, course is available for students.
 
-```
-./mvnw -Pprod clean verify
-```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
 
-```
-java -jar target/*.jar
-```
 
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
-
-Refer to [Using JHipster in production][] for more details.
-
-### Packaging as war
-
-To package your application as a war in order to deploy it to an application server, run:
-
-```
-./mvnw -Pprod,war clean verify
-```
-
-## Testing
-
-To launch your application's tests, run:
-
-```
-./mvnw verify
-```
-
-### Client tests
-
-Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-```
-npm test
-```
-
-For more information, refer to the [Running tests page][].
-
-### Code quality
-
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
-
-```
-docker-compose -f src/main/docker/sonar.yml up -d
-```
-
-Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
-
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
-
-Then, run a Sonar analysis:
-
-```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
-```
-
-For more information, refer to the [Code quality page][].
-
-## Using Docker to simplify development (optional)
-
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
-
-For example, to start a mysql database in a docker container, run:
-
-```
-docker-compose -f src/main/docker/mysql.yml up -d
-```
-
-To stop it and remove the container, run:
-
-```
-docker-compose -f src/main/docker/mysql.yml down
-```
-
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
-
-```
-./mvnw -Pprod verify jib:dockerBuild
-```
-
-Then run:
-
-```
-docker-compose -f src/main/docker/app.yml up -d
-```
-
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
-## Continuous Integration (optional)
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
-
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 7.0.0 archive]: https://www.jhipster.tech/documentation-archive/v7.0.0
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.0.0/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.0.0/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.0.0/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v7.0.0/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v7.0.0/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.0.0/setting-up-ci/
-[node.js]: https://nodejs.org/
-[webpack]: https://webpack.github.io/
-[angular cli]: https://cli.angular.io/
-[browsersync]: https://www.browsersync.io/
-[jest]: https://facebook.github.io/jest/
-[jasmine]: https://jasmine.github.io/2.0/introduction.html
-[protractor]: https://angular.github.io/protractor/
-[leaflet]: https://leafletjs.com/
-[definitelytyped]: https://definitelytyped.org/
+<!-- CONTRIBUTING -->
+## Screenshots
+<p>
+    <p>
+        <img src="images/Homepage.png">
+    </p>
+    <p>
+        <img src="images/AdminPage.png">
+    </p>
+    <p>
+        <img src="images/ReviewerPage.png">
+    </p>
+    <p>
+        <img src="images/UserDashboard.png">
+    </p>
+    <p>
+        <img src="images/VideoPlayer.png">
+    </p>
+    <p>
+        <img src="images/RegistrationPage.png">
+    </p>
+    
+</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
