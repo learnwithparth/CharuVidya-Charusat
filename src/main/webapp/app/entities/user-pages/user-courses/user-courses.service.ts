@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { Course, ICourse } from '../../course/course.model';
+import { ICourse } from '../../course/course.model';
 
 export type EntityArrayResponseType = HttpResponse<ICourse[]>;
 
@@ -28,7 +28,7 @@ export class UserCourseService {
     return this.http.get<ICourse[]>(`${this.resourceUrl}/enrolled`, { observe: 'response' });
   }
 
-  getLatestCourses(): Observable<EntityArrayResponseType> {
+  getCourses(): Observable<EntityArrayResponseType> {
     return this.http.get<ICourse[]>(`${this.resourceUrl}/top-10`, { observe: 'response' });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Account } from 'app/core/auth/account.model';
 import { ICourse } from 'app/entities/course/course.model';
 import { UserCourseService } from 'app/entities/user-pages/user-courses/user-courses.service';
 import { HttpResponse } from '@angular/common/http';
-import { faUserTie, faCalendarCheck, faEye, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faEye, faUserFriends, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-home',
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadAllCourses(): void {
-    this.userCourseService.getLatestCourses().subscribe(
+    this.userCourseService.getCourses().subscribe(
       (res: HttpResponse<ICourse[]>) => {
         this.courses = res.body;
       },

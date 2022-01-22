@@ -1,7 +1,8 @@
 package com.codehat.charusat.config;
 
-import com.codehat.charusat.security.*;
-import com.codehat.charusat.security.jwt.*;
+import com.codehat.charusat.security.AuthoritiesConstants;
+import com.codehat.charusat.security.jwt.JWTConfigurer;
+import com.codehat.charusat.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
