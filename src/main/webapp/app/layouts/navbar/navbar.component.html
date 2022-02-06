@@ -9,17 +9,17 @@
   <!--  </div>-->
 
   <ng-template #elseBlock>
-    <a *ngIf="role![0].includes('ROLE_ADMIN'); else elseIf1" class="nav-link" routerLink="/" (click)="collapseNavbar()">
+    <a *ngIf="role && role![0].includes('ROLE_ADMIN'); else elseIf1" class="nav-link" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
     </a>
     <ng-template #elseIf1>
-      <a *ngIf="role![0].includes('ROLE_FACULTY'); else elseIf2" class="nav-link" routerLink="/instructor-courses"
+      <a *ngIf="role && role![0].includes('ROLE_FACULTY'); else elseIf2" class="nav-link" routerLink="/instructor-courses"
          (click)="collapseNavbar()">
         <span class="logo-img"></span>
       </a>
     </ng-template>
     <ng-template #elseIf2>
-      <a *ngIf="role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/enrolled-courses"
+      <a *ngIf="role && role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/enrolled-courses"
          (click)="collapseNavbar()">
         <span class="logo-img"></span>
       </a>
@@ -63,7 +63,7 @@
        [ngSwitch]="isAuthenticated()">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a *ngIf="role![0].includes('ROLE_ADMIN'); else elseIf3" class="nav-link" routerLink="/"
+        <a *ngIf="role && role![0].includes('ROLE_ADMIN'); else elseIf3" class="nav-link" routerLink="/"
            (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
@@ -71,7 +71,7 @@
           </span>
         </a>
         <ng-template #elseIf3>
-          <a *ngIf="role![0].includes('ROLE_FACULTY'); else elseIf4" class="nav-link" routerLink="/instructor-courses"
+          <a *ngIf="role && role![0].includes('ROLE_FACULTY'); else elseIf4" class="nav-link" routerLink="/instructor-courses"
              (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
@@ -80,7 +80,7 @@
           </a>
         </ng-template>
         <ng-template #elseIf4>
-          <a *ngIf="role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/categories"
+          <a *ngIf="role && role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/categories"
              (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
