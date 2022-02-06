@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   faClipboardList = faClipboardList;
   subCategories: ICourseCategory[] | undefined;
   courses: ICourse[] | undefined;
+  role: string[] | undefined;
 
   constructor(
     private loginService: LoginService,
@@ -43,6 +44,7 @@ export class NavbarComponent implements OnInit {
     this.accountService.getAuthenticationState().subscribe(account => {
       if (account) {
         this.authority = true;
+        this.role = account.authorities;
       }
     });
   }

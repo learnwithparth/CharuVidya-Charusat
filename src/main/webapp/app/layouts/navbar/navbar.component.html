@@ -9,21 +9,37 @@
   <!--  </div>-->
 
   <ng-template #elseBlock>
-    <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+    <a *ngIf="role![0].includes('ROLE_ADMIN'); else elseIf1" class="nav-link" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
-      <!--    <span class="navbar-version">{{ version }}</span>-->
+    </a>
+    <ng-template #elseIf1>
+      <a *ngIf="role![0].includes('ROLE_FACULTY'); else elseIf2" class="nav-link" routerLink="/instructor-courses"
+         (click)="collapseNavbar()">
+        <span class="logo-img"></span>
+      </a>
+    </ng-template>
+    <ng-template #elseIf2>
+      <a *ngIf="role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/enrolled-courses"
+         (click)="collapseNavbar()">
+        <span class="logo-img"></span>
+      </a>
+    </ng-template>
+
+    <!--<a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+      <span class="logo-img"></span>
+      &lt;!&ndash;    <span class="navbar-title text-white">CHARUVIDYA</span>&ndash;&gt;
+      &lt;!&ndash;    <span class="navbar-version">{{ version }}</span>&ndash;&gt;
     </a>
     <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/enrolled-courses" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
-      <!--    <span class="navbar-version">{{ version }}</span>-->
+      &lt;!&ndash;    <span class="navbar-title text-white">CHARUVIDYA</span>&ndash;&gt;
+      &lt;!&ndash;    <span class="navbar-version">{{ version }}</span>&ndash;&gt;
     </a>
     <a *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <!--    <span class="navbar-title text-white">CHARUVIDYA</span>-->
-      <!--    <span class="navbar-version">{{ version }}</span>-->
-    </a>
+      &lt;!&ndash;    <span class="navbar-title text-white">CHARUVIDYA</span>&ndash;&gt;
+      &lt;!&ndash;    <span class="navbar-version">{{ version }}</span>&ndash;&gt;
+    </a>-->
     <!--    <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">-->
     <!--      <span class="logo-img"></span>-->
     <!--      &lt;!&ndash;    <span class="navbar-title text-white">CHARUVIDYA</span>&ndash;&gt;-->
@@ -43,29 +59,35 @@
   >
     <fa-icon icon="bars"></fa-icon>
   </a>
-  <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+  <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed"
+       [ngSwitch]="isAuthenticated()">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a *jhiHasAnyAuthority="'ROLE_FACULTY'" class="nav-link" routerLink="/instructor-courses" (click)="collapseNavbar()">
+        <a *ngIf="role![0].includes('ROLE_ADMIN'); else elseIf3" class="nav-link" routerLink="/"
+           (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
             <span>Home</span>
           </span>
         </a>
-
-        <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/categories" (click)="collapseNavbar()">
+        <ng-template #elseIf3>
+          <a *ngIf="role![0].includes('ROLE_FACULTY'); else elseIf4" class="nav-link" routerLink="/instructor-courses"
+             (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+          </span>
+          </a>
+        </ng-template>
+        <ng-template #elseIf4>
+          <a *ngIf="role![0].includes('ROLE_STUDENT')" class="nav-link" routerLink="/categories"
+             (click)="collapseNavbar()">
           <span>
             <fa-icon icon="home"></fa-icon>
             <span>Categories</span>
           </span>
-        </a>
-
-        <a *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-link" routerLink="/" (click)="collapseNavbar()">
-          <span>
-            <fa-icon icon="home"></fa-icon>
-            <span>Home</span>
-          </span>
-        </a>
+          </a>
+        </ng-template>
 
         <!--        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/" (click)="collapseNavbar()">-->
         <!--          <span>-->
@@ -76,7 +98,8 @@
       </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
       <li>
-        <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/enrolled-courses" (click)="collapseNavbar()">
+        <a *jhiHasAnyAuthority="'ROLE_STUDENT'" class="nav-link" routerLink="/enrolled-courses"
+           (click)="collapseNavbar()">
           <span>
             <fa-icon [icon]="faBookmark"></fa-icon>
             <span>My Courses</span>
@@ -84,7 +107,8 @@
         </a>
       </li>
       <li>
-        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/review-courses" (click)="collapseNavbar()">
+        <a *jhiHasAnyAuthority="'ROLE_REVIEWER'" class="nav-link" routerLink="/review-courses"
+           (click)="collapseNavbar()">
           <span>
             <fa-icon [icon]="faBookmark"></fa-icon>
             <span>Review Courses</span>
@@ -99,7 +123,8 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu"
+           data-cy="entity">
           <span>
             <fa-icon icon="th-list"></fa-icon>
             <span>Entities</span>
@@ -201,7 +226,8 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu"
+           data-cy="adminMenu">
           <span>
             <fa-icon icon="users-cog"></fa-icon>
             <span>Administration</span>
@@ -209,7 +235,8 @@
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
           <li>
-            <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+            <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active"
+               (click)="collapseNavbar()">
               <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
               <span>User management</span>
             </a>
@@ -227,7 +254,8 @@
             </a>
           </li>
           <li>
-            <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
+            <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active"
+               (click)="collapseNavbar()">
               <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
               <span>Configuration</span>
             </a>
@@ -239,7 +267,8 @@
             </a>
           </li>
           <li>
-            <a class="dropdown-item" routerLink="admin/course-visits-log" routerLinkActive="active" (click)="collapseNavbar()">
+            <a class="dropdown-item" routerLink="admin/course-visits-log" routerLinkActive="active"
+               (click)="collapseNavbar()">
               <fa-icon [icon]="faClipboardList" [fixedWidth]="true"></fa-icon>
               <span>Course Visited Logs</span>
             </a>
@@ -253,7 +282,8 @@
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
         </ul>
       </li>
-      <li. ngbDropdown class="nav-item" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li. ngbDropdown class="nav-item" display="dynamic" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">
         <div class="row">
           <a
             class="nav-link"
@@ -268,7 +298,7 @@
               <span>Register&nbsp;&nbsp;</span>
             </span>
             <span *ngIf="getImageUrl()">
-              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar"/>
             </span>
           </a>
 
@@ -279,7 +309,7 @@
             </span>
 
             <span *ngIf="getImageUrl()">
-              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar"/>
             </span>
           </a>
         </div>
@@ -292,13 +322,14 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu"
+             data-cy="accountMenu">
             <span *ngIf="!getImageUrl()">
               <fa-icon icon="user"></fa-icon>
               <span>Account</span>
             </span>
             <span *ngIf="getImageUrl()">
-              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+              <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar"/>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
